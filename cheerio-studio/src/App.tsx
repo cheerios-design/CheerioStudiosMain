@@ -2,6 +2,7 @@ import LiquidEther from '@/components/LiquidEther'
 import Shuffle from '@/components/Shuffle'
 import CurvedLoop from '@/components/CurvedLoop'
 import FlowingMenu from '@/components/FlowingMenu'
+import CardSwap, { Card } from '@/components/CardSwap'
 import cheerioLogo from '@/assets/logos/sticker-dark.svg'
 
 function App() {
@@ -34,14 +35,6 @@ function App() {
           <ul className="flex items-center gap-8 font-inter text-sm font-medium">
             <li>
               <button
-                onClick={() => scrollToSection('about')}
-                className="hover:text-brand-gold transition-colors"
-              >
-                About
-              </button>
-            </li>
-            <li>
-              <button
                 onClick={() => scrollToSection('services')}
                 className="hover:text-brand-gold transition-colors"
               >
@@ -72,12 +65,18 @@ function App() {
       <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* LiquidEther Background */}
         <div className="absolute inset-0 z-0">
-          <LiquidEther colors={['#FFB732', '#FFC85C', '#E6A52E', '#fefefe']} />
+          <LiquidEther
+            colors={['#FFB732', '#FFC85C', '#E6A52E', '#fefefe']}
+            dt={0.008}
+            mouseForce={5}
+            autoSpeed={0.3}
+            autoIntensity={1.5}
+          />
         </div>
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 mx-auto">
-          <h1 className="font-dazzle font-bold text-brand-white text-[clamp(250px,10vw,700px)] leading-[0.02] mb-8">
+          <h1 className="font-dazzle text-brand-white max-w-7xl mx-auto leading-[0.95] mb-12 text-[clamp(2rem,6vw,6rem)] font-black" style={{ fontWeight: 900 }}>
             <div className="mb-2">
               <Shuffle text="One Voice. One Visual." />
             </div>
@@ -85,127 +84,118 @@ function App() {
               <Shuffle text="One Studio." />
             </div>
           </h1>
-          <p className="font-inter text-[clamp(1rem,2vw,1.5rem)] text-brand-white/80 max-w-2xl mx-auto">
+          <p className="font-inter text-[clamp(1rem,2vw,1.5rem)] text-brand-gold/65 max-w-2xl mx-auto mb-8">
             The central solution for your digital presence.
           </p>
+          <button
+            onClick={() => scrollToSection('services')}
+            className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300"
+          >
+            How We Do It
+          </button>
         </div>
       </section>
 
       {/* Curved Loop Transition */}
-      <div className="relative h-[150px] -mt-[75px] z-20">
-        <CurvedLoop marqueeText="CONSISTENCY IS THE KEY • CHEERIO STUDIO •" className="fill-brand-gold" />
+      <div className="relative h-[150px] -mt-[75px] -mb-[75px] z-20">
+        <CurvedLoop marqueeText="CONSISTENCY IS THE KEY • CHEERIO STUDIO •" />
       </div>
 
-      {/* About Section */}
-      <section id="about" className="relative py-32 px-4 bg-brand-navy-dark">
+      {/* Services Section */}
+      <section id="services" className="relative pt-48 pb-32 px-4 bg-brand-navy">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Side - Content */}
+            {/* Left Side - Header & Description */}
             <div>
-              <h2 className="font-dazzle text-brand-gold text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] mb-8">
-                About Cheerio Studio
+              <h2 className="font-dazzle uppercase text-brand-gold text-[clamp(3rem,8vw,6rem)] leading-[0.95] mb-6">
+                What We Deliver
               </h2>
-              <div className="space-y-6 font-inter text-lg text-brand-white/80">
-                <p>
-                  We are a creative studio dedicated to building cohesive brand experiences.
-                  Our mission is simple: <span className="text-brand-gold font-semibold">One Voice. One Visual. One Studio.</span>
-                </p>
-                <p>
-                  In a world of fragmented digital presence, we bring everything together.
-                  From centralized asset management to unified execution, we ensure your brand
-                  speaks with consistency across every touchpoint.
-                </p>
-                <p>
-                  Our proprietary <span className="text-brand-gold font-semibold">Cheerio Standard</span> ensures
-                  pixel-perfect consistency, eliminating the chaos of lost logos, inconsistent branding,
-                  and miscommunication between teams.
-                </p>
-              </div>
-            </div>
-
-            {/* Right Side - Stats/Highlights */}
-            <div className="grid grid-cols-2 gap-6">
-              <div className="glass-matte-dark border-2 border-brand-gold/30 p-8 hover:border-brand-gold transition-colors">
-                <div className="text-5xl font-dazzle text-brand-gold mb-2">100%</div>
-                <div className="font-inter text-sm text-brand-white/70">Brand Consistency</div>
-              </div>
-              <div className="glass-matte-dark border-2 border-brand-gold/30 p-8 hover:border-brand-gold transition-colors">
-                <div className="text-5xl font-dazzle text-brand-gold mb-2">1</div>
-                <div className="font-inter text-sm text-brand-white/70">Source of Truth</div>
-              </div>
-              <div className="glass-matte-dark border-2 border-brand-gold/30 p-8 hover:border-brand-gold transition-colors">
-                <div className="text-5xl font-dazzle text-brand-gold mb-2">24/7</div>
-                <div className="font-inter text-sm text-brand-white/70">Collaboration</div>
-              </div>
-              <div className="glass-matte-dark border-2 border-brand-gold/30 p-8 hover:border-brand-gold transition-colors">
-                <div className="text-5xl font-dazzle text-brand-gold mb-2">∞</div>
-                <div className="font-inter text-sm text-brand-white/70">Creative Solutions</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="relative py-32 px-4 bg-brand-navy">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="font-dazzle text-brand-gold text-[clamp(2.5rem,6vw,5rem)] mb-16 text-center">
-            Our Services
-          </h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Service Card 1 */}
-            <div className="group glass-matte-dark border-2 border-brand-gold/20 p-8 hover:border-brand-gold transition-all hover:-translate-y-2">
-              <div className="text-4xl mb-4">🎨</div>
-              <h3 className="font-dazzle text-2xl text-brand-gold mb-4">Brand Identity</h3>
-              <p className="font-inter text-brand-white/70">
-                Comprehensive brand identity systems that ensure consistency across all platforms and touchpoints.
+              <p className="font-inter text-[clamp(0.7rem,2vw,1rem)] text-brand-white/70 leading-relaxed">
+                From concept to execution, we deliver comprehensive solutions that transform your brand's digital presence.
+                Each service is crafted to work in harmony, ensuring consistency and impact across every touchpoint.
               </p>
             </div>
 
-            {/* Service Card 2 */}
-            <div className="group glass-matte-dark border-2 border-brand-gold/20 p-8 hover:border-brand-gold transition-all hover:-translate-y-2">
-              <div className="text-4xl mb-4">💻</div>
-              <h3 className="font-dazzle text-2xl text-brand-gold mb-4">Web Development</h3>
-              <p className="font-inter text-brand-white/70">
-                High-performance websites and web applications built with modern technologies and best practices.
-              </p>
-            </div>
+            {/* Right Side - CardSwap Component */}
+            <div className="flex justify-center items-center min-h-[600px]">
+              <CardSwap
+                width={450}
+                height={350}
+                cardDistance={100}
+                verticalDistance={60}
+                delay={4000}
+                pauseOnHover={true}
+                easing="elastic"
+                skewAmount={4}
+              >
+                {/* Card 1 - Brand Identity */}
+                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
+                  <div className="flex flex-col h-full">
 
-            {/* Service Card 3 */}
-            <div className="group glass-matte-dark border-2 border-brand-gold/20 p-8 hover:border-brand-gold transition-all hover:-translate-y-2">
-              <div className="text-4xl mb-4">📱</div>
-              <h3 className="font-dazzle text-2xl text-brand-gold mb-4">Digital Design</h3>
-              <p className="font-inter text-brand-white/70">
-                User-centered digital experiences that combine aesthetics with functionality and accessibility.
-              </p>
-            </div>
+                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Brand Identity</h3>
+                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
+                      Comprehensive brand identity systems that ensure consistency across all platforms and touchpoints.
+                      We create visual languages that speak volumes.
+                    </p>
+                  </div>
+                </Card>
 
-            {/* Service Card 4 */}
-            <div className="group glass-matte-dark border-2 border-brand-gold/20 p-8 hover:border-brand-gold transition-all hover:-translate-y-2">
-              <div className="text-4xl mb-4">📦</div>
-              <h3 className="font-dazzle text-2xl text-brand-gold mb-4">Asset Management</h3>
-              <p className="font-inter text-brand-white/70">
-                Centralized asset management system ensuring your brand materials are always accessible and organized.
-              </p>
-            </div>
+                {/* Card 2 - Web Development */}
+                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
+                  <div className="flex flex-col h-full">
 
-            {/* Service Card 5 */}
-            <div className="group glass-matte-dark border-2 border-brand-gold/20 p-8 hover:border-brand-gold transition-all hover:-translate-y-2">
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="font-dazzle text-2xl text-brand-gold mb-4">Strategy & Consulting</h3>
-              <p className="font-inter text-brand-white/70">
-                Strategic guidance to align your digital presence with your business goals and brand vision.
-              </p>
-            </div>
+                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Web Development</h3>
+                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
+                      High-performance websites and web applications built with cutting-edge technologies.
+                      Fast, responsive, and built to scale.
+                    </p>
+                  </div>
+                </Card>
 
-            {/* Service Card 6 */}
-            <div className="group glass-matte-dark border-2 border-brand-gold/20 p-8 hover:border-brand-gold transition-all hover:-translate-y-2">
-              <div className="text-4xl mb-4">🔧</div>
-              <h3 className="font-dazzle text-2xl text-brand-gold mb-4">Maintenance & Support</h3>
-              <p className="font-inter text-brand-white/70">
-                Ongoing support and maintenance to keep your digital assets running smoothly and up-to-date.
-              </p>
+                {/* Card 3 - Digital Design */}
+                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
+                  <div className="flex flex-col h-full">
+                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Digital Design</h3>
+                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
+                      User-centered digital experiences that combine stunning aesthetics with intuitive functionality.
+                      Design that delights and converts.
+                    </p>
+                  </div>
+                </Card>
+
+                {/* Card 4 - Asset Management */}
+                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
+                  <div className="flex flex-col h-full">
+                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Asset Management</h3>
+                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
+                      Centralized asset management system ensuring your brand materials are always accessible, organized, and on-brand.
+                      One source of truth.
+                    </p>
+                  </div>
+                </Card>
+
+                {/* Card 5 - Strategy & Consulting */}
+                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
+                  <div className="flex flex-col h-full">
+                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Strategy & Consulting</h3>
+                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
+                      Strategic guidance to align your digital presence with your business goals.
+                      We help you navigate the digital landscape with confidence.
+                    </p>
+                  </div>
+                </Card>
+
+                {/* Card 6 - Maintenance & Support */}
+                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
+                  <div className="flex flex-col h-full">
+                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Maintenance & Support</h3>
+                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
+                      Ongoing support and maintenance to keep your digital assets running smoothly.
+                      We're here for the long haul, not just the launch.
+                    </p>
+                  </div>
+                </Card>
+              </CardSwap>
             </div>
           </div>
         </div>

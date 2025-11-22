@@ -11,10 +11,10 @@ interface CurvedLoopProps {
 }
 
 const CurvedLoop: FC<CurvedLoopProps> = ({
-  marqueeText = '',
+  marqueeText = 'Cheerio Studio',
   speed = 2,
   className,
-  curveAmount = 400,
+  curveAmount = -340,
   direction = 'left',
   interactive = true
 }) => {
@@ -40,8 +40,8 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
   const textLength = spacing;
   const totalText = textLength
     ? Array(Math.ceil(1800 / textLength) + 2)
-        .fill(text)
-        .join('')
+      .fill(text)
+      .join('')
     : text;
   const ready = spacing > 0;
 
@@ -125,7 +125,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
           <path ref={pathRef} id={pathId} d={pathD} fill="none" stroke="transparent" />
         </defs>
         {ready && (
-          <text fontWeight="bold" xmlSpace="preserve" className={className}>
+          <text fontWeight="ExtraLight" xmlSpace="preserve" className={className}>
             <textPath ref={textPathRef} href={`#${pathId}`} startOffset={offset + 'px'} xmlSpace="preserve">
               {totalText}
             </textPath>

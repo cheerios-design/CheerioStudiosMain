@@ -76,8 +76,9 @@
   h4,
   h5,
   h6 {
-    @apply font-dazzle text-brand-gold;
-    font-weight: 400;
+    @apply font-dazzle;
+    font-size: 2rem;
+    font-weight: 800;
     letter-spacing: 0.02em;
   }
 }
@@ -120,7 +121,7 @@
     border-bottom: 3px solid currentColor;
     border-radius: 0;
     padding: 0.75rem 0;
-    font-size: 1.125rem;
+    font-size: 2rem;
     font-weight: 600;
     outline: none;
     transition: border-color 0.2s;

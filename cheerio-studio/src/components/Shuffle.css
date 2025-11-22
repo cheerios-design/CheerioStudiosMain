@@ -3,9 +3,7 @@
   white-space: normal;
   word-wrap: break-word;
   will-change: transform;
-  line-height: 1;
-  font-size: 4rem;
-  font-family: 'Press Start 2P', sans-serif;
+  line-height: inherit;
   text-transform: uppercase;
   visibility: hidden;
 }
@@ -21,7 +19,7 @@
   position: relative;
 }
 
-.shuffle-char-wrapper > span {
+.shuffle-char-wrapper>span {
   display: inline-flex;
   will-change: transform;
 }
