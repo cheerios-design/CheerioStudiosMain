@@ -154,9 +154,32 @@
   }
 }
 
-/* Smooth Scrolling */
+/* Enhanced Smooth Scrolling with Lenis */
 html {
-  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  /* Account for fixed nav */
+}
+
+/* Lenis requires these overrides */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 /* Remove default margins */
@@ -164,4 +187,23 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1A2933;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFB732;
+  border-radius: 6px;
+  border: 3px solid #1A2933;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFC85C;
 }
