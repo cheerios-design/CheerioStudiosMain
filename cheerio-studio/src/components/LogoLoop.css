@@ -4,20 +4,16 @@
   overflow-x: hidden;
 
   --logoloop-gap: 32px;
-  --logoloop-logoHeight: 28px;
+  --logoloop-logoHeight: 35px;
   --logoloop-fadeColorAuto: #ffffff;
 }
 
 .logoloop--vertical {
-  overflow: hidden;
+  overflow: visible;
   height: 100%;
   display: inline-block;
 }
 
-.logoloop--scale-hover {
-  padding-top: calc(var(--logoloop-logoHeight) * 0.1);
-  padding-bottom: calc(var(--logoloop-logoHeight) * 0.1);
-}
 
 @media (prefers-color-scheme: dark) {
   .logoloop {
@@ -83,22 +79,8 @@
   image-rendering: -webkit-optimize-contrast;
   -webkit-user-drag: none;
   pointer-events: none;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.logoloop--scale-hover .logoloop__item {
-  overflow: visible;
-}
-
-.logoloop--scale-hover .logoloop__item:hover img,
-.logoloop--scale-hover .logoloop__item:hover .logoloop__node {
-  transform: scale(1.2);
-  transform-origin: center center;
-}
-
-.logoloop--scale-hover .logoloop__node {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
 .logoloop__link {
   display: inline-flex;
@@ -175,14 +157,4 @@
   .logoloop__node {
     transition: none !important;
   }
-}
-
-/* Custom Logo Styles */
-.logo-svg {
-  color: #FEFEFE;
-  transition: color 0.3s ease;
-}
-
-.logoloop__item:hover .logo-svg {
-  color: #FFB732;
 }

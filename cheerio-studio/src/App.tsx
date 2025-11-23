@@ -104,7 +104,7 @@ function App() {
 
       {/* Curved Loop Transition */}
       <div className="relative h-[150px] -mt-[75px] -mb-[75px] z-20">
-        <CurvedLoop marqueeText="CONSISTENCY IS THE KEY • CHEERIO STUDIO •" />
+        <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIO •" />
       </div>
 
       {/* Services Section */}
@@ -209,7 +209,7 @@ function App() {
 
 
       {/* Logo Loop Ribbon */}
-      <div className="relative -mt-16 -mb-16 z-30 py-24 overflow-visible bg-gradient-to-b from-brand-navy via-brand-navy-dark to-brand-navy-dark">
+      <div className="relative -mt-24 -mb-24 z-30 py-12 overflow-visible bg-gradient-to-b from-brand-navy via-brand-navy-dark to-brand-navy-dark">
         <LogoLoop
           logos={[
             {
@@ -246,8 +246,10 @@ function App() {
                   className="gsap-logo-container"
                   style={{
                     position: 'relative',
-                    height: '40px',
-                    display: 'inline-block',
+                    height: '100px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     transition: 'transform 0.3s ease',
                   }}
                   onMouseEnter={(e) => {
@@ -286,13 +288,14 @@ function App() {
               title: "GitHub"
             }
           ]}
-          speed={50}
-          direction="left"
+          speed={70}
+          direction="right"
           logoHeight={40}
           gap={64}
           pauseOnHover={true}
           fadeOut={true}
           fadeOutColor="#1A2933"
+          scaleOnHover={true}
           className="logo-loop-ribbon"
         />
       </div>
@@ -409,7 +412,11 @@ function App() {
                   />
                 </div>
 
-                <button type="submit" className="brutalist-button w-full bg-brand-gold text-brand-navy hover:bg-brand-gold-light border-brand-gold">
+
+                <button
+                  type="submit"
+                  className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300 w-full"
+                >
                   Send Message
                 </button>
               </form>
@@ -438,18 +445,13 @@ function App() {
               </h4>
               <ul className="space-y-2 font-inter text-brand-white/60">
                 <li>
-                  <a href="#" className="hover:text-brand-gold transition-colors">
+                  <a href="https://www.instagram.com/cheerio.studio/" className="hover:text-brand-gold transition-colors">
                     Instagram
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-brand-gold transition-colors">
+                  <a href="https://www.linkedin.com/in/sam-daramroei/" className="hover:text-brand-gold transition-colors">
                     LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-brand-gold transition-colors">
-                    Twitter
                   </a>
                 </li>
               </ul>
@@ -460,16 +462,30 @@ function App() {
                 Location
               </h4>
               <p className="font-inter text-brand-white/60">
-                Istanbul, Turkey<br />
+                Bolu, Turkey<br />
                 Remote Worldwide
               </p>
             </div>
           </div>
 
+
           <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-brand-gold/10">
-            <p className="font-inter text-sm text-brand-white/40">
-              © 2025 Cheerio Studio. All rights reserved.
-            </p>
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+              <p className="font-inter text-sm text-brand-white/40">
+                © 2025 Cheerio Studio. All rights reserved.
+              </p>
+              <div className="flex gap-6 font-inter text-sm text-brand-white/40">
+                <a href="#" className="hover:text-brand-gold transition-colors">
+                  Privacy Policy
+                </a>
+                <a href="#" className="hover:text-brand-gold transition-colors">
+                  Terms of Service
+                </a>
+                <a href="#" className="hover:text-brand-gold transition-colors">
+                  Cookie Policy
+                </a>
+              </div>
+            </div>
             <button
               onClick={() => scrollToSection('hero')}
               className="font-dazzle text-sm uppercase tracking-wider hover:text-brand-gold transition-colors mt-4 md:mt-0"
