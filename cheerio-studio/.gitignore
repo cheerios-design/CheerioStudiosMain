@@ -7,18 +7,85 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# AI Assistant files
+.gemini
+antigravity
+
+
+# Build outputs
 dist
 dist-ssr
+build
+.next
+out
+.vercel
+.netlify
+
+# Cache directories
+.cache
+.vite
+.turbo
+.parcel-cache
+.eslintcache
+.stylelintcache
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Temporary files
 *.local
+tmp
+temp
+*.tmp
+*.temp
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Optional npm cache directory
+.npm
+
+# Storybook
+storybook-static
+
+# TypeScript
+*.tsbuildinfo
+
+C:\Users\samdo
