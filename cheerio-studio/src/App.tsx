@@ -6,6 +6,7 @@ import CardSwap, { Card } from '@/components/CardSwap'
 import SmoothScroll from '@/components/SmoothScroll'
 import LogoLoop from '@/components/LogoLoop'
 import LogoHover from '@/components/LogoHover'
+import StaggeredMenu from '@/components/StaggeredMenu'
 import cheerioLogo from '@/assets/logos/sticker-dark.svg'
 
 function App() {
@@ -25,8 +26,29 @@ function App() {
       {/* Grain Overlay */}
       <div className="grain-overlay" />
 
-      {/* Floating Pill Navigation */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-matte rounded-full px-8 py-4">
+      {/* Mobile Navigation */}
+      <div className="block md:hidden">
+        <StaggeredMenu
+          position="right"
+          colors={['#FFB732', '#FFC85C']}
+          items={[
+            { label: 'Services', ariaLabel: 'Navigate to Services', link: '#services' },
+            { label: 'Projects', ariaLabel: 'Navigate to Projects', link: '#projects' },
+            { label: 'Contact', ariaLabel: 'Navigate to Contact', link: '#contact' }
+          ]}
+          displaySocials={false}
+          displayItemNumbering={true}
+          logoUrl={cheerioLogo}
+          menuButtonColor="#FFB732"
+          openMenuButtonColor="#FEFEFE"
+          accentColor="#FFB732"
+          changeMenuColorOnOpen={true}
+          isFixed={true}
+        />
+      </div>
+
+      {/* Desktop Floating Pill Navigation */}
+      <nav className="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-matte rounded-full px-8 py-4">
         <div className="flex items-center gap-8">
           {/* Logo */}
           <button
@@ -68,9 +90,9 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section id="hero" className="relative h-screen ms:h-content flex items-center justify-center overflow-hidden pt-24 pb-16 md:pb-32">
         {/* LiquidEther Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 md:inset-0 -inset-y-32 md:-inset-y-0 z-0">
           <LiquidEther
             colors={['#FFB732', '#FFC85C', '#E6A52E', '#fefefe']}
             dt={0.008}
@@ -103,12 +125,12 @@ function App() {
       </section>
 
       {/* Curved Loop Transition */}
-      <div className="relative h-[150px] -mt-[75px] -mb-[75px] z-20">
+      <div className="relative h-[150px] -mt-[50px] md:-mt-[75px] -mb-[50px] md:-mb-[75px] z-20">
         <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIO •" />
       </div>
 
       {/* Services Section */}
-      <section id="services" className="relative pt-48 pb-32 px-4 bg-brand-navy">
+      <section id="services" className="relative pt-16 md:pt-32 pb-32 px-4 bg-brand-navy">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Header & Description */}
@@ -339,7 +361,7 @@ function App() {
       {/* Contact Section */}
       <section id="contact" className="relative py-32 px-4 bg-brand-navy">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
             {/* Left Side */}
             <div>
               <h2 className="font-dazzle text-brand-gold text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] mb-8">
@@ -428,9 +450,9 @@ function App() {
       {/* Footer */}
       <footer className="relative py-16 px-4 bg-brand-navy-dark border-t-4 border-brand-gold/20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
             <div>
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
                 <img src={cheerioLogo} alt="Cheerio Studio" className="h-10 w-auto" />
                 <h3 className="font-dazzle text-2xl text-brand-gold">Cheerio Studio</h3>
               </div>
@@ -469,8 +491,8 @@ function App() {
           </div>
 
 
-          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-brand-gold/10">
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+          <div className="flex flex-col md:flex-row justify-center md:justify-between items-center pt-8 border-t border-brand-gold/10">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-center md:text-left">
               <p className="font-inter text-sm text-brand-white/40">
                 © 2025 Cheerio Studio. All rights reserved.
               </p>
