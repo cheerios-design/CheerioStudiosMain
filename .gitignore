@@ -15,6 +15,8 @@ node_modules
 # AI Assistant files
 .gemini
 antigravity
+.agent
+.github
 
 
 # Build outputs
