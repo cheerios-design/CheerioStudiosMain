@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState, type JSX } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText as GSAPSplitText } from 'gsap/SplitText';
+// @ts-ignore - Using vendored GSAP bonus plugin
+import { SplitText as GSAPSplitText } from '../../vendor/gsap/SplitText.ts';
 import { useGSAP } from '@gsap/react';
 import './Shuffle.css';
 
