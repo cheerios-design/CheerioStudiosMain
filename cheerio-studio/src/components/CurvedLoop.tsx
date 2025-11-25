@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useMemo, useId, FC, PointerEvent } from 'react';
+import { useRef, useEffect, useState, useMemo, useId, type FC, type PointerEvent } from 'react';
 import './CurvedLoop.css';
 
 interface CurvedLoopProps {
