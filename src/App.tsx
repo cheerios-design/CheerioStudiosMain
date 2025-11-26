@@ -9,6 +9,26 @@ import LogoHover from '@/components/LogoHover'
 import StaggeredMenu from '@/components/StaggeredMenu'
 import cheerioLogo from '@/assets/logos/sticker-dark.svg'
 
+// Logo Imports
+import adobeBw from '@/assets/logos/adobe_creative_bw.svg'
+import adobeGold from '@/assets/logos/adobe_creative_gold.svg'
+import reactBw from '@/assets/logos/react_bw.svg'
+import reactGold from '@/assets/logos/react_gold.svg'
+import tsBw from '@/assets/logos/typescript_bw.svg'
+import tsGold from '@/assets/logos/typescript_gold.svg'
+import tailwindBw from '@/assets/logos/tailwindcss_bw.svg'
+import tailwindGold from '@/assets/logos/tailwindcss_gold.svg'
+import nextBw from '@/assets/logos/next_bw.svg'
+import nextGold from '@/assets/logos/next_gold.svg'
+import nodeBw from '@/assets/logos/node_bw.svg'
+import nodeGold from '@/assets/logos/node_gold.svg'
+import figmaBw from '@/assets/logos/figma_bw.svg'
+import figmaGold from '@/assets/logos/figma_gold.svg'
+import viteBw from '@/assets/logos/vite_bw.svg'
+import viteGold from '@/assets/logos/vite_logo.svg'
+import githubBw from '@/assets/logos/github_bw.svg'
+import githubGold from '@/assets/logos/github_gold.svg'
+
 function App() {
   // Navigation scroll handler
   const scrollToSection = (sectionId: string) => {
@@ -235,31 +255,31 @@ function App() {
         <LogoLoop
           logos={[
             {
-              node: <LogoHover bwSrc="/src/assets/logos/adobe_creative_bw.svg" goldSrc="/src/assets/logos/adobe_creative_gold.svg" alt="Adobe Creative Suite" height={40} />,
+              node: <LogoHover bwSrc={adobeBw} goldSrc={adobeGold} alt="Adobe Creative Suite" height={40} />,
               title: "Adobe Creative Suite"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/react_bw.svg" goldSrc="/src/assets/logos/react_gold.svg" alt="React" height={40} />,
+              node: <LogoHover bwSrc={reactBw} goldSrc={reactGold} alt="React" height={40} />,
               title: "React"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/typescript_bw.svg" goldSrc="/src/assets/logos/typescript_gold.svg" alt="TypeScript" height={40} />,
+              node: <LogoHover bwSrc={tsBw} goldSrc={tsGold} alt="TypeScript" height={40} />,
               title: "TypeScript"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/tailwindcss_bw.svg" goldSrc="/src/assets/logos/tailwindcss_gold.svg" alt="Tailwind CSS" height={40} />,
+              node: <LogoHover bwSrc={tailwindBw} goldSrc={tailwindGold} alt="Tailwind CSS" height={40} />,
               title: "Tailwind CSS"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/next_bw.svg" goldSrc="/src/assets/logos/next_gold.svg" alt="Next.js" height={40} />,
+              node: <LogoHover bwSrc={nextBw} goldSrc={nextGold} alt="Next.js" height={40} />,
               title: "Next.js"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/node_bw.svg" goldSrc="/src/assets/logos/node_gold.svg" alt="Node.js" height={40} />,
+              node: <LogoHover bwSrc={nodeBw} goldSrc={nodeGold} alt="Node.js" height={40} />,
               title: "Node.js"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/figma_bw.svg" goldSrc="/src/assets/logos/figma_gold.svg" alt="Figma" height={40} />,
+              node: <LogoHover bwSrc={figmaBw} goldSrc={figmaGold} alt="Figma" height={40} />,
               title: "Figma"
             },
             {
@@ -302,11 +322,11 @@ function App() {
               title: "GSAP"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/vite_bw.svg" goldSrc="/src/assets/logos/vite_logo.svg" alt="Vite" height={40} />,
+              node: <LogoHover bwSrc={viteBw} goldSrc={viteGold} alt="Vite" height={40} />,
               title: "Vite"
             },
             {
-              node: <LogoHover bwSrc="/src/assets/logos/github_bw.svg" goldSrc="/src/assets/logos/github_gold.svg" alt="GitHub" height={40} />,
+              node: <LogoHover bwSrc={githubBw} goldSrc={githubGold} alt="GitHub" height={40} />,
               title: "GitHub"
             }
           ]}
