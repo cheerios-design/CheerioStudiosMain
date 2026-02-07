@@ -1,3 +1,4 @@
+import { Routes, Route } from 'react-router-dom'
 import LiquidEther from '@/components/LiquidEther'
 import Shuffle from '@/components/Shuffle'
 import CurvedLoop from '@/components/CurvedLoop'
@@ -8,6 +9,7 @@ import LogoLoop from '@/components/LogoLoop'
 import LogoHover from '@/components/LogoHover'
 import StaggeredMenu from '@/components/StaggeredMenu'
 import cheerioLogo from '@/assets/logos/sticker-dark.svg'
+import EliteExteriors from '@/pages/EliteExteriors'
 
 // Logo Imports
 import adobeBw from '@/assets/logos/adobe_creative_bw.svg'
@@ -30,6 +32,15 @@ import githubBw from '@/assets/logos/github_bw.svg'
 import githubGold from '@/assets/logos/github_gold.svg'
 
 function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/projects/elite-exteriors" element={<EliteExteriors />} />
+    </Routes>
+  )
+}
+
+function HomePage() {
   // Navigation scroll handler
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -363,8 +374,8 @@ function App() {
                   image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop',
                 },
                 {
-                  link: '#elitexteriors',
-                  text: 'Elitexteriors',
+                  link: '/projects/elite-exteriors',
+                  text: 'Elite Exteriors',
                   image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop',
                 },
                 {

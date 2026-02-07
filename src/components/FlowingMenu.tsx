@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { gsap } from 'gsap';
 
 import './FlowingMenu.css';
@@ -85,9 +86,15 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
 
   return (
     <div className="menu__item" ref={itemRef}>
-      <a className="menu__item-link" href={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        {text}
-      </a>
+      {link.startsWith('#') ? (
+        <a className="menu__item-link" href={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          {text}
+        </a>
+      ) : (
+        <RouterLink className="menu__item-link" to={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          {text}
+        </RouterLink>
+      )}
       <div className="marquee" ref={marqueeRef}>
         <div className="marquee__inner-wrap" ref={marqueeInnerRef}>
           <div className="marquee__inner" aria-hidden="true">
