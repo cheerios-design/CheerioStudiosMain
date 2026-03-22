@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
 import LiquidEther from '@/components/LiquidEther'
 import Shuffle from '@/components/Shuffle'
 import CurvedLoop from '@/components/CurvedLoop'
@@ -41,12 +42,34 @@ function App() {
 }
 
 function HomePage() {
+  const [showConfirmation, setShowConfirmation] = useState(false)
+
   // Navigation scroll handler
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+    const name = (formData.get('name') as string) || ''
+    const company = (formData.get('company') as string) || ''
+    const email = (formData.get('email') as string) || ''
+    const painPoint = (formData.get('painPoint') as string) || ''
+    const message = (formData.get('message') as string) || ''
+
+    const subject = encodeURIComponent(`New Inquiry from ${name || 'Website Visitor'}`)
+    const body = encodeURIComponent(
+      `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nBiggest Pain Point: ${painPoint}\n\nMessage:\n${message}`
+    )
+
+    window.location.href = `mailto:sam.d@cheeriostudios.com?subject=${subject}&body=${body}`
+    setShowConfirmation(true)
+    event.currentTarget.reset()
   }
 
   return (
@@ -406,15 +429,17 @@ function HomePage() {
 
             {/* Right Side - Form */}
             <div className="glass-matte-dark border-4 border-brand-gold/20 p-8 lg:p-12">
-              <form className="space-y-8">
+              <form className="space-y-8" onSubmit={handleContactSubmit}>
                 <div>
                   <label className="block font-dazzle text-sm mb-2 uppercase tracking-wider text-brand-gold">
                     Name
                   </label>
                   <input
+                    name="name"
                     type="text"
                     className="brutalist-input w-full text-brand-white border-brand-gold/50 focus:border-brand-gold"
                     placeholder="Your name"
+                    required
                   />
                 </div>
 
@@ -423,6 +448,7 @@ function HomePage() {
                     Company
                   </label>
                   <input
+                    name="company"
                     type="text"
                     className="brutalist-input w-full text-brand-white border-brand-gold/50 focus:border-brand-gold"
                     placeholder="Your company"
@@ -434,9 +460,11 @@ function HomePage() {
                     Email
                   </label>
                   <input
+                    name="email"
                     type="email"
                     className="brutalist-input w-full text-brand-white border-brand-gold/50 focus:border-brand-gold"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
 
@@ -444,7 +472,10 @@ function HomePage() {
                   <label className="block font-dazzle text-sm mb-2 uppercase tracking-wider text-brand-gold">
                     Biggest Pain Point
                   </label>
-                  <select className="brutalist-input w-full text-brand-white bg-transparent cursor-pointer border-brand-gold/50 focus:border-brand-gold">
+                  <select
+                    name="painPoint"
+                    className="brutalist-input w-full text-brand-white bg-transparent cursor-pointer border-brand-gold/50 focus:border-brand-gold"
+                  >
                     <option value="" className="bg-brand-navy">Select one...</option>
                     <option value="inconsistent-branding" className="bg-brand-navy">Inconsistent Branding</option>
                     <option value="lost-assets" className="bg-brand-navy">Lost Assets</option>
@@ -459,9 +490,11 @@ function HomePage() {
                     Message
                   </label>
                   <textarea
+                    name="message"
                     className="brutalist-input w-full text-brand-white resize-none border-brand-gold/50 focus:border-brand-gold"
                     rows={4}
                     placeholder="Tell us about your project..."
+                    required
                   />
                 </div>
 
@@ -473,6 +506,24 @@ function HomePage() {
                   Send Message
                 </button>
               </form>
+
+              {showConfirmation && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-brand-navy/70 px-4">
+                  <div className="w-full max-w-md glass-matte-dark border-2 border-brand-gold/40 p-6 text-center">
+                    <h3 className="font-dazzle text-2xl text-brand-gold mb-3">Message Ready</h3>
+                    <p className="font-inter text-brand-white/80 mb-6">
+                      Thanks for reaching out. Your email draft to sam.d@cheeriostudios.com has been prepared.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmation(false)}
+                      className="font-dazzle uppercase tracking-wider px-6 py-3 rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
