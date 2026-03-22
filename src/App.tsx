@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import LiquidEther from '@/components/LiquidEther'
 import Shuffle from '@/components/Shuffle'
@@ -44,6 +44,58 @@ function App() {
 
 function HomePage() {
   const [showConfirmation, setShowConfirmation] = useState(false)
+  const [isMobileViewport, setIsMobileViewport] = useState(false)
+
+  const serviceCards = [
+    {
+      title: 'Brand Identity',
+      description:
+        'Comprehensive brand identity systems that ensure consistency across all platforms and touchpoints. We create visual languages that speak volumes.'
+    },
+    {
+      title: 'Web Development',
+      description:
+        'High-performance websites and web applications built with cutting-edge technologies. Fast, responsive, and built to scale.'
+    },
+    {
+      title: 'Digital Design',
+      description:
+        'User-centered digital experiences that combine stunning aesthetics with intuitive functionality. Design that delights and converts.'
+    },
+    {
+      title: 'Asset Management',
+      description:
+        'Centralized asset management system ensuring your brand materials are always accessible, organized, and on-brand. One source of truth.'
+    },
+    {
+      title: 'Strategy & Consulting',
+      description:
+        'Strategic guidance to align your digital presence with your business goals. We help you navigate the digital landscape with confidence.'
+    },
+    {
+      title: 'Maintenance & Support',
+      description:
+        "Ongoing support and maintenance to keep your digital assets running smoothly. We're here for the long haul, not just the launch."
+    }
+  ]
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 767px)')
+
+    const updateViewport = (event?: MediaQueryListEvent) => {
+      setIsMobileViewport(event ? event.matches : mobileQuery.matches)
+    }
+
+    updateViewport()
+
+    mobileQuery.addEventListener('change', updateViewport)
+
+    return () => {
+      mobileQuery.removeEventListener('change', updateViewport)
+    }
+  }, [])
+
+  const shouldReduceHeavyEffects = isMobileViewport
 
   // Navigation scroll handler
   const scrollToSection = (sectionId: string) => {
@@ -95,7 +147,7 @@ function HomePage() {
           displayItemNumbering={true}
           logoUrl={cheerioLogo}
           menuButtonColor="#FFB732"
-          openMenuButtonColor="#FEFEFE"
+          openMenuButtonColor="#1A2933"
           accentColor="#FFB732"
           changeMenuColorOnOpen={true}
           isFixed={true}
@@ -145,17 +197,21 @@ function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative h-screen ms:h-content flex items-center justify-center overflow-hidden pt-24 pb-16 md:pb-32">
+      <section id="hero" className="relative min-h-[85svh] md:h-screen flex items-center justify-center overflow-hidden pt-24 pb-16 md:pb-32">
         {/* LiquidEther Background */}
-        <div className="absolute inset-0 md:inset-0 -inset-y-32 md:-inset-y-0 z-0">
-          <LiquidEther
-            colors={['#FFB732', '#FFC85C', '#E6A52E', '#fefefe']}
-            dt={0.008}
-            mouseForce={5}
-            autoSpeed={0.3}
-            autoIntensity={1.5}
-          />
-        </div>
+        {shouldReduceHeavyEffects ? (
+          <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,183,50,0.35)_0%,rgba(255,183,50,0.08)_30%,rgba(26,41,51,0.95)_68%,rgba(15,26,33,1)_100%)]" />
+        ) : (
+          <div className="absolute inset-0 md:inset-0 -inset-y-32 md:-inset-y-0 z-0">
+            <LiquidEther
+              colors={['#FFB732', '#FFC85C', '#E6A52E', '#fefefe']}
+              dt={0.008}
+              mouseForce={5}
+              autoSpeed={0.3}
+              autoIntensity={1.5}
+            />
+          </div>
+        )}
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 mx-auto">
@@ -180,27 +236,27 @@ function HomePage() {
       </section>
 
       {/* Curved Loop Transition */}
-      <div className="relative h-[150px] -mt-[50px] md:-mt-[75px] -mb-[50px] md:-mb-[75px] z-20">
+      <div className="relative h-[96px] md:h-[150px] mt-2 md:-mt-[75px] mb-2 md:-mb-[75px] z-20 overflow-hidden">
         <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIO •" />
       </div>
 
       {/* Services Section */}
-      <section id="services" className="relative pt-16 md:pt-32 pb-32 px-4 bg-brand-navy">
+      <section id="services" className="relative overflow-x-clip pt-16 md:pt-32 pb-20 md:pb-32 px-3 sm:px-4 bg-brand-navy">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-start lg:items-center">
             {/* Left Side - Header & Description */}
-            <div>
-              <h2 className="font-dazzle uppercase text-brand-gold text-[clamp(3rem,8vw,6rem)] leading-[0.95] mb-6">
+            <div className="max-w-full overflow-hidden">
+              <h2 className="font-dazzle uppercase text-brand-gold text-[clamp(2rem,12vw,3.1rem)] md:text-[clamp(3rem,8vw,6rem)] leading-[0.95] mb-5 md:mb-6 max-w-[8.8ch] md:max-w-none break-words">
                 What We Deliver
               </h2>
-              <p className="font-inter text-[clamp(0.7rem,2vw,1rem)] text-brand-white/70 leading-relaxed">
+              <p className="font-inter text-[0.92rem] sm:text-[0.95rem] md:text-[clamp(0.7rem,2vw,1rem)] text-brand-white/75 md:text-brand-white/70 leading-relaxed pr-1">
                 From concept to execution, we deliver comprehensive solutions that transform your brand's digital presence.
                 Each service is crafted to work in harmony, ensuring consistency and impact across every touchpoint.
               </p>
             </div>
 
-            {/* Right Side - CardSwap Component */}
-            <div className="flex justify-center items-center min-h-[600px]">
+            {/* Right Side - Desktop CardSwap */}
+            <div className="hidden lg:flex justify-center items-center min-h-[600px]">
               <CardSwap
                 width={450}
                 height={350}
@@ -211,74 +267,33 @@ function HomePage() {
                 easing="elastic"
                 skewAmount={4}
               >
-                {/* Card 1 - Brand Identity */}
-                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
-                  <div className="flex flex-col h-full">
-
-                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Brand Identity</h3>
-                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
-                      Comprehensive brand identity systems that ensure consistency across all platforms and touchpoints.
-                      We create visual languages that speak volumes.
-                    </p>
-                  </div>
-                </Card>
-
-                {/* Card 2 - Web Development */}
-                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
-                  <div className="flex flex-col h-full">
-
-                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Web Development</h3>
-                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
-                      High-performance websites and web applications built with cutting-edge technologies.
-                      Fast, responsive, and built to scale.
-                    </p>
-                  </div>
-                </Card>
-
-                {/* Card 3 - Digital Design */}
-                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
-                  <div className="flex flex-col h-full">
-                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Digital Design</h3>
-                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
-                      User-centered digital experiences that combine stunning aesthetics with intuitive functionality.
-                      Design that delights and converts.
-                    </p>
-                  </div>
-                </Card>
-
-                {/* Card 4 - Asset Management */}
-                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
-                  <div className="flex flex-col h-full">
-                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Asset Management</h3>
-                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
-                      Centralized asset management system ensuring your brand materials are always accessible, organized, and on-brand.
-                      One source of truth.
-                    </p>
-                  </div>
-                </Card>
-
-                {/* Card 5 - Strategy & Consulting */}
-                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
-                  <div className="flex flex-col h-full">
-                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Strategy & Consulting</h3>
-                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
-                      Strategic guidance to align your digital presence with your business goals.
-                      We help you navigate the digital landscape with confidence.
-                    </p>
-                  </div>
-                </Card>
-
-                {/* Card 6 - Maintenance & Support */}
-                <Card className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer">
-                  <div className="flex flex-col h-full">
-                    <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">Maintenance & Support</h3>
-                    <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">
-                      Ongoing support and maintenance to keep your digital assets running smoothly.
-                      We're here for the long haul, not just the launch.
-                    </p>
-                  </div>
-                </Card>
+                {serviceCards.map((service) => (
+                  <Card
+                    key={service.title}
+                    className="bg-gradient-to-br from-brand-navy-dark to-brand-navy border-4 border-brand-gold/30 rounded-3xl p-10 backdrop-blur-sm hover:border-brand-gold transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="flex flex-col h-full">
+                      <h3 className="font-dazzle text-brand-gold text-3xl mb-4 uppercase">{service.title}</h3>
+                      <p className="font-inter text-brand-navy/80 text-lg leading-relaxed">{service.description}</p>
+                    </div>
+                  </Card>
+                ))}
               </CardSwap>
+            </div>
+
+            {/* Right Side - Mobile Swipe Carousel */}
+            <div className="lg:hidden">
+              <div className="services-swipe-track" role="region" aria-label="Swipe through services">
+                {serviceCards.map((service) => (
+                  <article
+                    key={service.title}
+                    className="services-swipe-card bg-gradient-to-br from-brand-navy-dark to-brand-navy border-2 border-brand-gold/30 rounded-3xl p-5 sm:p-6"
+                  >
+                    <h3 className="font-dazzle text-brand-gold text-2xl mb-3 uppercase">{service.title}</h3>
+                    <p className="font-inter text-brand-white/85 text-base leading-relaxed">{service.description}</p>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -378,7 +393,7 @@ function HomePage() {
       </div>
 
       {/* Featured Projects Section */}
-      <section id="projects" className="relative py-32 px-4 bg-brand-navy-dark">
+      <section id="projects" className="relative mt-6 md:mt-0 py-20 md:py-32 px-4 bg-brand-navy-dark">
         <div className="w-full">
           <h2 className="font-dazzle text-brand-gold text-[clamp(2.5rem,6vw,5rem)] mb-16 text-center px-4">
             Featured Projects
@@ -414,7 +429,7 @@ function HomePage() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="relative py-32 px-4 bg-brand-navy">
+      <section id="contact" className="relative py-20 md:py-32 px-4 bg-brand-navy">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
             {/* Left Side */}
@@ -579,7 +594,7 @@ function HomePage() {
               <p className="font-inter text-sm text-brand-white/40">
                 © 2025 Cheerio Studio. All rights reserved.
               </p>
-              <div className="flex gap-6 font-inter text-sm text-brand-white/40">
+              <div className="flex flex-wrap justify-center md:justify-start md:flex-nowrap gap-6 font-inter text-sm text-brand-white/40">
                 <a href="#" className="hover:text-brand-gold transition-colors">
                   Privacy Policy
                 </a>

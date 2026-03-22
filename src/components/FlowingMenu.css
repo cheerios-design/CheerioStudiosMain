@@ -40,6 +40,10 @@
   color: #FFB732;
 }
 
+.menu__item-link.is-touch-active {
+  color: #FFB732;
+}
+
 .menu__item-link:focus:not(:focus-visible) {
   color: #fff;
 }
@@ -86,7 +90,7 @@
 }
 
 .marquee__img {
-  width: 250px;
+  width: clamp(120px, 22vw, 250px);
   height: 7vh;
   margin: 2em 2vw;
   padding: 1em 0;
@@ -97,6 +101,43 @@
 
 .menu__item-link:hover+.marquee {
   transform: translate3d(0, 0%, 0);
+}
+
+.menu__item-link.is-touch-active + .marquee {
+  transform: translate3d(0, 0%, 0);
+}
+
+@media (max-width: 1024px) {
+  .menu__item-link {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .menu__item-link {
+    font-size: clamp(2rem, 11vw, 3.25rem);
+  }
+
+  .marquee span {
+    font-size: clamp(0.95rem, 3.6vw, 1.3rem);
+    padding: 0.75vh 1.75vw 0;
+  }
+
+  .marquee__img {
+    height: clamp(36px, 8vw, 56px);
+    margin: 0.85rem 0.75rem;
+    border-radius: 24px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .menu__item-link {
+    font-size: clamp(1.4rem, 6.2vh, 2.3rem);
+  }
+
+  .marquee__img {
+    height: 18px;
+  }
 }
 
 @keyframes marquee {

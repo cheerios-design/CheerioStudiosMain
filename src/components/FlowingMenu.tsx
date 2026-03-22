@@ -30,6 +30,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
   const itemRef = React.useRef<HTMLDivElement>(null);
   const marqueeRef = React.useRef<HTMLDivElement>(null);
   const marqueeInnerRef = React.useRef<HTMLDivElement>(null);
+  const [isTouchActive, setIsTouchActive] = React.useState(false);
 
   const animationDefaults: gsap.TweenVars = { duration: 0.6, ease: 'expo' };
 
@@ -45,12 +46,13 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
     return topEdgeDist < bottomEdgeDist ? 'top' : 'bottom';
   };
 
-  const handleMouseEnter = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+  const animateIn = (clientX?: number, clientY?: number) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
-    const x = ev.clientX - rect.left;
-    const y = ev.clientY - rect.top;
-    const edge = findClosestEdge(x, y, rect.width, rect.height);
+    const edge =
+      typeof clientX === 'number' && typeof clientY === 'number'
+        ? findClosestEdge(clientX - rect.left, clientY - rect.top, rect.width, rect.height)
+        : 'bottom';
 
     const tl = gsap.timeline({ defaults: animationDefaults });
 
@@ -59,12 +61,13 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
       .to([marqueeRef.current, marqueeInnerRef.current], { y: '0%' }, 0);
   };
 
-  const handleMouseLeave = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+  const animateOut = (clientX?: number, clientY?: number) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
-    const x = ev.clientX - rect.left;
-    const y = ev.clientY - rect.top;
-    const edge = findClosestEdge(x, y, rect.width, rect.height);
+    const edge =
+      typeof clientX === 'number' && typeof clientY === 'number'
+        ? findClosestEdge(clientX - rect.left, clientY - rect.top, rect.width, rect.height)
+        : 'bottom';
 
     const tl = gsap.timeline({ defaults: animationDefaults });
 
@@ -87,11 +90,45 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
   return (
     <div className="menu__item" ref={itemRef}>
       {link.startsWith('#') ? (
-        <a className="menu__item-link" href={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <a
+          className={`menu__item-link ${isTouchActive ? 'is-touch-active' : ''}`}
+          href={link}
+          onMouseEnter={(ev) => animateIn(ev.clientX, ev.clientY)}
+          onMouseLeave={(ev) => animateOut(ev.clientX, ev.clientY)}
+          onFocus={() => animateIn()}
+          onBlur={() => animateOut()}
+          onTouchStart={(ev) => {
+            const touch = ev.touches[0];
+            setIsTouchActive(true);
+            animateIn(touch?.clientX, touch?.clientY);
+          }}
+          onTouchEnd={(ev) => {
+            const touch = ev.changedTouches[0];
+            setIsTouchActive(false);
+            animateOut(touch?.clientX, touch?.clientY);
+          }}
+        >
           {text}
         </a>
       ) : (
-        <RouterLink className="menu__item-link" to={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <RouterLink
+          className={`menu__item-link ${isTouchActive ? 'is-touch-active' : ''}`}
+          to={link}
+          onMouseEnter={(ev) => animateIn(ev.clientX, ev.clientY)}
+          onMouseLeave={(ev) => animateOut(ev.clientX, ev.clientY)}
+          onFocus={() => animateIn()}
+          onBlur={() => animateOut()}
+          onTouchStart={(ev) => {
+            const touch = ev.touches[0];
+            setIsTouchActive(true);
+            animateIn(touch?.clientX, touch?.clientY);
+          }}
+          onTouchEnd={(ev) => {
+            const touch = ev.changedTouches[0];
+            setIsTouchActive(false);
+            animateOut(touch?.clientX, touch?.clientY);
+          }}
+        >
           {text}
         </RouterLink>
       )}

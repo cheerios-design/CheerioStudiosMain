@@ -330,21 +330,48 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     });
   }, []);
 
+  const setMenuOpenState = useCallback(
+    (target: boolean) => {
+      if (openRef.current === target) return;
+      openRef.current = target;
+      setOpen(target);
+      if (target) {
+        onMenuOpen?.();
+        playOpen();
+      } else {
+        onMenuClose?.();
+        playClose();
+      }
+      animateIcon(target);
+      animateColor(target);
+      animateText(target);
+    },
+    [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose]
+  );
+
   const toggleMenu = useCallback(() => {
-    const target = !openRef.current;
-    openRef.current = target;
-    setOpen(target);
-    if (target) {
-      onMenuOpen?.();
-      playOpen();
-    } else {
-      onMenuClose?.();
-      playClose();
-    }
-    animateIcon(target);
-    animateColor(target);
-    animateText(target);
-  }, [playOpen, playClose, animateIcon, animateColor, animateText]);
+    setMenuOpenState(!openRef.current);
+  }, [setMenuOpenState]);
+
+  React.useEffect(() => {
+    if (!open) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpenState(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open, setMenuOpenState]);
 
   return (
     <div
@@ -400,13 +427,28 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         </button>
       </header>
 
+      {open && (
+        <button
+          type="button"
+          className="sm-backdrop"
+          onClick={() => setMenuOpenState(false)}
+          aria-label="Close navigation menu"
+        />
+      )}
+
       <aside id="staggered-menu-panel" ref={panelRef} className="staggered-menu-panel" aria-hidden={!open}>
         <div className="sm-panel-inner">
           <ul className="sm-panel-list" role="list" data-numbering={displayItemNumbering || undefined}>
             {items && items.length ? (
               items.map((it, idx) => (
                 <li className="sm-panel-itemWrap" key={it.label + idx}>
-                  <a className="sm-panel-item" href={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
+                  <a
+                    className="sm-panel-item"
+                    href={it.link}
+                    aria-label={it.ariaLabel}
+                    data-index={idx + 1}
+                    onClick={() => setMenuOpenState(false)}
+                  >
                     <span className="sm-panel-itemLabel">{it.label}</span>
                   </a>
                 </li>

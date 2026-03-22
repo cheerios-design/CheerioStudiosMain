@@ -22,3 +22,24 @@
   line-height: 1;
   font-family: 'dazzle-unicase', sans-serif;
 }
+
+@media (max-width: 768px) {
+  .curved-loop-jacket {
+    min-height: 92px;
+    align-items: flex-end;
+  }
+
+  .curved-loop-svg {
+    font-size: clamp(1.65rem, 6.8vw, 2.35rem);
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .curved-loop-jacket {
+    min-height: 80px;
+  }
+
+  .curved-loop-svg {
+    font-size: clamp(1.1rem, 5.6vh, 1.7rem);
+  }
+}
