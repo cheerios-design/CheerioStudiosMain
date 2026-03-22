@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 import LiquidEther from '@/components/LiquidEther'
 import Shuffle from '@/components/Shuffle'
 import CurvedLoop from '@/components/CurvedLoop'
