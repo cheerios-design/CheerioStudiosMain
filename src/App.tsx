@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import LiquidEther from '@/components/LiquidEther'
 import Shuffle from '@/components/Shuffle'
@@ -46,38 +46,46 @@ function HomePage() {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
 
-  const serviceCards = [
-    {
-      title: 'Brand Identity',
-      description:
-        'Comprehensive brand identity systems that ensure consistency across all platforms and touchpoints. We create visual languages that speak volumes.'
-    },
-    {
-      title: 'Web Development',
-      description:
-        'High-performance websites and web applications built with cutting-edge technologies. Fast, responsive, and built to scale.'
-    },
-    {
-      title: 'Digital Design',
-      description:
-        'User-centered digital experiences that combine stunning aesthetics with intuitive functionality. Design that delights and converts.'
-    },
-    {
-      title: 'Asset Management',
-      description:
-        'Centralized asset management system ensuring your brand materials are always accessible, organized, and on-brand. One source of truth.'
-    },
-    {
-      title: 'Strategy & Consulting',
-      description:
-        'Strategic guidance to align your digital presence with your business goals. We help you navigate the digital landscape with confidence.'
-    },
-    {
-      title: 'Maintenance & Support',
-      description:
-        "Ongoing support and maintenance to keep your digital assets running smoothly. We're here for the long haul, not just the launch."
-    }
-  ]
+  const serviceCards = useMemo(
+    () => [
+      {
+        title: 'Brand Identity',
+        description:
+          'Comprehensive brand identity systems that ensure consistency across all platforms and touchpoints. We create visual languages that speak volumes.'
+      },
+      {
+        title: 'Web Development',
+        description:
+          'High-performance websites and web applications built with cutting-edge technologies. Fast, responsive, and built to scale.'
+      },
+      {
+        title: 'Digital Design',
+        description:
+          'User-centered digital experiences that combine stunning aesthetics with intuitive functionality. Design that delights and converts.'
+      },
+      {
+        title: 'Asset Management',
+        description:
+          'Centralized asset management system ensuring your brand materials are always accessible, organized, and on-brand. One source of truth.'
+      },
+      {
+        title: 'Strategy & Consulting',
+        description:
+          'Strategic guidance to align your digital presence with your business goals. We help you navigate the digital landscape with confidence.'
+      },
+      {
+        title: 'Maintenance & Support',
+        description:
+          "Ongoing support and maintenance to keep your digital assets running smoothly. We're here for the long haul, not just the launch."
+      }
+    ],
+    []
+  )
+
+  const loopedServiceCards = useMemo(
+    () => [...serviceCards, ...serviceCards],
+    [serviceCards]
+  )
 
   useEffect(() => {
     const mobileQuery = window.matchMedia('(max-width: 767px)')
@@ -236,7 +244,7 @@ function HomePage() {
       </section>
 
       {/* Curved Loop Transition */}
-      <div className="relative h-[96px] md:h-[150px] mt-2 md:-mt-[75px] mb-2 md:-mb-[75px] z-20 overflow-hidden">
+      <div className="curved-loop-transition relative h-[96px] md:h-[150px] mt-2 md:-mt-[75px] mb-2 md:-mb-[75px] z-20">
         <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIO •" />
       </div>
 
@@ -281,18 +289,20 @@ function HomePage() {
               </CardSwap>
             </div>
 
-            {/* Right Side - Mobile Swipe Carousel */}
+            {/* Right Side - Mobile Infinite Card Loop */}
             <div className="lg:hidden">
-              <div className="services-swipe-track" role="region" aria-label="Swipe through services">
-                {serviceCards.map((service) => (
-                  <article
-                    key={service.title}
-                    className="services-swipe-card bg-gradient-to-br from-brand-navy-dark to-brand-navy border-2 border-brand-gold/30 rounded-3xl p-5 sm:p-6"
-                  >
-                    <h3 className="font-dazzle text-brand-gold text-2xl mb-3 uppercase">{service.title}</h3>
-                    <p className="font-inter text-brand-white/85 text-base leading-relaxed">{service.description}</p>
-                  </article>
-                ))}
+              <div className="services-loop" role="region" aria-label="Services carousel">
+                <div className="services-loop-track" aria-hidden="true">
+                  {loopedServiceCards.map((service, idx) => (
+                    <article
+                      key={`${service.title}-${idx}`}
+                      className="services-loop-card bg-gradient-to-br from-brand-navy-dark to-brand-navy border-2 border-brand-gold/30 rounded-3xl p-5"
+                    >
+                      <h3 className="font-dazzle text-brand-gold text-2xl mb-3 uppercase">{service.title}</h3>
+                      <p className="font-inter text-brand-white/85 text-base leading-relaxed">{service.description}</p>
+                    </article>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
