@@ -40,6 +40,17 @@
   }
 
   .curved-loop-svg {
-    font-size: clamp(1.1rem, 5.6vh, 1.7rem);
+    font-size: clamp(5rem, 5.6vh, 1.7rem);
+  }
+}
+
+@media (max-width: 420px) {
+  .curved-loop-jacket {
+    min-height: 100px;
+    align-items: center;
+  }
+
+  .curved-loop-svg {
+    font-size: clamp(8rem, 11vw, 3.2rem);
   }
 }

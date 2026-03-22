@@ -244,7 +244,7 @@ function HomePage() {
       </section>
 
       {/* Curved Loop Transition */}
-      <div className="curved-loop-transition relative h-[96px] md:h-[150px] mt-2 md:-mt-[75px] mb-2 md:-mb-[75px] z-20">
+      <div className="curved-loop-transition relative h-[96px] md:h-[150px] mt-2 md:-mt-[75px] mb-2 md:-mb-[75px] z-[80]">
         <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIO •" />
       </div>
 

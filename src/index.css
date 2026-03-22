@@ -86,7 +86,9 @@
 /* Grainy Film Overlay Effect */
 @layer components {
   .curved-loop-transition {
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
+    z-index: 80;
   }
 
   .grain-overlay {
@@ -186,13 +188,6 @@
 
   to {
     transform: translateX(calc(-50% - 0.5rem));
-  }
-}
-
-@media (min-width: 481px) {
-  .curved-loop-transition {
-    overflow: visible;
-    z-index: 45;
   }
 }
 
