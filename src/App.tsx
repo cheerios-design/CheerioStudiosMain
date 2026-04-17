@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
-import LiquidEther from '@/components/LiquidEther'
+import LogoParticle from '@/components/LogoParticle'
 import Shuffle from '@/components/Shuffle'
 import CurvedLoop from '@/components/CurvedLoop'
 import FlowingMenu from '@/components/FlowingMenu'
@@ -205,41 +205,54 @@ function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative min-h-[85svh] md:h-screen flex items-center justify-center overflow-hidden pt-24 pb-16 md:pb-32">
-        {/* LiquidEther Background */}
-        {shouldReduceHeavyEffects ? (
-          <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,183,50,0.35)_0%,rgba(255,183,50,0.08)_30%,rgba(26,41,51,0.95)_68%,rgba(15,26,33,1)_100%)]" />
-        ) : (
-          <div className="absolute inset-0 md:inset-0 -inset-y-32 md:-inset-y-0 z-0">
-            <LiquidEther
-              colors={['#FFB732', '#FFC85C', '#E6A52E', '#fefefe']}
-              dt={0.008}
-              mouseForce={5}
-              autoSpeed={0.3}
-              autoIntensity={1.5}
-            />
-          </div>
-        )}
+      <section id="hero" className="relative min-h-[85svh] md:h-screen overflow-visible pt-24 pb-16 md:pb-20">
+        <div className="absolute inset-0 z-0 md:hidden bg-[radial-gradient(circle_at_50%_40%,rgba(255,183,50,0.12)_0%,rgba(255,183,50,0.04)_35%,rgba(15,26,33,0.96)_100%)]" />
 
-        {/* Hero Content */}
-        <div className="relative z-10 text-center px-4 mx-auto">
-          <h1 className="font-dazzle text-brand-white max-w-7xl mx-auto leading-[0.95] mb-12 text-[clamp(2rem,6vw,6rem)] font-black" style={{ fontWeight: 900 }}>
-            <div className="mb-2">
-              <Shuffle text="One Voice. One Visual." />
+        <div className="absolute inset-y-6 left-1/2 w-[110vw] -translate-x-1/2 z-0 md:hidden pointer-events-none overflow-visible">
+          <LogoParticle />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 h-full">
+          <div className="grid md:grid-cols-5 gap-8 md:gap-10 items-center min-h-[70svh] md:min-h-[82svh]">
+            <div className="md:col-span-3 text-center md:text-left relative z-20 mx-auto md:mx-0 max-w-4xl md:max-w-none">
+              <h1 className="font-dazzle text-brand-white leading-[0.95] mb-8 text-[clamp(2rem,6vw,6rem)] font-black" style={{ fontWeight: 900 }}>
+                <div>
+                  <Shuffle text="One Voice." />
+                </div>
+                <div className="-mt-1 md:-mt-2">
+                  <Shuffle text="One Visual." />
+                </div>
+                <div className="-mt-1 md:-mt-2">
+                  <Shuffle text="One Studio." />
+                </div>
+              </h1>
+              <p className="font-inter text-[clamp(1rem,2vw,1.5rem)] text-brand-gold/65 max-w-2xl md:max-w-[40rem] mx-auto md:mx-0 mb-8">
+                The central solution for your digital presence.
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                <button
+                  onClick={() => scrollToSection('services')}
+                  className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300"
+                >
+                  How We Do It
+                </button>
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-white/35 text-brand-white hover:border-brand-gold hover:text-brand-gold transition-all duration-300"
+                >
+                  Start a Project
+                </button>
+              </div>
             </div>
-            <div>
-              <Shuffle text="One Studio." />
+
+            <div className="hidden md:block md:col-span-2 relative z-0 h-[44svh] min-h-[330px] md:h-[78svh] md:min-h-[620px] md:-ml-[35%] md:w-[135%] overflow-visible">
+              {shouldReduceHeavyEffects ? (
+                <div className="absolute inset-0 md:hidden bg-[radial-gradient(circle_at_55%_45%,rgba(255,183,50,0.3)_0%,rgba(255,183,50,0.07)_28%,rgba(26,41,51,0.85)_72%,rgba(15,26,33,1)_100%)]" />
+              ) : (
+                <LogoParticle />
+              )}
             </div>
-          </h1>
-          <p className="font-inter text-[clamp(1rem,2vw,1.5rem)] text-brand-gold/65 max-w-2xl mx-auto mb-8">
-            The central solution for your digital presence.
-          </p>
-          <button
-            onClick={() => scrollToSection('services')}
-            className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300"
-          >
-            How We Do It
-          </button>
+          </div>
         </div>
       </section>
 
