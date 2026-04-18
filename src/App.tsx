@@ -50,7 +50,9 @@ function App() {
 
 function HomePage() {
   const [showConfirmation, setShowConfirmation] = useState(false)
-  const [isMobileViewport, setIsMobileViewport] = useState(false)
+  const [heroWordIndex, setHeroWordIndex] = useState(0)
+
+  const heroWords = useMemo(() => ['VOICE.', 'VISUAL.', 'STUDIO.'], [])
 
   const serviceCards = useMemo(
     () => [
@@ -94,22 +96,14 @@ function HomePage() {
   )
 
   useEffect(() => {
-    const mobileQuery = window.matchMedia('(max-width: 767px)')
-
-    const updateViewport = (event?: MediaQueryListEvent) => {
-      setIsMobileViewport(event ? event.matches : mobileQuery.matches)
-    }
-
-    updateViewport()
-
-    mobileQuery.addEventListener('change', updateViewport)
+    const cycle = window.setInterval(() => {
+      setHeroWordIndex((current) => (current + 1) % heroWords.length)
+    }, 2200)
 
     return () => {
-      mobileQuery.removeEventListener('change', updateViewport)
+      window.clearInterval(cycle)
     }
-  }, [])
-
-  const shouldReduceHeavyEffects = isMobileViewport
+  }, [heroWords])
 
   // Navigation scroll handler
   const scrollToSection = (sectionId: string) => {
@@ -181,7 +175,7 @@ function HomePage() {
           </button>
 
           {/* Navigation Links */}
-          <ul className="flex items-center gap-8 font-inter text-sm font-medium">
+          <ul className="flex items-center gap-8 font-dazzle text-sm font-medium">
             <li>
               <button
                 onClick={() => scrollToSection('services')}
@@ -211,53 +205,49 @@ function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative min-h-[85svh] md:h-screen overflow-visible pt-24 pb-16 md:pb-20">
-        <div className="absolute inset-0 z-0 md:hidden bg-brand-navy" />
-
-        <div className="absolute inset-y-6 left-1/2 w-[110vw] -translate-x-1/2 z-0 md:hidden pointer-events-none overflow-visible">
+      <section id="hero" className="relative min-h-[85svh] w-full overflow-visible pt-[110px] pb-[25px] px-0">
+        <div className="absolute top-[100px] bottom-[25px] left-[450px]">
           <LogoParticle />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 h-full">
-          <div className="grid md:grid-cols-5 gap-8 md:gap-10 items-center min-h-[70svh] md:min-h-[82svh]">
-            <div className="md:col-span-3 text-center md:text-left relative z-20 mx-auto md:mx-0 max-w-4xl md:max-w-none">
-              <h1 className="font-dazzle text-brand-white leading-[0.95] mb-8 text-[clamp(2rem,6vw,6rem)] font-black" style={{ fontWeight: 900 }}>
-                <div>
-                  <Shuffle text="One Voice." />
-                </div>
-                <div className="-mt-1 md:-mt-2">
-                  <Shuffle text="One Visual." />
-                </div>
-                <div className="-mt-1 md:-mt-2">
-                  <Shuffle text="One Studio." />
-                </div>
+        <div className="relative h-full w-full px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="grid min-h-[calc(85svh-50px)] h-full grid-cols-1 grid-rows-3 gap-2 md:grid-cols-3 md:grid-rows-3 md:gap-x-12 md:gap-y-4 items-center">
+            <div className="row-start-2 mx-auto flex w-fit max-w-[92vw] flex-col items-start col-start-1 md:max-w-none">
+              <h1
+                className="font-dazzle tracking-wider leading-[0.92] text-brand-white  text-[clamp(2.4rem,8vw,8.5rem)] font-black whitespace-nowrap"
+                style={{ fontWeight: 900 }}
+              >
+                <span>ONE </span>
+                <span className="inline-block align-baseline">
+                  <Shuffle
+                    key={heroWords[heroWordIndex]}
+                    text={heroWords[heroWordIndex]}
+                    tag="span"
+                    textAlign="left"
+                    triggerOnHover={false}
+                  />
+                </span>
               </h1>
-              <p className="font-dazzle uppercase text-[clamp(1rem,2vw,1.5rem)] text-brand-gold/65 max-w-2xl md:max-w-[40rem] mx-auto md:mx-0 mb-8">
+
+              {/* <p className="mt-5 text-left font-dazzle tracking-wide uppercase font-light text-[clamp(0.72rem,1.25vw,1.35rem)] text-brand-white/85 whitespace-nowrap">
                 The central solution for your digital presence.
-              </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                <button
-                  onClick={() => scrollToSection('services')}
-                  className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300"
-                >
-                  How We Do It
-                </button>
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-white/35 text-brand-white hover:border-brand-gold hover:text-brand-gold transition-all duration-300"
-                >
-                  Start a Project
-                </button>
-              </div>
+              </p> */}
             </div>
 
-            <div className="hidden md:block md:col-span-2 relative z-0 h-[44svh] min-h-[330px] md:h-[78svh] md:min-h-[620px] md:-ml-[35%] md:w-[135%] overflow-visible">
-              {shouldReduceHeavyEffects ? (
-                <div className="absolute inset-0 md:hidden bg-brand-navy" />
-              ) : (
-                <LogoParticle />
-              )}
+            <div className="hidden md:block md:col-start-1 md:row-start-1 self-end py-10 max-w-[36ch]">
+              <p className="font-dazzle uppercase font-light tracking-wider text-brand-gold leading-relaxed text-lg ">
+                From concept <br /> to execution:
+              </p>
             </div>
+
+            <div className="hidden md:block md:col-start-1 md:row-start-3 self-start py-10 max-w-[36ch]">
+              <p className="font-dazzle uppercase font-light tracking-wider text-brand-gold leading-relaxed text-lg">
+                The central solution <br /> for your digital presence.
+              </p>
+            </div>
+
+            
+            
           </div>
         </div>
       </section>
