@@ -20,7 +20,8 @@ type Face = [number, number, number]
 
 const PARTICLE_COUNT = 15000
 const MOBILE_PARTICLE_COUNT = 13000
-const OBJ_URL = '/sticker-dark.obj'
+const OBJ_ASSET_VERSION = '2026-04-18'
+const OBJ_URL = `/sticker-dark.obj?v=${OBJ_ASSET_VERSION}`
 const COLOR = 'rgba(255, 183, 50, 0.92)'
 const MIN_ZOOM = 3
 const MAX_ZOOM = 4
@@ -290,7 +291,7 @@ export default function LogoParticle() {
 
     const loadObjAndBuildParticles = async () => {
       try {
-        const response = await fetch(OBJ_URL)
+        const response = await fetch(OBJ_URL, { cache: 'no-store' })
         if (!response.ok) {
           return
         }
