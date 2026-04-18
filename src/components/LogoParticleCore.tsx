@@ -3,12 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 type Vec3 = { x: number; y: number; z: number }
 
 type Particle = {
-  x: number
-  y: number
-  z: number
-  vx: number
-  vy: number
-  vz: number
   baseX: number
   baseY: number
   baseZ: number
@@ -18,20 +12,16 @@ type Particle = {
 
 type Face = [number, number, number]
 
-const PARTICLE_COUNT = 15000
-const MOBILE_PARTICLE_COUNT = 13000
+const PARTICLE_COUNT = 8000
+const MOBILE_PARTICLE_COUNT = 1800
 const OBJ_ASSET_VERSION = '2026-04-18'
 const OBJ_URL = `/sticker-dark.obj?v=${OBJ_ASSET_VERSION}`
 const COLOR = 'rgba(255, 183, 50, 0.92)'
-const MIN_ZOOM = 3
-const MAX_ZOOM = 4
-const AUTO_ROTATION_SPEED = 0.008
-const DRAG_SENSITIVITY = 0.005
-const MOMENTUM_DAMPING = 0.94
-const INITIAL_ZOOM = 3
-const PARTICLE_GLOW_BLUR = 0
-const PARTICLE_GLOW_COLOR = '(rgba(255, 183, 50, 0.6))'
-const MOBILE_GLOW_BLUR = 0
+const AUTO_ROTATION_SPEED = 0.004
+const RETURN_TO_NEUTRAL_SPEED = 0.02
+const BREATHING_SPEED = 0.0009
+const BREATHING_AMPLITUDE = 0.18
+const HERO_FILL_SCALE = 4
 const MOBILE_PIXEL_RATIO_CAP = 2
 const MOBILE_BREAKPOINT = '(max-width: 768px)'
 
@@ -248,16 +238,6 @@ export default function LogoParticle() {
     let rotationX = 0
     let rotationY = 0
     let autoRotationY = 0
-    let angularVelocityX = 0
-    let angularVelocityY = 0
-    let isDragging = false
-    let lastPointerX = 0
-    let lastPointerY = 0
-    let lastPointerTime = 0
-    let zoom = INITIAL_ZOOM
-    let targetZoom = INITIAL_ZOOM
-    let targetRotationFromPointerX = 0
-    let targetRotationFromPointerY = 0
 
     const setCanvasSize = () => {
       const parent = canvas.parentElement
@@ -275,16 +255,10 @@ export default function LogoParticle() {
 
     const rebuildParticles = (cloud: Vec3[]) => {
       particles = cloud.map((p) => ({
-        x: (Math.random() - 0.5) * 220,
-        y: (Math.random() - 0.5) * 220,
-        z: (Math.random() - 0.5) * 140,
-        vx: 0,
-        vy: 0,
-        vz: 0,
         baseX: p.x,
         baseY: p.y,
         baseZ: p.z,
-        size: 0.8 + Math.random() * 1.4,
+        size: 0.9 + Math.random() * 0.9,
         phase: Math.random() * Math.PI * 2
       }))
     }
@@ -312,163 +286,49 @@ export default function LogoParticle() {
     const animate = (time: number) => {
       context.clearRect(0, 0, width, height)
 
-      if (!compactMode && !isDragging) {
-        rotationX += angularVelocityX
-        rotationY += angularVelocityY
-        angularVelocityX *= MOMENTUM_DAMPING
-        angularVelocityY *= MOMENTUM_DAMPING
-      }
-
-      if (compactMode) {
-        rotationX += (targetRotationFromPointerX - rotationX) * 0.02
-        rotationY += (targetRotationFromPointerY - rotationY) * 0.02
-      }
+      rotationX += (0 - rotationX) * RETURN_TO_NEUTRAL_SPEED
+      rotationY += (0 - rotationY) * RETURN_TO_NEUTRAL_SPEED
+      autoRotationY += AUTO_ROTATION_SPEED
 
       rotationX = clamp(rotationX, -1.35, 1.35)
-      zoom += (targetZoom - zoom) * 0.12
-      if (!compactMode && !isDragging) {
-        autoRotationY += AUTO_ROTATION_SPEED
-      }
+      rotationY = clamp(rotationY, -1.9, 1.9)
 
       const centerX = width * 0.5
       const centerY = height * 0.5
       const cameraDistance = 340
+      const timePhase = time * BREATHING_SPEED
+      const breathingBase = 1 + Math.sin(timePhase) * BREATHING_AMPLITUDE
+      const cloudScale = HERO_FILL_SCALE * (compactMode ? 0.82 : 1)
 
       context.fillStyle = COLOR
-      context.strokeStyle = COLOR
-      context.shadowBlur = compactMode ? MOBILE_GLOW_BLUR : PARTICLE_GLOW_BLUR
-      context.shadowColor = compactMode ? 'rgba(255, 183, 50, 0.6)' : PARTICLE_GLOW_COLOR
 
       for (let i = 0; i < particles.length; i += 1) {
         const particle = particles[i]
+        const localBreathing = breathingBase + Math.sin(timePhase + particle.phase) * (BREATHING_AMPLITUDE * 0.2)
         const rotatedY = rotateY(
-          { x: particle.baseX * zoom, y: particle.baseY * zoom, z: particle.baseZ * zoom },
+          {
+            x: particle.baseX * localBreathing * cloudScale,
+            y: particle.baseY * localBreathing * cloudScale,
+            z: particle.baseZ * localBreathing * cloudScale
+          },
           autoRotationY + rotationY
         )
         const rotated = rotateX(rotatedY, rotationX)
 
-        const wobble = Math.sin(time * 0.0011 + particle.phase) * 0.55
-        const tx = rotated.x + wobble
-        const ty = rotated.y + wobble
-        const tz = rotated.z
+        const perspective = cameraDistance / (cameraDistance - rotated.z)
+        const drawX = centerX + rotated.x * perspective
+        const drawY = centerY + rotated.y * perspective
+        const radius = Math.max(particle.size * perspective * 0.8, 0.45)
 
-        particle.vx += (tx - particle.x) * 0.042
-        particle.vy += (ty - particle.y) * 0.042
-        particle.vz += (tz - particle.z) * 0.05
-        particle.vx *= 0.84
-        particle.vy *= 0.84
-        particle.vz *= 0.82
-        particle.x += particle.vx
-        particle.y += particle.vy
-        particle.z += particle.vz
-
-        const perspective = cameraDistance / (cameraDistance - particle.z)
-        const drawX = centerX + particle.x * perspective
-        const drawY = centerY + particle.y * perspective
-        const size = particle.size * perspective
-
-        context.globalAlpha = clamp(0.3 + (particle.z + 110) / 300, 0.22, 1)
-
-        // Draw arrow/vector all pointing towards positive X direction (towards viewer in 3D)
-        const arrowLen = size * 1.8
-        const arrowWidth = size * 0.8
-
-        context.save()
-        context.translate(drawX, drawY)
-        // All arrows point towards X axis (0 radians)
-
-        // Draw arrow triangle pointing right
+        context.globalAlpha = clamp(0.28 + (rotated.z + 120) / 320, 0.18, 1)
         context.beginPath()
-        context.moveTo(arrowLen, 0)
-        context.lineTo(-arrowLen * 0.4, -arrowWidth)
-        context.lineTo(-arrowLen * 0.4, arrowWidth)
-        context.closePath()
+        context.arc(drawX, drawY, radius, 0, Math.PI * 2)
+        context.fillStyle = COLOR
         context.fill()
-
-        context.restore()
       }
 
-      context.shadowBlur = 0
       context.globalAlpha = 1
       animationId = window.requestAnimationFrame(animate)
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (compactMode) {
-        return
-      }
-
-      isDragging = true
-      lastPointerX = event.clientX
-      lastPointerY = event.clientY
-      lastPointerTime = performance.now()
-      angularVelocityX = 0
-      angularVelocityY = 0
-      canvas.setPointerCapture(event.pointerId)
-    }
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (compactMode) {
-        return
-      }
-
-      if (!isDragging) {
-        return
-      }
-
-      const now = performance.now()
-      const dt = Math.max(now - lastPointerTime, 1)
-      const dx = event.clientX - lastPointerX
-      const dy = event.clientY - lastPointerY
-
-      const deltaRotationY = dx * DRAG_SENSITIVITY
-      const deltaRotationX = -dy * DRAG_SENSITIVITY
-
-      rotationY += deltaRotationY
-      rotationX += deltaRotationX
-
-      const momentumScale = 16 / dt
-      angularVelocityY = deltaRotationY * momentumScale
-      angularVelocityX = deltaRotationX * momentumScale
-
-      lastPointerX = event.clientX
-      lastPointerY = event.clientY
-      lastPointerTime = now
-    }
-
-    const handlePointerUp = (event: PointerEvent) => {
-      if (compactMode) {
-        return
-      }
-
-      if (!isDragging) {
-        return
-      }
-
-      isDragging = false
-      if (canvas.hasPointerCapture(event.pointerId)) {
-        canvas.releasePointerCapture(event.pointerId)
-      }
-    }
-
-    const handlePointerCancel = (event: PointerEvent) => {
-      if (compactMode) {
-        return
-      }
-
-      isDragging = false
-      if (canvas.hasPointerCapture(event.pointerId)) {
-        canvas.releasePointerCapture(event.pointerId)
-      }
-    }
-
-    const handleWheel = (event: WheelEvent) => {
-      if (compactMode) {
-        return
-      }
-
-      event.preventDefault()
-      targetZoom = clamp(targetZoom - event.deltaY * 0.00085, MIN_ZOOM, MAX_ZOOM)
     }
 
     setCanvasSize()
@@ -476,24 +336,10 @@ export default function LogoParticle() {
     animationId = window.requestAnimationFrame(animate)
 
     window.addEventListener('resize', setCanvasSize)
-    if (!compactMode) {
-      canvas.addEventListener('pointerdown', handlePointerDown)
-      canvas.addEventListener('pointermove', handlePointerMove)
-      canvas.addEventListener('pointerup', handlePointerUp)
-      canvas.addEventListener('pointercancel', handlePointerCancel)
-      canvas.addEventListener('wheel', handleWheel, { passive: false })
-    }
 
     return () => {
       window.cancelAnimationFrame(animationId)
       window.removeEventListener('resize', setCanvasSize)
-      if (!compactMode) {
-        canvas.removeEventListener('pointerdown', handlePointerDown)
-        canvas.removeEventListener('pointermove', handlePointerMove)
-        canvas.removeEventListener('pointerup', handlePointerUp)
-        canvas.removeEventListener('pointercancel', handlePointerCancel)
-        canvas.removeEventListener('wheel', handleWheel)
-      }
     }
   }, [isMobileViewport])
 
