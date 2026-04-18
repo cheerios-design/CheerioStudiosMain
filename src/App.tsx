@@ -1,5 +1,5 @@
 import { Routes, Route, Link } from 'react-router-dom'
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import type { FormEvent } from 'react'
 import LogoParticle from '@/components/LogoParticle'
 import Shuffle from '@/components/Shuffle'
@@ -50,66 +50,41 @@ function App() {
 
 function HomePage() {
   const [showConfirmation, setShowConfirmation] = useState(false)
-  const [isMobileViewport, setIsMobileViewport] = useState(false)
 
-  const serviceCards = useMemo(
-    () => [
-      {
-        title: 'Brand Identity',
-        description:
-          'Comprehensive brand identity systems that ensure consistency across all platforms and touch points. We create visual languages that speak volumes.'
-      },
-      {
-        title: 'Web Development',
-        description:
-          'High-performance websites and web applications built with cutting-edge technologies. Fast, responsive, and built to scale.'
-      },
-      {
-        title: 'Digital Design',
-        description:
-          'User-centered digital experiences that combine stunning aesthetics with intuitive functionality. Design that delights and converts.'
-      },
-      {
-        title: 'Asset Management',
-        description:
-          'Centralized asset management system ensuring your brand materials are always accessible, organized, and on-brand. One source of truth.'
-      },
-      {
-        title: 'Strategy & Consulting',
-        description:
-          'Strategic guidance to align your digital presence with your business goals. We help you navigate the digital landscape with confidence.'
-      },
-      {
-        title: 'Maintenance & Support',
-        description:
-          "Ongoing support and maintenance to keep your digital assets running smoothly. We're here for the long haul, not just the launch."
-      }
-    ],
-    []
-  )
-
-  const loopedServiceCards = useMemo(
-    () => [...serviceCards, ...serviceCards],
-    [serviceCards]
-  )
-
-  useEffect(() => {
-    const mobileQuery = window.matchMedia('(max-width: 767px)')
-
-    const updateViewport = (event?: MediaQueryListEvent) => {
-      setIsMobileViewport(event ? event.matches : mobileQuery.matches)
+  const serviceCards = [
+    {
+      title: 'Brand Identity',
+      description:
+        'Comprehensive brand identity systems that ensure consistency across all platforms and touch points. We create visual languages that speak volumes.'
+    },
+    {
+      title: 'Web Development',
+      description:
+        'High-performance websites and web applications built with cutting-edge technologies. Fast, responsive, and built to scale.'
+    },
+    {
+      title: 'Digital Design',
+      description:
+        'User-centered digital experiences that combine stunning aesthetics with intuitive functionality. Design that delights and converts.'
+    },
+    {
+      title: 'Asset Management',
+      description:
+        'Centralized asset management system ensuring your brand materials are always accessible, organized, and on-brand. One source of truth.'
+    },
+    {
+      title: 'Strategy & Consulting',
+      description:
+        'Strategic guidance to align your digital presence with your business goals. We help you navigate the digital landscape with confidence.'
+    },
+    {
+      title: 'Maintenance & Support',
+      description:
+        "Ongoing support and maintenance to keep your digital assets running smoothly. We're here for the long haul, not just the launch."
     }
+  ]
 
-    updateViewport()
-
-    mobileQuery.addEventListener('change', updateViewport)
-
-    return () => {
-      mobileQuery.removeEventListener('change', updateViewport)
-    }
-  }, [])
-
-  const shouldReduceHeavyEffects = isMobileViewport
+  const loopedServiceCards = [...serviceCards, ...serviceCards]
 
   // Navigation scroll handler
   const scrollToSection = (sectionId: string) => {
@@ -252,11 +227,7 @@ function HomePage() {
             </div>
 
             <div className="hidden md:block md:col-span-2 relative z-0 h-[44svh] min-h-[330px] md:h-[78svh] md:min-h-[620px] md:-ml-[35%] md:w-[135%] overflow-visible">
-              {shouldReduceHeavyEffects ? (
-                <div className="absolute inset-0 md:hidden bg-brand-navy" />
-              ) : (
-                <LogoParticle />
-              )}
+              <LogoParticle />
             </div>
           </div>
         </div>
