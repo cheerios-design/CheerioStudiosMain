@@ -137,28 +137,6 @@
     border-bottom-color: white;
   }
 
-  /* Brutalist Button */
-  .brutalist-button {
-    background: #FFB732;
-    color: #1A2933;
-    border: 4px solid #FFB732;
-    padding: 1rem 2.5rem;
-    font-size: 1.125rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
-    cursor: pointer;
-    font-family: 'dazzle-unicase', sans-serif;
-  }
-
-  .brutalist-button:hover {
-    background: #1A2933;
-    color: #FFB732;
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0 0 #FFB732;
-  }
-
   .services-loop {
     width: 100%;
     overflow: hidden;
