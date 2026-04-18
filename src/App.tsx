@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import LogoParticle from '@/components/LogoParticle'
@@ -12,6 +12,9 @@ import LogoHover from '@/components/LogoHover'
 import StaggeredMenu from '@/components/StaggeredMenu'
 import cheerioLogo from '@/assets/logos/sticker-dark.svg'
 import EliteExteriors from '@/pages/EliteExteriors'
+import PrivacyPolicy from '@/pages/PrivacyPolicy'
+import TermsOfService from '@/pages/TermsOfService'
+import CookiePolicy from '@/pages/CookiePolicy'
 
 // Logo Imports
 import adobeBw from '@/assets/logos/adobe_creative_bw.svg'
@@ -38,6 +41,9 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/projects/elite-exteriors" element={<EliteExteriors />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-of-service" element={<TermsOfService />} />
+      <Route path="/cookie-policy" element={<CookiePolicy />} />
     </Routes>
   )
 }
@@ -51,7 +57,7 @@ function HomePage() {
       {
         title: 'Brand Identity',
         description:
-          'Comprehensive brand identity systems that ensure consistency across all platforms and touchpoints. We create visual languages that speak volumes.'
+          'Comprehensive brand identity systems that ensure consistency across all platforms and touch points. We create visual languages that speak volumes.'
       },
       {
         title: 'Web Development',
@@ -206,7 +212,7 @@ function HomePage() {
 
       {/* Hero Section */}
       <section id="hero" className="relative min-h-[85svh] md:h-screen overflow-visible pt-24 pb-16 md:pb-20">
-        <div className="absolute inset-0 z-0 md:hidden bg-[radial-gradient(circle_at_50%_40%,rgba(255,183,50,0.12)_0%,rgba(255,183,50,0.04)_35%,rgba(15,26,33,0.96)_100%)]" />
+        <div className="absolute inset-0 z-0 md:hidden bg-brand-navy" />
 
         <div className="absolute inset-y-6 left-1/2 w-[110vw] -translate-x-1/2 z-0 md:hidden pointer-events-none overflow-visible">
           <LogoParticle />
@@ -226,7 +232,7 @@ function HomePage() {
                   <Shuffle text="One Studio." />
                 </div>
               </h1>
-              <p className="font-inter text-[clamp(1rem,2vw,1.5rem)] text-brand-gold/65 max-w-2xl md:max-w-[40rem] mx-auto md:mx-0 mb-8">
+              <p className="font-dazzle uppercase text-[clamp(1rem,2vw,1.5rem)] text-brand-gold/65 max-w-2xl md:max-w-[40rem] mx-auto md:mx-0 mb-8">
                 The central solution for your digital presence.
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-4">
@@ -247,7 +253,7 @@ function HomePage() {
 
             <div className="hidden md:block md:col-span-2 relative z-0 h-[44svh] min-h-[330px] md:h-[78svh] md:min-h-[620px] md:-ml-[35%] md:w-[135%] overflow-visible">
               {shouldReduceHeavyEffects ? (
-                <div className="absolute inset-0 md:hidden bg-[radial-gradient(circle_at_55%_45%,rgba(255,183,50,0.3)_0%,rgba(255,183,50,0.07)_28%,rgba(26,41,51,0.85)_72%,rgba(15,26,33,1)_100%)]" />
+                <div className="absolute inset-0 md:hidden bg-brand-navy" />
               ) : (
                 <LogoParticle />
               )}
@@ -258,7 +264,7 @@ function HomePage() {
 
       {/* Curved Loop Transition */}
       <div className="curved-loop-transition relative h-[96px] md:h-[150px] mt-2 md:-mt-[75px] mb-2 md:-mb-[75px] z-[80]">
-        <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIO •" />
+        <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIOS •" />
       </div>
 
       {/* Services Section */}
@@ -266,11 +272,11 @@ function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-start lg:items-center">
             {/* Left Side - Header & Description */}
-            <div className="max-w-full overflow-hidden">
+            <div className="max-w-full overflow-hidden text-center md:text-left">
               <h2 className="font-dazzle uppercase text-brand-gold text-[clamp(2rem,12vw,3.1rem)] md:text-[clamp(3rem,8vw,6rem)] leading-[0.95] mb-5 md:mb-6 max-w-[8.8ch] md:max-w-none break-words">
                 What We Deliver
               </h2>
-              <p className="font-inter text-[0.92rem] sm:text-[0.95rem] md:text-[clamp(0.7rem,2vw,1rem)] text-brand-white/75 md:text-brand-white/70 leading-relaxed pr-1">
+              <p className="font-dazzle uppercase font-thin text-[0.92rem] sm:text-[0.95rem] md:text-[clamp(0.7rem,2vw,1rem)] text-brand-white/75 md:text-brand-white/70 leading-relaxed pr-1 mx-auto md:mx-0">
                 From concept to execution, we deliver comprehensive solutions that transform your brand's digital presence.
                 Each service is crafted to work in harmony, ensuring consistency and impact across every touchpoint.
               </p>
@@ -309,7 +315,7 @@ function HomePage() {
                   {loopedServiceCards.map((service, idx) => (
                     <article
                       key={`${service.title}-${idx}`}
-                      className="services-loop-card bg-gradient-to-br from-brand-navy-dark to-brand-navy border-2 border-brand-gold/30 rounded-3xl p-5"
+                      className="services-loop-card bg-brand-navy-dark border-2 border-brand-gold/30 rounded-3xl p-5 text-center"
                     >
                       <h3 className="font-dazzle text-brand-gold text-2xl mb-3 uppercase">{service.title}</h3>
                       <p className="font-inter text-brand-white/85 text-base leading-relaxed">{service.description}</p>
@@ -324,7 +330,7 @@ function HomePage() {
 
 
       {/* Logo Loop Ribbon */}
-      <div className="relative -mt-24 -mb-24 z-30 py-12 overflow-visible bg-gradient-to-b from-brand-navy via-brand-navy-dark to-brand-navy-dark">
+      <div className="relative -mt-24 -mb-24 z-30 py-12 overflow-visible bg-brand-navy-dark md:bg-gradient-to-b md:from-brand-navy md:via-brand-navy-dark md:to-brand-navy-dark">
         <LogoLoop
           logos={[
             {
@@ -456,7 +462,7 @@ function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
             {/* Left Side */}
-            <div>
+            <div className="text-center md:text-left">
               <h2 className="font-dazzle text-brand-gold text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] mb-8">
                 Let's align your brand.
               </h2>
@@ -618,15 +624,15 @@ function HomePage() {
                 © 2025 Cheerio Studio. All rights reserved.
               </p>
               <div className="flex flex-wrap justify-center md:justify-start md:flex-nowrap gap-6 font-inter text-sm text-brand-white/40">
-                <a href="#" className="hover:text-brand-gold transition-colors">
+                <Link to="/privacy-policy" className="hover:text-brand-gold transition-colors">
                   Privacy Policy
-                </a>
-                <a href="#" className="hover:text-brand-gold transition-colors">
+                </Link>
+                <Link to="/terms-of-service" className="hover:text-brand-gold transition-colors">
                   Terms of Service
-                </a>
-                <a href="#" className="hover:text-brand-gold transition-colors">
+                </Link>
+                <Link to="/cookie-policy" className="hover:text-brand-gold transition-colors">
                   Cookie Policy
-                </a>
+                </Link>
               </div>
             </div>
             <button

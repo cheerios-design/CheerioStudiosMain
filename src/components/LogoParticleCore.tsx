@@ -18,7 +18,7 @@ type Particle = {
 
 type Face = [number, number, number]
 
-const PARTICLE_COUNT = 25000
+const PARTICLE_COUNT = 15000
 const MOBILE_PARTICLE_COUNT = 13000
 const OBJ_URL = '/sticker-dark.obj'
 const COLOR = 'rgba(255, 183, 50, 0.92)'
@@ -29,10 +29,10 @@ const DRAG_SENSITIVITY = 0.005
 const MOMENTUM_DAMPING = 0.94
 const INITIAL_ZOOM = 3
 const PARTICLE_GLOW_BLUR = 0
-const PARTICLE_GLOW_COLOR = '(#fefefe)'
+const PARTICLE_GLOW_COLOR = '(rgba(255, 183, 50, 0.6))'
 const MOBILE_GLOW_BLUR = 0
 const MOBILE_PIXEL_RATIO_CAP = 2
-const MOBILE_BREAKPOINT = '(max-width: 1000px)'
+const MOBILE_BREAKPOINT = '(max-width: 768px)'
 
 function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value))
@@ -325,13 +325,16 @@ export default function LogoParticle() {
 
       rotationX = clamp(rotationX, -1.35, 1.35)
       zoom += (targetZoom - zoom) * 0.12
-      autoRotationY += AUTO_ROTATION_SPEED
+      if (!compactMode && !isDragging) {
+        autoRotationY += AUTO_ROTATION_SPEED
+      }
 
       const centerX = width * 0.5
       const centerY = height * 0.5
       const cameraDistance = 340
 
       context.fillStyle = COLOR
+      context.strokeStyle = COLOR
       context.shadowBlur = compactMode ? MOBILE_GLOW_BLUR : PARTICLE_GLOW_BLUR
       context.shadowColor = compactMode ? 'rgba(255, 183, 50, 0.6)' : PARTICLE_GLOW_COLOR
 
@@ -364,7 +367,24 @@ export default function LogoParticle() {
         const size = particle.size * perspective
 
         context.globalAlpha = clamp(0.3 + (particle.z + 110) / 300, 0.22, 1)
-        context.fillRect(drawX, drawY, size, size)
+
+        // Draw arrow/vector all pointing towards positive X direction (towards viewer in 3D)
+        const arrowLen = size * 1.8
+        const arrowWidth = size * 0.8
+
+        context.save()
+        context.translate(drawX, drawY)
+        // All arrows point towards X axis (0 radians)
+
+        // Draw arrow triangle pointing right
+        context.beginPath()
+        context.moveTo(arrowLen, 0)
+        context.lineTo(-arrowLen * 0.4, -arrowWidth)
+        context.lineTo(-arrowLen * 0.4, arrowWidth)
+        context.closePath()
+        context.fill()
+
+        context.restore()
       }
 
       context.shadowBlur = 0
