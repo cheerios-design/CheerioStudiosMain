@@ -1,0 +1,59 @@
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid rgba(255, 183, 50, 0.86);
+  background: rgba(255, 183, 50, 0.08);
+  backdrop-filter: blur(1px);
+  box-shadow: 0 0 0 1px rgba(255, 200, 92, 0.24), 0 10px 28px rgba(0, 0, 0, 0.22);
+  will-change: transform, width, height, opacity;
+}
+
+.custom-cursor__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #ffb732;
+  opacity: 0.95;
+  transform: scale(1);
+  transition: transform 160ms ease;
+}
+
+.custom-cursor--interactive {
+  background: rgba(255, 183, 50, 0.14);
+  border-color: rgba(255, 200, 92, 0.98);
+}
+
+.custom-cursor--interactive .custom-cursor__dot {
+  transform: scale(0.7);
+}
+
+.custom-cursor--pressed {
+  background: rgba(255, 183, 50, 0.2);
+}
+
+.custom-cursor--text {
+  border-color: rgba(255, 252, 225, 0.75);
+  background: rgba(255, 252, 225, 0.15);
+}
+
+.custom-cursor--follow {
+  border-color: rgba(255, 252, 225, 0.58);
+  background: rgba(255, 183, 50, 0.05);
+}
+
+body.custom-cursor-replace,
+body.custom-cursor-replace * {
+  cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    display: none;
+  }
+}
