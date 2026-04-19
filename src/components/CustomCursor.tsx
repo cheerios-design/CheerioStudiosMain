@@ -162,7 +162,7 @@ export default function CustomCursor({ mode = 'replace', magneticStrength = 0.28
       style={{ x: springX, y: springY }}
       animate={state}
       variants={variants}
-      transition={{ type: 'spring', stiffness: 540, damping: 34, mass: 0.28 }}
+      transition={{ type: 'spring', stiffness: 350, damping: 12, mass: 0.02}}
     >
       <span className="custom-cursor__dot" />
     </motion.div>
