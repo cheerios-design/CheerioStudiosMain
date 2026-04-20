@@ -20,7 +20,7 @@ function App() {
 
   return (
     <>
-      <CustomCursor mode={cursorMode} magneticStrength={0.28} />
+      <CustomCursor mode={cursorMode} magneticStrength={0} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/projects/elite-exteriors" element={<EliteExteriors />} />
@@ -371,66 +371,88 @@ function HomePage() {
       {/* Contact Section */}
       <section id="contact" className="relative py-20 md:py-32 px-4 bg-brand-navy">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
+          <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-8 md:gap-16 items-start">
             {/* Left Side */}
-            <div className="text-center md:text-left">
-              <h2 className="font-dazzle text-brand-gold text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] mb-8">
-                Let's align your brand.
-              </h2>
-              <p className="font-inter text-xl text-brand-white/70 mb-8">
-                Ready to bring consistency, clarity, and impact to your digital presence?
-                Let's talk.
-              </p>
+            <div className="text-center md:text-left space-y-8">
+              <div>
+                <h2 className="font-dazzle uppercase text-brand-gold text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] mb-5">
+                  Let's align your brand.
+                </h2>
+                <p className="font-dazzle uppercase font-light text-lg md:text-xl text-brand-white/72 max-w-[34ch] mx-auto md:mx-0 leading-relaxed">
+                  Tell us where your current workflow is breaking down and we will shape a focused
+                  plan that unifies strategy, visuals, and execution.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-3 text-left">
+                <div className="rounded-2xl border border-brand-gold/25 bg-brand-navy-dark/45 px-4 py-4">
+                  <p className="font-dazzle uppercase text-xs tracking-[0.18em] text-brand-gold/90 mb-1">Response Window</p>
+                  <p className="font-inter text-brand-white/88 text-sm">Within 24 business hours</p>
+                </div>
+                <div className="rounded-2xl border border-brand-gold/25 bg-brand-navy-dark/45 px-4 py-4">
+                  <p className="font-dazzle uppercase text-xs tracking-[0.18em] text-brand-gold/90 mb-1">Best For</p>
+                  <p className="font-inter text-brand-white/88 text-sm">Brands scaling digital presence</p>
+                </div>
+              </div>
             </div>
 
             {/* Right Side - Form */}
-            <div className="glass-matte-dark border-4 border-brand-gold/20 p-8 lg:p-12">
-              <form className="space-y-8" onSubmit={handleContactSubmit}>
-                <div>
-                  <label className="block font-dazzle text-sm mb-2 uppercase tracking-wider text-brand-gold">
-                    Name
-                  </label>
-                  <input
-                    name="name"
-                    type="text"
-                    className="brutalist-input w-full text-brand-white border-brand-gold/50 focus:border-brand-gold"
-                    placeholder="Your name"
-                    required
-                  />
+            <div className="relative overflow-hidden rounded-[28px] border border-brand-gold/30 bg-gradient-to-br from-brand-navy-dark/88 to-brand-navy/70 p-6 sm:p-8 lg:p-10">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-brand-gold/70 to-transparent" />
+
+              <div className="mb-6 md:mb-7">
+                <p className="font-dazzle uppercase tracking-[0.2em] text-[0.68rem] text-brand-gold/85 mb-2">Project Brief</p>
+                <p className="font-inter text-brand-white/72 text-sm md:text-base">The more context you share, the faster we can map your next move.</p>
+              </div>
+
+              <form className="space-y-5" onSubmit={handleContactSubmit}>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-dazzle text-[0.72rem] mb-2 uppercase tracking-[0.15em] text-brand-gold/90">
+                      Name
+                    </label>
+                    <input
+                      name="name"
+                      type="text"
+                      className="w-full rounded-xl border border-brand-gold/30 bg-brand-navy/40 px-4 py-3.5 text-brand-white placeholder:text-brand-white/35 focus:outline-none focus:border-brand-gold focus:bg-brand-navy/55 transition-colors"
+                      placeholder="Your name"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-dazzle text-[0.72rem] mb-2 uppercase tracking-[0.15em] text-brand-gold/90">
+                      Company
+                    </label>
+                    <input
+                      name="company"
+                      type="text"
+                      className="w-full rounded-xl border border-brand-gold/30 bg-brand-navy/40 px-4 py-3.5 text-brand-white placeholder:text-brand-white/35 focus:outline-none focus:border-brand-gold focus:bg-brand-navy/55 transition-colors"
+                      placeholder="Your company"
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block font-dazzle text-sm mb-2 uppercase tracking-wider text-brand-gold">
-                    Company
-                  </label>
-                  <input
-                    name="company"
-                    type="text"
-                    className="brutalist-input w-full text-brand-white border-brand-gold/50 focus:border-brand-gold"
-                    placeholder="Your company"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-dazzle text-sm mb-2 uppercase tracking-wider text-brand-gold">
+                  <label className="block font-dazzle text-[0.72rem] mb-2 uppercase tracking-[0.15em] text-brand-gold/90">
                     Email
                   </label>
                   <input
                     name="email"
                     type="email"
-                    className="brutalist-input w-full text-brand-white border-brand-gold/50 focus:border-brand-gold"
+                    className="w-full rounded-xl border border-brand-gold/30 bg-brand-navy/40 px-4 py-3.5 text-brand-white placeholder:text-brand-white/35 focus:outline-none focus:border-brand-gold focus:bg-brand-navy/55 transition-colors"
                     placeholder="your@email.com"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block font-dazzle text-sm mb-2 uppercase tracking-wider text-brand-gold">
+                  <label className="block font-dazzle text-[0.72rem] mb-2 uppercase tracking-[0.15em] text-brand-gold/90">
                     Biggest Pain Point
                   </label>
                   <select
                     name="painPoint"
-                    className="brutalist-input w-full text-brand-white bg-transparent cursor-pointer border-brand-gold/50 focus:border-brand-gold"
+                    className="w-full rounded-xl border border-brand-gold/30 bg-brand-navy/40 px-4 py-3.5 text-brand-white focus:outline-none focus:border-brand-gold focus:bg-brand-navy/55 transition-colors cursor-pointer"
                   >
                     <option value="" className="bg-brand-navy">Select one...</option>
                     <option value="inconsistent-branding" className="bg-brand-navy">Inconsistent Branding</option>
@@ -442,24 +464,23 @@ function HomePage() {
                 </div>
 
                 <div>
-                  <label className="block font-dazzle text-sm mb-2 uppercase tracking-wider text-brand-gold">
+                  <label className="block font-dazzle text-[0.72rem] mb-2 uppercase tracking-[0.15em] text-brand-gold/90">
                     Message
                   </label>
                   <textarea
                     name="message"
-                    className="brutalist-input w-full text-brand-white resize-none border-brand-gold/50 focus:border-brand-gold"
-                    rows={4}
-                    placeholder="Tell us about your project..."
+                    className="w-full rounded-xl border border-brand-gold/30 bg-brand-navy/40 px-4 py-3.5 text-brand-white placeholder:text-brand-white/35 focus:outline-none focus:border-brand-gold focus:bg-brand-navy/55 transition-colors resize-none"
+                    rows={5}
+                    placeholder="Tell us about your project goals, timeline, and what is currently blocking progress."
                     required
                   />
                 </div>
 
-
                 <button
                   type="submit"
-                  className="font-dazzle uppercase tracking-wider px-8 py-4 text-lg rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300 w-full"
+                  className="font-dazzle uppercase tracking-[0.13em] px-8 py-3.5 text-base rounded-full border-2 border-brand-gold text-brand-white hover:bg-brand-gold hover:text-brand-navy transition-all duration-300 w-full"
                 >
-                  Send Message
+                  Send Project Brief
                 </button>
               </form>
 
