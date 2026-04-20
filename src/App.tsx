@@ -254,13 +254,13 @@ function HomePage() {
               </p> */}
             </div>
 
-            <div className="hidden md:block md:col-start-1 md:row-start-1 self-end py-10 max-w-[36ch]">
+            <div className="hidden md:block md:col-start-1 md:row-start-1 self-end max-w-[36ch]">
               <p className="font-dazzle uppercase font-light tracking-wider text-brand-gold leading-relaxed text-lg ">
-                From concept <br /> to execution:
+                From concept <br /> to execution
               </p>
             </div>
 
-            <div className="hidden md:block md:col-start-1 md:row-start-3 self-start py-10 max-w-[36ch]">
+            <div className="hidden md:block md:col-start-1 md:row-start-3 self-start max-w-[36ch]">
               <p className="font-dazzle uppercase font-light tracking-wider text-brand-gold leading-relaxed text-lg">
                 The central solution <br /> for your digital presence.
               </p>
@@ -270,7 +270,7 @@ function HomePage() {
       </section>
 
       {/* Curved Loop Transition */}
-      <div className="curved-loop-transition relative h-[96px] md:h-[150px] mt-5 md:-mt-[100px] mb-1 md:-mb-[200px] z-[80]">
+      <div className="curved-loop-transition relative h-[96px] md:h-[150px] mt-10 md:-mt-[100px] mb-1 md:-mb-[200px] z-[80]">
         <CurvedLoop marqueeText="WEB & BRANDING SOLUTIONS • CHEERIO STUDIOS •" />
       </div>
 
@@ -289,13 +289,13 @@ function HomePage() {
                     texts={serviceTitlesTwoLine}
                     auto={false}
                     splitBy="lines"
-                    staggerDuration={0.03}
+                    staggerDuration={0.09}
                     staggerFrom="first"
                     initial={{ y: '85%', opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: '-85%', opacity: 0 }}
-                    transition={{ type: 'spring', damping: 23, stiffness: 290 }}
-                    mainClassName="flex w-full font-bold flex-col text-brand-white bg-brand-gold/85 px-2 py-1 rounded-md"
+                    transition={{ type: 'spring', damping: 18, stiffness: 500 }}
+                    mainClassName="flex w-fit font-bold flex-col text-brand-white bg-brand-gold/85 px-2 py-1 rounded-md"
                     splitLevelClassName="w-full"
                     elementLevelClassName="pr-[0.02em]"
                   />
@@ -316,7 +316,7 @@ function HomePage() {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: '-28%', opacity: 0 }}
                 transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-                mainClassName="font-dazzle uppercase font-light text-brand-white/82 text-[1.03rem] md:text-[clamp(1.15rem,1.8vw,2rem)] leading-relaxed"
+                mainClassName="font-dazzle uppercase font-light text-brand-gold text-[1.03rem] md:text-[clamp(1.15rem,1.8vw,2rem)] leading-relaxed"
               />
             </div>
           </div>
