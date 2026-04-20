@@ -1,5 +1,6 @@
 .custom-cursor {
   position: fixed;
+  mix-blend-mode: difference;
   top: 0;
   left: 0;
   pointer-events: none;
@@ -7,7 +8,7 @@
   z-index: 10001;
   display: grid;
   place-items: center;
-  border: 1.5px solid rgba(255, 183, 50, 0.86);
+  border: 25px solid rgba(255, 183, 50, 0.86);
   background: rgba(255, 183, 50, 0.08);
   backdrop-filter: blur(1px);
   box-shadow: 0 0 0 1px rgba(255, 200, 92, 0.24), 0 10px 28px rgba(0, 0, 0, 0.22);
@@ -15,12 +16,14 @@
 }
 
 .custom-cursor__dot {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
-  background: #ffb732;
+  background: rgba(255, 183, 50, 0.08);
+  backdrop-filter: blur(2px);
+  mix-blend-mode: difference;
   opacity: 0.95;
-  transform: scale(1);
+  transform: scale(4);
   transition: transform 160ms ease;
 }
 
