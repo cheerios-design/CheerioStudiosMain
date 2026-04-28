@@ -32,8 +32,8 @@ export default function CustomCursor({ mode = 'replace', magneticStrength = 0.28
 
   const pointerX = useMotionValue(-100)
   const pointerY = useMotionValue(-100)
-  const springX = useSpring(pointerX, { stiffness: 520, damping: 42, mass: 0.35 })
-  const springY = useSpring(pointerY, { stiffness: 520, damping: 42, mass: 0.35 })
+  const springX = useSpring(pointerX, { stiffness: 1200, damping: 20, mass: 0.2 })
+  const springY = useSpring(pointerY, { stiffness: 1200, damping: 20, mass: 0.2 })
 
   useEffect(() => {
     const reduceMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)')
