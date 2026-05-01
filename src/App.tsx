@@ -383,21 +383,10 @@ function HomePage() {
                   plan that unifies strategy, visuals, and execution.
                 </p>
               </div>
-
-              <div className="grid sm:grid-cols-2 gap-3 text-left">
-                <div className="rounded-2xl border border-brand-gold/25 bg-brand-navy-dark/45 px-4 py-4">
-                  <p className="font-dazzle uppercase text-xs tracking-[0.18em] text-brand-gold/90 mb-1">Response Window</p>
-                  <p className="font-inter text-brand-white/88 text-sm">Within 24 business hours</p>
-                </div>
-                <div className="rounded-2xl border border-brand-gold/25 bg-brand-navy-dark/45 px-4 py-4">
-                  <p className="font-dazzle uppercase text-xs tracking-[0.18em] text-brand-gold/90 mb-1">Best For</p>
-                  <p className="font-inter text-brand-white/88 text-sm">Brands scaling digital presence</p>
-                </div>
-              </div>
             </div>
 
             {/* Right Side - Form */}
-            <div className="relative overflow-hidden rounded-[28px] border border-brand-gold/30 bg-gradient-to-br from-brand-navy-dark/88 to-brand-navy/70 p-6 sm:p-8 lg:p-10">
+            <div className="relative overflow-hidden rounded-[28px]  p-6 sm:p-8 lg:p-10">
               <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-brand-gold/70 to-transparent" />
 
               <div className="mb-6 md:mb-7">
