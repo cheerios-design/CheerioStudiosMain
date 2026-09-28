@@ -3,6 +3,8 @@ import type { IconName } from './glyph/icons';
 /** Mirrors --color-lime, for places that can't read CSS variables (SVG fill attributes) */
 export const LIME = '#D4FF1F';
 
+export const SITE_URL = 'https://www.cheeriostudios.com';
+
 export const EMAIL ='sam.d@cheeriostudios.com';
 
 export const CONTACT_LINKS = [

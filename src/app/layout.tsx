@@ -4,6 +4,7 @@ import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
 import GlyphCursor from '@/components/chrome/GlyphCursor';
 import Menu from '@/components/chrome/Menu';
+import { SITE_URL } from '@/lib/site';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-grotesk' });
@@ -15,6 +16,7 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Cheerio Studios — Digital Creative Studio',
   description:
     'Cheerio Studios is a digital creative studio specializing in brand identity, web design & development, strategy & consulting, and digital asset management. We help businesses create and elevate their digital presence.',
