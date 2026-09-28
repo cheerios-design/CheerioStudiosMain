@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ──────────────────────────────────────── */
+@theme {
+  --color-ink: #0c0d0a;
+  --color-ink-2: #151712;
+  --color-ink-3: #22251d;
+  --color-lime: #d4ff1f;
+  --color-lime-dim: #a8cc12;
+  --color-paper: #eff2e8;
+  --color-mute: #8d937f;
+  --color-ghost: #393b36; /* paper at 20% over ink, but opaque */
+
+  --radius-tile: 28px;
+  --radius-chip: 20px;
+
+  --ease-glyph: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-grotesk), system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-ink);
+}
+
+/* Tilted marquee and parallax pieces must never cause sideways scrolling */
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ─── Lenis ──────────────────────────────────────────────── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-lime);
+  border-radius: 4px;
+}
+
+/* ─── Utilities ──────────────────────────────────────────── */
+
+/* Faint dot-matrix backdrop — echoes the glyph grid */
+.dot-grid {
+  background-image: radial-gradient(circle, rgb(239 242 232 / 0.07) 1.2px, transparent 1.6px);
+  background-size: 22px 22px;
+  background-position: center;
+}
+
+/* Small mono-ish uppercase label */
+.label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Serif annotation, as in "( What we do )" */
+.note {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  line-height: 1.1;
+}
+
+/* Hide the native cursor when the glyph cursor is active */
+@media (pointer: fine) {
+  html.has-glyph-cursor,
+  html.has-glyph-cursor * {
+    cursor: none !important;
+  }
+  html.has-glyph-cursor :is(input, textarea, select) {
+    cursor: text !important;
+  }
+}
+
+/* Glyph type hover: colour sweeps through the cells (per-cell delay set inline) */
+.glyph-text .glyph-cell {
+  transition-property: fill, stroke;
+  transition-duration: 0.35s;
+  transition-timing-function: ease;
+}
+.glyph-text[data-hover] .glyph-cell {
+  fill: var(--glyph-hover);
+  stroke: var(--glyph-hover);
+}
+
+/* Endless marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
