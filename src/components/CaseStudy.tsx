@@ -90,6 +90,46 @@ export default function CaseStudy({ slug }: { slug: string }) {
           </dl>
         </div>
 
+        {project.preview && (
+          <div className="px-5 pt-24 sm:px-8">
+            <motion.a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open the live ${project.title} site`}
+              className="group mx-auto block max-w-5xl overflow-hidden rounded-tile border border-ink-3 bg-ink-2"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10% 0px' }}
+              transition={{ duration: 0.8, ease: EASE }}
+            >
+              {/* Browser chrome */}
+              <div className="flex items-center gap-4 border-b border-ink-3 px-4 py-3">
+                <span className="flex gap-1.5" aria-hidden>
+                  {[0, 1, 2].map((i) => (
+                    <span key={i} className="h-2.5 w-2.5 rounded-full bg-ink-3" />
+                  ))}
+                </span>
+                <span className="note min-w-0 flex-1 truncate text-mute transition-colors group-hover:text-lime">
+                  {project.link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                </span>
+                <span className="text-lime transition-transform duration-300 group-hover:-rotate-45" aria-hidden>
+                  <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
+                </span>
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={project.preview.src}
+                alt={project.preview.alt}
+                width={1440}
+                height={900}
+                loading="lazy"
+                className="block h-auto w-full transition-transform duration-700 ease-glyph group-hover:scale-[1.02]"
+              />
+            </motion.a>
+          </div>
+        )}
+
         <div className="mx-auto grid max-w-[1440px] gap-16 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-24">
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <h2 className="label mb-6 text-mute">Deliverables</h2>

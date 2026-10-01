@@ -59,6 +59,8 @@ export type Project = {
   link: string;
   icon: IconName;
   deliverables: string[];
+  /** Screenshot of the live site, shown in a browser frame on the case study */
+  preview?: { src: string; alt: string };
   sections: { heading: string; body: string }[];
 };
 
@@ -136,15 +138,19 @@ export const PROJECTS: Project[] = [
   {
     slug: 'baibu-cinema',
     num: '03',
-    title: 'BAIBÜ Cinema & DMS',
-    glyphTitle: 'BAIBÜ\nCINEMA & DMS',
-    client: 'BAIBÜ Cinema Club',
+    title: 'SDMT Cinema & Digital Media Society',
+    glyphTitle: 'SDMT CINEMA\n& DIGITAL MEDIA',
+    client: 'BAIBÜ Cinema & Digital Media Society',
     role: 'Visual Storyteller & Brand Designer',
     subtitle: 'Creative Brand Storytelling & Multichannel Publishing',
     summary:
       'Brand guidelines, review writing and design-led updates that turned a campus club into a thriving media hub.',
-    link: 'https://www.instagram.com/aibusinema/',
+    link: 'https://baibusdmt.vercel.app/',
     icon: 'eye',
+    preview: {
+      src: '/assets/projects/sdmt-preview.webp',
+      alt: 'Homepage of the SDMT website, with the headline "Film çekiyoruz" over a purple backdrop',
+    },
     deliverables: [
       'Brand Identity Guidelines',
       'Cohesive Layout Design',
