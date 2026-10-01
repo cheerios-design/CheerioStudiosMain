@@ -169,6 +169,17 @@ export default function CaseStudy({ slug }: { slug: string }) {
           </div>
         </div>
 
+        <div className="px-5 pb-24 sm:px-8">
+          <div className="mx-auto max-w-[1440px] border-t border-ink-3 pt-10 text-center">
+            <Link href="/" className="group inline-flex items-center gap-3 font-display text-lg font-bold text-lime">
+              <span className="rotate-180 transition-transform duration-300 group-hover:-translate-x-1">
+                <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
+              </span>
+              Back to the main page
+            </Link>
+          </div>
+        </div>
+
         <PixelBand />
 
         {/* Next project */}
