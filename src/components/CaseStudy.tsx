@@ -180,6 +180,53 @@ export default function CaseStudy({ slug }: { slug: string }) {
           </ul>
         )}
 
+        {project.guide && (
+          <section aria-labelledby="guide-h" className="mx-auto max-w-5xl px-5 pt-20 sm:px-8 lg:px-0">
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <h2 id="guide-h" className="label mb-3 text-lime">( Brand guide ) — {project.guide.sheets.length} of 10 sheets</h2>
+                <p className="max-w-xl text-lg leading-relaxed text-paper/75">
+                  The full identity, documented like a drawing set: construction, colour, type, components and applications.
+                </p>
+              </div>
+              <a
+                href={project.guide.href}
+                target="_blank"
+                rel="noopener"
+                className="label shrink-0 rounded-full bg-lime px-6 py-3.5 font-bold text-ink transition-opacity hover:opacity-85"
+              >
+                View the full brand guide ↗
+              </a>
+            </div>
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {project.guide.sheets.map((sheet, i) => (
+                <motion.li
+                  key={sheet.src}
+                  className={i === 0 ? 'sm:col-span-2' : undefined}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-10% 0px' }}
+                  transition={{ duration: 0.8, ease: EASE, delay: (i % 2) * 0.08 }}
+                >
+                  <figure>
+                    <a href={project.guide!.href} target="_blank" rel="noopener" className="group block overflow-hidden rounded-tile border border-ink-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={sheet.src}
+                        alt={sheet.alt}
+                        loading="lazy"
+                        className="block h-auto w-full transition-transform duration-700 ease-glyph group-hover:scale-[1.02]"
+                      />
+                    </a>
+                    <figcaption className="label mt-3 text-mute">{sheet.caption}</figcaption>
+                  </figure>
+                </motion.li>
+              ))}
+            </ul>
+            <p className="note mt-6 text-mute">The full guide is a large file and reads best on a desktop screen.</p>
+          </section>
+        )}
+
         <div className="mx-auto grid max-w-[1440px] gap-16 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-24">
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <h2 className="label mb-6 text-mute">Deliverables</h2>

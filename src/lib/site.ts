@@ -117,6 +117,8 @@ export type Project = {
   preview?: { src: string; alt: string };
   /** Brand assets shown as square tiles under the preview; bg fills around transparent images */
   gallery?: { src: string; alt: string; bg: string; caption: string; fill?: boolean }[];
+  /** Full brand guide (a standalone page in public/) and a few of its sheets as screenshots */
+  guide?: { href: string; sheets: { src: string; alt: string; caption: string }[] };
   sections: { heading: string; body: string }[];
 };
 
@@ -158,6 +160,26 @@ export const PROJECTS: Project[] = [
         caption: 'Outline mark',
       },
     ],
+    guide: {
+      href: '/work/archovia-brand-identity.html',
+      sheets: [
+        {
+          src: '/assets/projects/archovia-sheet-construction.webp',
+          alt: 'Brand guide sheet A-102: the Archovia mark drawn on an isometric 30° grid with its modules, bar and gap units, clear space and minimum sizes',
+          caption: 'A-102 · Construction',
+        },
+        {
+          src: '/assets/projects/archovia-sheet-colour.webp',
+          alt: 'Brand guide sheet A-201: the nine-colour palette of ink, paper, concrete greys and oxblood, with area proportions and contrast ratings',
+          caption: 'A-201 · Colour',
+        },
+        {
+          src: '/assets/projects/archovia-sheet-applications.webp',
+          alt: 'Brand guide sheet A-701: the identity applied to the website, a business card, letterhead, social post, story and an oxblood studio plaque',
+          caption: 'A-701 · Applications',
+        },
+      ],
+    },
     deliverables: [
       'Logo & Brand Identity',
       'Brand Guidelines & Tokens',
