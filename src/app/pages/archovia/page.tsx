@@ -1,8 +1,8 @@
 import CaseStudy from '@/components/CaseStudy';
 import { caseStudyMetadata } from '@/lib/metadata';
 
-export const metadata = caseStudyMetadata('elite-exteriors');
+export const metadata = caseStudyMetadata('archovia');
 
 export default function Page() {
-  return <CaseStudy slug="elite-exteriors" />;
+  return <CaseStudy slug="archovia" />;
 }

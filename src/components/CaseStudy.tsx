@@ -155,6 +155,31 @@ export default function CaseStudy({ slug }: { slug: string }) {
           </div>
         )}
 
+        {project.gallery && (
+          <ul className="mx-auto grid max-w-5xl gap-4 px-5 pt-4 sm:grid-cols-3 sm:px-8 lg:px-0">
+            {project.gallery.map((g, i) => (
+              <motion.li
+                key={g.src}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-10% 0px' }}
+                transition={{ duration: 0.8, ease: EASE, delay: i * 0.08 }}
+              >
+                <figure>
+                  <div
+                    className="relative aspect-square overflow-hidden rounded-tile border border-ink-3"
+                    style={{ background: g.bg }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={g.src} alt={g.alt} loading="lazy" className={`absolute h-full w-full ${g.fill ? 'inset-0 object-cover' : 'inset-0 object-contain p-[18%]'}`} />
+                  </div>
+                  <figcaption className="label mt-3 text-mute">{g.caption}</figcaption>
+                </figure>
+              </motion.li>
+            ))}
+          </ul>
+        )}
+
         <div className="mx-auto grid max-w-[1440px] gap-16 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-24">
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <h2 className="label mb-6 text-mute">Deliverables</h2>

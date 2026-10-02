@@ -82,6 +82,15 @@ export type Testimonial = {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
+      'Working with Sam and Cheerio Studios was truly both enjoyable and easy. Sam managed the brand design and website design process beautifully, checking and testing everything multiple times. We wish him and his team continued success!',
+    author: 'Archovia',
+    context: 'Architecture & interior design studio',
+    rating: 5,
+    source: 'Google review, translated from Turkish',
+    projectSlug: 'archovia',
+  },
+  {
+    quote:
       'Working with Cheerio Studios was such a refreshing journey! They map out everything that needs to be done and work closely with you to make sure that everything is working like a charm!',
     author: 'Sinema ve Dijital Medya Topluluğu',
     context: 'BAIBÜ Cinema & Digital Media Society',
@@ -106,42 +115,69 @@ export type Project = {
   deliverables: string[];
   /** Screenshot of the live site, shown in a browser frame on the case study */
   preview?: { src: string; alt: string };
+  /** Brand assets shown as square tiles under the preview; bg fills around transparent images */
+  gallery?: { src: string; alt: string; bg: string; caption: string; fill?: boolean }[];
   sections: { heading: string; body: string }[];
 };
 
 export const PROJECTS: Project[] = [
   {
-    slug: 'elite-exteriors',
+    slug: 'archovia',
     num: '01',
-    title: 'Elite Exteriors',
-    glyphTitle: 'ELITE\nEXTERIORS',
-    client: 'Elite Exteriors VA',
-    role: 'Content Creator & Copywriter',
-    subtitle: 'Purposeful Copywriting & Inbound Storytelling',
+    title: 'Archovia',
+    glyphTitle: 'ARCHOVIA',
+    client: 'Archovia',
+    role: 'Brand & Web Designer, Developer',
+    subtitle: 'Brand Identity & Editorial Website for an Architecture Studio',
     summary:
-      'Researched homeowner concerns and built an educational content system — search-optimised, empathetic articles that answer real questions and guide readers toward services.',
-    link: 'https://www.elitexteriorsva.com/blog',
+      'A complete identity and a brutalist, editorial website for an architecture and interior design studio — an isometric mark, a drafting-inspired visual language and a fast, scroll-driven site.',
+    link: 'https://cheerios-design.github.io/archovia-website/',
     icon: 'steps',
+    preview: {
+      src: '/assets/projects/archovia-preview.webp',
+      alt: 'Homepage of the Archovia website, with the studio name in giant black type above a lakeside house',
+    },
+    gallery: [
+      {
+        src: '/assets/projects/archovia-lockup.webp',
+        alt: 'Archovia stacked logo lockup in off-white on near-black',
+        bg: '#0E0D0C',
+        caption: 'Stacked lockup',
+      },
+      {
+        src: '/assets/projects/archovia-avatar.webp',
+        alt: 'Archovia mark in off-white on an oxblood square',
+        bg: '#6E1A27',
+        caption: 'Oxblood avatar',
+        fill: true,
+      },
+      {
+        src: '/assets/projects/archovia-mark-outline.webp',
+        alt: 'Outline version of the Archovia mark, stacked chevrons on an isometric grid, in black on off-white',
+        bg: '#EFEBE4',
+        caption: 'Outline mark',
+      },
+    ],
     deliverables: [
-      'Inbound Blog Articles',
-      'Editorial Planning',
-      'Reader-Focused SEO',
-      'Layout Coordination',
-      'Conversion Copywriting',
-      'Trust-Building Strategy',
+      'Logo & Brand Identity',
+      'Brand Guidelines & Tokens',
+      'Web Design',
+      'Front-End Development',
+      'Motion Design',
+      'Accessibility',
     ],
     sections: [
       {
         heading: 'The Challenge',
-        body: 'Homeowners facing roofing issues often feel stressed and overwhelmed by options. The client needed helpful, trustworthy content that explained roofing and repair solutions clearly and empathetically, rather than aggressive advertising. The goal was to build a sustainable inbound channel that felt like a trusted advisor, rather than just another commercial company.',
+        body: 'Archovia was a young architecture, interior and product design studio with no consistent identity. Architecture studios sell with images, yet most of their websites look the same: a grid of photos and a contact page. Archovia needed a brand and a site that felt like the studio itself, precise, confident and crafted, without burying the work under effects or slowing it down.',
       },
       {
         heading: 'The Strategy',
-        body: 'Instead of posting generic marketing materials, I researched homeowner concerns and structured an educational content calendar of blog posts. I collaborated closely with our graphic designers and layout specialists to ensure that the final articles were visually structured and easy to read. Each article addressed real questions, incorporating SEO principles naturally so readers could easily find honest answers online.',
+        body: 'I borrowed the language of the drawing board. The mark is built on an isometric 30° grid, stacked chevrons that read as both a roofline and an "A", with strict rules for clear space and minimum size. The palette is mostly ink and paper, with oxblood used sparingly as the accent, and four free typefaces cover display, body, a single italic accent word and measurements. On the website, each section is a poster-style "plate", and the details come straight from technical drawings: dimension strings, level markers, grid axes and a floor plan that draws itself as you scroll.',
       },
       {
         heading: 'Execution & Results',
-        body: 'By publishing search-optimized, reader-first blog posts, the site began capturing high-value traffic directly at the point of decision. Rather than simple traffic gains, the copy was designed with clear micro-conversion hooks (instant quote estimates, inspection scheduling blocks), successfully transforming passive organic searchers into qualified sales inquiries and building a relationship of trust with local homeowners.',
+        body: 'The studio received a full brand kit: logo, lockup and wordmark variants in SVG and PNG, an app icon and social avatar, design tokens and a ten-sheet identity guide covering construction, colour, type, components and applications. The site is built on Astro with Tailwind CSS, GSAP and Lenis and ships as static pages. Curtain page transitions and magnetic buttons give it a tactile feel, while responsive WebP images, videos that only play when visible and self-hosted fonts keep it quick, and every animation switches off for visitors who prefer reduced motion.',
       },
     ],
   },
