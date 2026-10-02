@@ -67,6 +67,30 @@ export const SERVICES: { title: string; copy: string; icons: [IconName, IconName
   },
 ];
 
+export type Testimonial = {
+  quote: string;
+  author: string;
+  /** Who the author is, in English */
+  context: string;
+  rating: number;
+  source: string;
+  /** Case study this review belongs to, if any */
+  projectSlug?: string;
+};
+
+/** Add a review here and it appears on the homepage (and on its case study, if projectSlug is set) */
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    quote:
+      'Working with Cheerio Studios was such a refreshing journey! They map out everything that needs to be done and work closely with you to make sure that everything is working like a charm!',
+    author: 'Sinema ve Dijital Medya Topluluğu',
+    context: 'BAIBÜ Cinema & Digital Media Society',
+    rating: 5,
+    source: 'Google review',
+    projectSlug: 'baibu-cinema',
+  },
+];
+
 export type Project = {
   slug: string;
   num: string;

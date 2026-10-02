@@ -8,7 +8,8 @@ import Glyph, { StaticGlyph } from './glyph/Glyph';
 import CheerioLogo from './CheerioLogo';
 import Footer from './sections/Footer';
 import PixelBand from './sections/PixelBand';
-import { LIME, PROJECTS, SITE_URL } from '@/lib/site';
+import TestimonialCard from './TestimonialCard';
+import { LIME, PROJECTS, SITE_URL, TESTIMONIALS } from '@/lib/site';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -17,6 +18,7 @@ export default function CaseStudy({ slug }: { slug: string }) {
   const project = PROJECTS[index];
   const next = PROJECTS[(index + 1) % PROJECTS.length];
   const [nextHover, setNextHover] = useState(false);
+  const reviews = TESTIMONIALS.filter((t) => t.projectSlug === slug);
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
@@ -32,6 +34,12 @@ export default function CaseStudy({ slug }: { slug: string }) {
     keywords: project.deliverables.join(', '),
     creator: { '@id': `${SITE_URL}/#organization` },
     sourceOrganization: { '@type': 'Organization', name: project.client },
+    review: reviews.map((t) => ({
+      '@type': 'Review',
+      reviewBody: t.quote,
+      author: { '@type': 'Organization', name: t.author },
+      reviewRating: { '@type': 'Rating', ratingValue: t.rating, bestRating: 5 },
+    })),
   };
 
   return (
@@ -182,6 +190,9 @@ export default function CaseStudy({ slug }: { slug: string }) {
                 </div>
                 <p className="max-w-3xl text-lg leading-[1.8] text-paper/75">{s.body}</p>
               </motion.section>
+            ))}
+            {reviews.map((t) => (
+              <TestimonialCard key={t.author} testimonial={t} />
             ))}
           </div>
         </div>
