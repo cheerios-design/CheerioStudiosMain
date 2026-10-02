@@ -1,9 +1,7 @@
-import type { Metadata } from 'next';
 import CaseStudy from '@/components/CaseStudy';
+import { caseStudyMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'SDMT Cinema & Digital Media Society — Cheerio Studios',
-};
+export const metadata = caseStudyMetadata('baibu-cinema');
 
 export default function Page() {
   return <CaseStudy slug="baibu-cinema" />;

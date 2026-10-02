@@ -1,9 +1,7 @@
-import type { Metadata } from 'next';
 import CaseStudy from '@/components/CaseStudy';
+import { caseStudyMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Rising Generation — Cheerio Studios',
-};
+export const metadata = caseStudyMetadata('rising-generation');
 
 export default function Page() {
   return <CaseStudy slug="rising-generation" />;

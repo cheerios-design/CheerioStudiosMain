@@ -5,6 +5,19 @@ export const LIME = '#D4FF1F';
 
 export const SITE_URL = 'https://www.cheeriostudios.com';
 
+export const SITE_NAME = 'Cheerio Studios';
+
+export const SITE_DESCRIPTION =
+  'Cheerio Studios is a digital creative studio specializing in brand identity, web design & development, strategy & consulting, and digital asset management.';
+
+/** Link-preview card from brand-kit/web/og-image-1200x630.png */
+export const OG_IMAGE = {
+  url: '/brand/og-image.png',
+  width: 1200,
+  height: 630,
+  alt: 'Cheerio Studios — Digital Creative Studio',
+};
+
 export const EMAIL ='sam.d@cheeriostudios.com';
 
 export const CONTACT_LINKS = [
