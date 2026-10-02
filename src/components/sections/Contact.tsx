@@ -5,10 +5,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import GlyphText from '../glyph/GlyphText';
 import Glyph from '../glyph/Glyph';
 import Magnetic from '../chrome/Magnetic';
-import { CONTACT_LINKS, EMAIL } from '@/lib/site';
+import Link from 'next/link';
+import { BOOKING_URL, CONTACT_LINKS, EMAIL } from '@/lib/site';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const PAIN_POINTS = ['Brand Strategy', 'Content Systems', 'Search Visibility', 'Other'];
+const PAIN_POINTS = ['Free Website Audit', 'Brand Strategy', 'Content Systems', 'Search Visibility', 'Other'];
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -39,7 +40,7 @@ export default function Contact() {
 
     formData.append('access_key', '7287f88d-3d6d-44fd-9ee6-0145f76b5e2f');
     formData.append('subject', `New Project Brief from ${formData.get('name') || 'Portfolio'}`);
-    formData.append('from_name', 'Sam Daramroei Portfolio');
+    formData.append('from_name', 'Cheerio Studios Website');
 
     // Dynamically construct endpoint to avoid Windows Defender heuristic alerts
     const apiEndpoint = ['https://', 'api.', 'web3forms', '.com/submit'].join('');
@@ -85,6 +86,28 @@ export default function Contact() {
               Tell us where your current workflow is breaking down, and we&apos;ll shape a focused plan that brings
               strategy, visuals and execution together.
             </p>
+            <div className="flex flex-col gap-4 rounded-tile border border-ink/20 p-6">
+              <span className="label font-bold">Free 30-minute strategy session</span>
+              <p className="max-w-md leading-relaxed text-ink/75">
+                Rather talk it through? Pick a time and we&apos;ll look at your brand and website together, no strings
+                attached.
+              </p>
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label w-fit rounded-full bg-ink px-6 py-3.5 font-bold text-lime transition-opacity hover:opacity-85"
+              >
+                Book a call ↗
+              </a>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="label font-bold">Complimentary website audit</span>
+              <p className="max-w-md leading-relaxed text-ink/75">
+                Pick &ldquo;Free Website Audit&rdquo; in the form and share your URL. We&apos;ll send back the three fixes
+                that would make the biggest difference.
+              </p>
+            </div>
             <a href={`mailto:${EMAIL}`} className="group w-fit">
               <span className="label mb-2 block text-ink/60">Or email directly</span>
               <span className="relative font-display text-[clamp(1.3rem,2.6vw,2.2rem)] font-bold">
@@ -135,9 +158,21 @@ export default function Contact() {
               </div>
             </fieldset>
 
+            <Field label="Website (optional)">
+              <input type="url" name="website" placeholder="https://yoursite.com" className={inputClass} />
+            </Field>
+
             <Field label="Message">
               <textarea name="message" rows={4} required placeholder="The more context, the faster we can map your next move." className={`${inputClass} resize-none`} />
             </Field>
+
+            <p className="text-sm text-ink/60">
+              We only use your details to reply to you. See the{' '}
+              <Link href="/privacy/" className="underline underline-offset-2 hover:text-ink">
+                privacy policy
+              </Link>
+              .
+            </p>
 
             <div className="flex flex-wrap items-center gap-6">
               <Magnetic strength={0.25}>

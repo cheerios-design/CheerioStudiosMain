@@ -18,7 +18,10 @@ export const OG_IMAGE = {
   alt: 'Cheerio Studios — Digital Creative Studio',
 };
 
-export const EMAIL ='sam.d@cheeriostudios.com';
+export const EMAIL = 'sam.d@cheeriostudios.com';
+
+/** Calendly page for the free strategy session */
+export const BOOKING_URL = 'https://calendly.com/sam-d-cheeriostudios';
 
 export const CONTACT_LINKS = [
   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sam-daramroei/' },
@@ -46,6 +49,11 @@ export const SERVICES: { title: string; copy: string; icons: [IconName, IconName
     title: 'Asset Management',
     copy: 'One organised home for your brand materials, so every file your team grabs is the right one.',
     icons: ['grid', 'flower'],
+  },
+  {
+    title: 'Social & Content',
+    copy: 'Campaigns, interviews and social storytelling that give your community a reason to show up, then keep coming back.',
+    icons: ['heart', 'steps'],
   },
   {
     title: 'Maintenance & Support',

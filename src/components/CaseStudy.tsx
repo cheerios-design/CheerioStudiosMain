@@ -8,7 +8,7 @@ import Glyph, { StaticGlyph } from './glyph/Glyph';
 import CheerioLogo from './CheerioLogo';
 import Footer from './sections/Footer';
 import PixelBand from './sections/PixelBand';
-import { LIME, PROJECTS } from '@/lib/site';
+import { LIME, PROJECTS, SITE_URL } from '@/lib/site';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -21,8 +21,25 @@ export default function CaseStudy({ slug }: { slug: string }) {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    headline: project.subtitle,
+    description: project.summary,
+    url: `${SITE_URL}/pages/${project.slug}/`,
+    sameAs: project.link,
+    keywords: project.deliverables.join(', '),
+    creator: { '@id': `${SITE_URL}/#organization` },
+    sourceOrganization: { '@type': 'Organization', name: project.client },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
       {/* Reading progress */}
       <motion.div className="fixed left-0 top-0 z-[80] h-1 w-full origin-left bg-lime" style={{ scaleX: progress }} />
 

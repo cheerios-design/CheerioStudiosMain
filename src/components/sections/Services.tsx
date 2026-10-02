@@ -69,9 +69,9 @@ export default function Services() {
   return (
     <section id="services" className="relative bg-ink px-5 py-28 sm:px-8 sm:py-36">
       <div className="mx-auto max-w-[1440px]">
-        <SectionHeader index="02" note="What we do" title="SERVICES" count="06" size="min(8.5vw, 6rem)" />
+        <SectionHeader index="02" note="What we do" title="SERVICES" count={String(SERVICES.length).padStart(2, '0')} size="min(8.5vw, 6rem)" />
         <p className="mb-16 max-w-xl text-xl leading-relaxed text-mute sm:text-2xl">
-          Six disciplines, one studio. <span className="text-paper">Every piece is built to work with the others</span> —
+          Seven disciplines, one studio. <span className="text-paper">Every piece is built to work with the others</span> —
           that&apos;s what turns a brand into a system.
         </p>
         <ul>

@@ -4,7 +4,7 @@ import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
 import GlyphCursor from '@/components/chrome/GlyphCursor';
 import Menu from '@/components/chrome/Menu';
-import { CONTACT_LINKS, EMAIL, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site';
+import { CONTACT_LINKS, EMAIL, SERVICES, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-grotesk' });
@@ -84,7 +84,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'Organization',
+      '@type': ['Organization', 'ProfessionalService'],
       '@id': `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: SITE_URL,
@@ -92,7 +92,13 @@ const jsonLd = {
       image: `${SITE_URL}${OG_IMAGE.url}`,
       description: SITE_DESCRIPTION,
       email: EMAIL,
-      founder: { '@type': 'Person', name: 'Sam Daramroei' },
+      founder: {
+        '@type': 'Person',
+        name: 'Sam Daramroei',
+        jobTitle: 'Founder',
+        sameAs: ['https://www.linkedin.com/in/sam-daramroei/'],
+      },
+      knowsAbout: SERVICES.map((s) => s.title),
       sameAs: CONTACT_LINKS.filter((l) => l.url.startsWith('http')).map((l) => l.url),
     },
     {

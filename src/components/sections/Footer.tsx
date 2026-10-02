@@ -70,7 +70,9 @@ export default function Footer() {
 
         <div className="flex flex-col justify-between gap-2 border-t border-ink-3 py-6 sm:flex-row">
           <span className="label text-mute">© {year} Cheerio Studios</span>
-          <span className="label text-mute">Digital creative studio</span>
+          <a href="/privacy/" className="label text-mute transition-colors hover:text-lime">
+            Privacy policy
+          </a>
         </div>
       </div>
     </footer>
