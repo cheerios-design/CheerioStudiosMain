@@ -254,6 +254,46 @@ export const PROJECTS: Project[] = [
       src: '/assets/projects/sdmt-preview.webp',
       alt: 'Homepage of the SDMT website, with the headline "Film çekiyoruz" over a purple backdrop',
     },
+    gallery: [
+      {
+        src: '/assets/projects/sdmt-badge.webp',
+        alt: 'SDMT badge: a periwinkle camera aperture closing around an eye, ringed by the club name and "BAİBU . 2023"',
+        bg: '#15162A',
+        caption: 'Primary badge',
+      },
+      {
+        src: '/assets/projects/sdmt-lockup.webp',
+        alt: 'SDMT horizontal lockup: the aperture eye beside the SDMT wordmark, with the full club name beneath',
+        bg: '#FDFFFC',
+        caption: 'Horizontal lockup',
+      },
+      {
+        src: '/assets/projects/sdmt-badge-mono.webp',
+        alt: 'SDMT badge in single dark ink on a periwinkle background',
+        bg: '#92A2D3',
+        caption: 'Single ink on periwinkle',
+      },
+    ],
+    guide: {
+      href: '/work/sdmt-brand-identity.html',
+      sheets: [
+        {
+          src: '/assets/projects/sdmt-sheet-mark.webp',
+          alt: 'Brand guide sheet S-101: the SDMT badge explained as a ring of type, a seven-blade iris and an eye, with lockup, wordmark and app icon variants',
+          caption: 'S-101 · The mark & lockups',
+        },
+        {
+          src: '/assets/projects/sdmt-sheet-colour.webp',
+          alt: 'Brand guide sheet S-201: the nine-colour palette of ink, screen white, periwinkle and dusk indigo, with proportions, contrast ratings and band order',
+          caption: 'S-201 · Colour',
+        },
+        {
+          src: '/assets/projects/sdmt-sheet-applications.webp',
+          alt: 'Brand guide sheet S-701: the identity applied to the website, a lanyard badge, social post, story, reels cover and event ticket',
+          caption: 'S-701 · Applications',
+        },
+      ],
+    },
     deliverables: [
       'Brand Identity Guidelines',
       'Cohesive Layout Design',
