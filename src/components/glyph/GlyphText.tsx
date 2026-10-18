@@ -112,9 +112,13 @@ export default function GlyphText({
   className = '',
   style,
 }: GlyphTextProps) {
-  const ref = useRef<SVGSVGElement>(null);
+  const wrapRef = useRef<HTMLElement>(null);
   const reduce = !!useReducedMotion();
-  const inView = useInView(ref, { once: true, margin: '-6% 0px' });
+  const inView = useInView(wrapRef, { once: true, margin: '-6% 0px' });
+  // The cells only exist once the text is near the viewport: thousands of motion paths
+  // mounting up front is what blocks the main thread. They start hidden anyway, so
+  // mounting them a screen early is invisible.
+  const near = useInView(wrapRef, { once: true, margin: '100% 0px' });
   const [selfHover, setSelfHover] = useState(false);
 
   const { letters, width, height } = useMemo(
@@ -126,14 +130,32 @@ export default function GlyphText({
   const state = !inView && !reduce ? 'hidden' : isHovered ? 'hover' : 'shown';
   // `size` is the cap height of ONE line, so multi-line text scales per line, not per block
   const capsWide = (width + 0.1) / CAP;
+  const viewBox = `-0.05 -0.05 ${width + 0.1} ${height + 0.1}`;
+  const svgStyle: React.CSSProperties = {
+    display: 'block',
+    overflow: 'visible',
+    aspectRatio: `${width + 0.1} / ${height + 0.1}`,
+    height: 'auto',
+    width: fit === 'width' ? '100%' : `calc(${size} * ${capsWide.toFixed(4)})`,
+    maxWidth: '100%',
+    marginLeft: align === 'left' ? undefined : 'auto',
+    marginRight: align === 'center' ? 'auto' : undefined,
+  };
 
   return (
     // The hover colour lives on the plain wrapper: CSS variables on motion.svg don't reach the DOM
-    <Tag className={`block min-w-0 ${className}`} style={{ ...style, ['--glyph-hover' as string]: hoverColor }}>
+    <Tag
+      ref={wrapRef}
+      className={`block min-w-0 ${className}`}
+      style={{ ...style, ['--glyph-hover' as string]: hoverColor }}
+    >
       {!decorative && <span className="sr-only">{text}</span>}
+      {!near ? (
+        // Same box as the real thing, so nothing shifts when the cells mount
+        <svg viewBox={viewBox} aria-hidden="true" className="glyph-text" style={svgStyle} />
+      ) : (
       <motion.svg
-        ref={ref}
-        viewBox={`-0.05 -0.05 ${width + 0.1} ${height + 0.1}`}
+        viewBox={viewBox}
         aria-hidden="true"
         className="glyph-text"
         data-hover={isHovered || undefined}
@@ -141,16 +163,7 @@ export default function GlyphText({
         animate={state}
         onHoverStart={interactive ? () => setSelfHover(true) : undefined}
         onHoverEnd={interactive ? () => setSelfHover(false) : undefined}
-        style={{
-          display: 'block',
-          overflow: 'visible',
-          aspectRatio: `${width + 0.1} / ${height + 0.1}`,
-          height: 'auto',
-          width: fit === 'width' ? '100%' : `calc(${size} * ${capsWide.toFixed(4)})`,
-          maxWidth: '100%',
-          marginLeft: align === 'left' ? undefined : 'auto',
-          marginRight: align === 'center' ? 'auto' : undefined,
-        }}
+        style={svgStyle}
       >
         {letters.map((pieces, li) => (
           <motion.g key={li} custom={{ i: li, reduce }} variants={letterVariants}>
@@ -173,6 +186,7 @@ export default function GlyphText({
           </motion.g>
         ))}
       </motion.svg>
+      )}
     </Tag>
   );
 }

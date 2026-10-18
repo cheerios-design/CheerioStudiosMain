@@ -71,6 +71,8 @@ export default function Glyph({
   const reduceMotion = useReducedMotion();
   const hasEntered = useInView(ref, { once: true, margin: '-5% 0px' });
   const isVisible = useInView(ref);
+  // Cells mount a screen early and start invisible, so deferring them is unseen
+  const near = useInView(ref, { once: true, margin: '100% 0px' });
   const [step, setStep] = useState(0);
 
   const key = shapes.map((s) => (typeof s === 'string' ? s : s.join('|'))).join(',');
@@ -106,7 +108,7 @@ export default function Glyph({
       aria-hidden={title ? undefined : true}
     >
       {title && <title>{title}</title>}
-      {cells.map((cell, i) => {
+      {near && cells.map((cell, i) => {
         const visible = shown && cell.filled;
         const dist = Math.hypot(cell.x - mid, cell.y - mid);
         const d = reduceMotion ? 0 : (isFirstBuild ? delay : 0) + dist * (isFirstBuild ? 0.07 : 0.03);
