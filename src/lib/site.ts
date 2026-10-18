@@ -244,10 +244,10 @@ export const PROJECTS: Project[] = [
     title: 'SDMT Cinema & Digital Media Society',
     glyphTitle: 'SDMT CINEMA\n& DIGITAL MEDIA',
     client: 'BAIBÜ Cinema & Digital Media Society',
-    role: 'Visual Storyteller & Brand Designer',
-    subtitle: 'Creative Brand Storytelling & Multichannel Publishing',
+    role: 'Brand Designer & Full-Stack Developer',
+    subtitle: 'Brand Identity, Public Website & Club Management Panel',
     summary:
-      'Brand guidelines, review writing and design-led updates that turned a campus club into a thriving media hub.',
+      'A full identity, a cinematic public site and a role-based management panel that runs the club day to day — events and tickets, a cash ledger, applications, films and the team, all in one place.',
     link: 'https://baibusdmt.vercel.app/',
     icon: 'eye',
     preview: {
@@ -296,24 +296,36 @@ export const PROJECTS: Project[] = [
     },
     deliverables: [
       'Brand Identity Guidelines',
-      'Cohesive Layout Design',
-      'Cinema Review Writing',
-      'Visual Standards',
-      'Multichannel Publishing',
-      'Student Engagement',
+      'Public Website',
+      'Management Panel',
+      'Event Ticketing & QR Check-In',
+      'Role-Based Access & 2FA',
+      'Printable ID Badges',
     ],
     sections: [
       {
         heading: 'The Challenge',
-        body: 'The cinema and campus media club had a passionate core group of students, but struggled to share its excitement with the wider university student body. It lacked a cohesive visual identity and a clear layout strategy, making it difficult to spread awareness about events, reviews, and film screening schedules.',
+        body: 'The cinema and campus media club had a passionate core group of students, but no cohesive identity and no shared way of working. Events, payments, applications and team tasks lived in group chats and spreadsheets, so every screening night depended on a few people remembering everything — and the wider student body rarely heard about any of it.',
       },
       {
-        heading: 'The Strategy',
-        body: 'I developed a brand identity guidelines booklet that captured the artistic, community-driven spirit of the club. I coordinated closely with our design team to design visual templates and layout assets for campus posters and social graphics. I then wrote engaging film reviews, student-centered articles, and promotional campaigns to establish a friendly, conversational brand voice.',
+        heading: 'The Identity',
+        body: 'I designed the brand from the mark up: an aperture closing around an eye, a periwinkle-and-ink palette and a full guidelines booklet covering lockups, colour, type and applications — from social posts and reels covers to lanyard badges and event tickets. Print-ready ID badges came out of the same system, so the club looks like one team on screen and in person.',
       },
       {
-        heading: 'Execution & Results',
-        body: 'The new brand identity and coordinated layouts transformed the club into a prominent campus media entity. Engagement and student discussions on social channels grew significantly. Attracting new members became easy, and the club event nights became highly-attended social hubs, fostering student connection and community on campus.',
+        heading: 'The Website',
+        body: 'The public site carries the identity into motion: cinematic scroll effects, event pages with online registration, a page for the club\'s short films with full credits, the charter and a join form. Every public form is validated on the server, rate-limited and protected against bots, and the motion switches off for visitors who prefer reduced motion.',
+      },
+      {
+        heading: 'The Management Panel',
+        body: 'Behind the site sits a private panel that runs the club. The team publishes announcements, assigns tasks and manages events and drafts; registrations get a personal ticket page with a QR code, and at the door a phone camera scans tickets for check-in. A cash ledger tracks every payment and exports to CSV, applications can be reviewed and replied to straight from the panel, and the films, credits and team roster all update the public site without touching code.',
+      },
+      {
+        heading: 'Built to Be Trusted',
+        body: 'Three roles — member, management and the executive board — each see only what they need, and the rules are enforced in the database itself rather than just hidden in the interface. Accounts are invite-only with two-factor sign-in, the cash ledger can\'t be edited or deleted (mistakes are voided, not erased), every action is recorded in an audit log, and payment details only ever appear on a registrant\'s private ticket page. An automated test suite tries to break these rules every time the database changes.',
+      },
+      {
+        heading: 'Results',
+        body: 'The club now runs from one place instead of a dozen chats: new members apply and get answers online, event nights check in at the door in seconds, and the money is always accounted for. The identity turned a campus club into a recognisable media hub — and the panel means the next committee inherits a working system, not a pile of spreadsheets.',
       },
     ],
   },
