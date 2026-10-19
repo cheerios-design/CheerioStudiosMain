@@ -227,6 +227,47 @@ export default function CaseStudy({ slug }: { slug: string }) {
           </section>
         )}
 
+        {project.walkthrough && (
+          <section aria-labelledby="walkthrough-h" className="mx-auto max-w-5xl px-5 pt-20 sm:px-8 lg:px-0">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10% 0px' }}
+              transition={{ duration: 0.8, ease: EASE }}
+            >
+              <Link
+                href={project.walkthrough.href}
+                className="group grid overflow-hidden rounded-tile border border-ink-3 bg-ink-2 transition-colors hover:border-lime md:grid-cols-[1fr_1.15fr]"
+              >
+                <div className="flex flex-col justify-between gap-8 p-8 sm:p-10">
+                  <div>
+                    <p className="label mb-4 text-lime">( Walkthrough ) — 8 chapters</p>
+                    <h2 id="walkthrough-h" className="font-display text-[clamp(1.8rem,3.2vw,2.8rem)] font-bold uppercase leading-none tracking-tight">
+                      {project.walkthrough.title}
+                    </h2>
+                    <p className="mt-5 max-w-md text-lg leading-relaxed text-paper/75">{project.walkthrough.blurb}</p>
+                  </div>
+                  <span className="label inline-flex w-fit items-center gap-3 rounded-full bg-lime px-6 py-3.5 font-bold text-ink">
+                    Take the tour
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                      <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
+                    </span>
+                  </span>
+                </div>
+                <div className="relative min-h-56 overflow-hidden border-t border-ink-3 md:border-l md:border-t-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={project.walkthrough.image.src}
+                    alt={project.walkthrough.image.alt}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover object-left-top transition-transform duration-700 ease-glyph group-hover:scale-[1.03]"
+                  />
+                </div>
+              </Link>
+            </motion.div>
+          </section>
+        )}
+
         <div className="mx-auto grid max-w-[1440px] gap-16 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-24">
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <h2 className="label mb-6 text-mute">Deliverables</h2>

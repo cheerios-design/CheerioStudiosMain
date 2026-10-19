@@ -11,6 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly' as const,
       priority: 0.7,
     })),
+    ...PROJECTS.filter((p) => p.walkthrough).map((p) => ({
+      url: `${SITE_URL}${p.walkthrough!.href}`,
+      changeFrequency: 'yearly' as const,
+      priority: 0.6,
+    })),
     { url: `${SITE_URL}/privacy/`, changeFrequency: 'yearly', priority: 0.2 },
   ];
 }

@@ -119,6 +119,8 @@ export type Project = {
   gallery?: { src: string; alt: string; bg: string; caption: string; fill?: boolean }[];
   /** Full brand guide (a standalone page in public/) and a few of its sheets as screenshots */
   guide?: { href: string; sheets: { src: string; alt: string; caption: string }[] };
+  /** Interactive walkthrough subpage, featured as a card on the case study */
+  walkthrough?: { href: string; title: string; blurb: string; image: { src: string; alt: string } };
   sections: { heading: string; body: string }[];
 };
 
@@ -293,6 +295,15 @@ export const PROJECTS: Project[] = [
           caption: 'S-701 · Applications',
         },
       ],
+    },
+    walkthrough: {
+      href: '/pages/baibu-cinema/panel/',
+      title: 'Inside the panel',
+      blurb: 'Follow one film night through the management panel, from the first draft to the QR scan at the door, on the real interface with demo data.',
+      image: {
+        src: '/assets/projects/sdmt-panel/dashboard.webp',
+        alt: 'The SDMT panel overview with cash balance, payments waiting, new applications and the next event',
+      },
     },
     deliverables: [
       'Brand Identity Guidelines',
