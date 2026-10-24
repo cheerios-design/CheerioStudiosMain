@@ -110,7 +110,7 @@ function Frame({ beat, eager = false }: { beat: FlatBeat; eager?: boolean }) {
               transition={t}
             >
               <motion.span
-                className={`label absolute left-0 whitespace-nowrap rounded-full bg-lime px-3 py-1.5 font-bold text-ink ${
+                className={`label absolute ${beat.spot && beat.spot.x + beat.spot.w / 2 > VW / 2 ? 'right-0' : 'left-0'} whitespace-nowrap rounded-full bg-lime px-3 py-1.5 font-bold text-ink ${
                   ringTop > 0.14 ? '-top-10' : '-bottom-10'
                 }`}
                 key={beat.label}
@@ -154,7 +154,7 @@ export default function PanelStory() {
   const chapter = CHAPTERS[current.chapter];
 
   return (
-    <div className="mx-auto grid max-w-[1440px] gap-x-16 px-5 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
+    <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-x-16 px-5 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
       {/* Story column */}
       <ol className="flex flex-col">
         {CHAPTERS.map((c, ci) => (
