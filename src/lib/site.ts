@@ -25,7 +25,7 @@ export const EMAIL = 'sam.d@cheeriostudios.com';
  * Umami Cloud website ID (cookieless analytics, no consent banner needed).
  * Leave empty to switch analytics off; the script only loads when this is set.
  */
-export const UMAMI_WEBSITE_ID = '';
+export const UMAMI_WEBSITE_ID = '58e97d9e-8e99-4673-ac0b-3c66863266f7';
 
 /** Send a custom event to Umami. Never pass personal data (names, emails, messages). */
 export function track(event: string, data?: Record<string, string | number>) {
