@@ -121,6 +121,14 @@ export type Project = {
   guide?: { href: string; sheets: { src: string; alt: string; caption: string }[] };
   /** Interactive walkthrough subpage, featured as a card on the case study */
   walkthrough?: { href: string; title: string; blurb: string; image: { src: string; alt: string } };
+  /** Headline results, shown in big glyph numbers under the meta strip */
+  stats?: { value: string; label: string; note?: string }[];
+  /** Screens from the live site, each in a browser frame */
+  screens?: { src: string; alt: string; caption: string; path: string }[];
+  /** Same page before and after, compared with a drag slider */
+  comparisons?: { before: { src: string; alt: string }; after: { src: string; alt: string }; caption: string; path: string }[];
+  /** Small print under the results (data sources, caveats) */
+  footnote?: string;
   sections: { heading: string; body: string }[];
 };
 
@@ -337,6 +345,75 @@ export const PROJECTS: Project[] = [
       {
         heading: 'Results',
         body: 'The club now runs from one place instead of a dozen chats: new members apply and get answers online, event nights check in at the door in seconds, and the money is always accounted for. The identity turned a campus club into a recognisable media hub — and the panel means the next committee inherits a working system, not a pile of spreadsheets.',
+      },
+    ],
+  },
+  {
+    slug: 'key-leaves',
+    num: '04',
+    title: 'Key Leaves',
+    glyphTitle: 'KEY LEAVES',
+    client: 'Key Leaves',
+    role: 'Shopify Developer, UX Designer & Email Marketer',
+    subtitle: 'Shopify Storefront Rebuild & Klaviyo Email Program',
+    summary:
+      'A rebuilt Shopify storefront and email program for a saxophone and woodwind care brand: shop by instrument or by problem, clearer product pages and ten automated Klaviyo flows. In the first 92 days, sales rose 21% and orders 24%.',
+    link: 'https://keyleaves.com/',
+    icon: 'bolt',
+    preview: {
+      src: '/assets/projects/key-leaves/home.webp',
+      alt: 'Key Leaves homepage with green "Explore Solutions" and "All Instruments" cards beside illustrated saxophone tiles and a row of instrument icons',
+    },
+    stats: [
+      { value: '+21%', label: 'Total sales', note: '92 days vs the 92 before' },
+      { value: '+24%', label: 'Orders', note: '92 days vs the 92 before' },
+      { value: '+47%', label: 'Shoppers reaching checkout', note: '92 days vs the 92 before' },
+      { value: '+282%', label: 'Email-attributed revenue', note: 'Last 30 days vs the 30 before' },
+    ],
+    screens: [
+      {
+        src: '/assets/projects/key-leaves/collection.webp',
+        alt: 'Key Leaves saxophone collection page with a filter sidebar for instrument type, alto, tenor, soprano and bari, and solution, beside product cards with add-to-cart buttons',
+        caption: 'Shop by instrument, down to alto, tenor, soprano or bari',
+        path: 'collections/saxophone',
+      },
+      {
+        src: '/assets/projects/key-leaves/product.webp',
+        alt: 'RULON Saxophone Thumb Rest product page with a photo gallery, price, finish options as pill buttons and an add-to-cart button',
+        caption: 'Product pages built from reusable, metafield-driven sections',
+        path: 'products/rulon-ergonomic-saxophone-thumb-hook-rest',
+      },
+    ],
+    footnote:
+      'Sources: Shopify Analytics and the Klaviyo dashboard, figures pulled 28 Oct 2026. Measured period 28 Jul – 27 Oct 2026, against 27 Apr – 27 Jul 2026. The measured period includes back-to-school, so part of the lift is seasonal.',
+    deliverables: [
+      'Shopify Theme Development',
+      'UX & Conversion Design',
+      'Collection Filtering',
+      'Klaviyo Email Flows',
+      'Analytics & UTM Tracking',
+      'No-Code Editable Sections',
+    ],
+    sections: [
+      {
+        heading: 'The Brief',
+        body: 'Key Leaves makes saxophone and woodwind care products, from key props and the RULON thumb rest to the Barinana bari sax cleaner, for players from first-year students to touring professionals. On 28 July 2026 Cheerio Studios took over the Shopify storefront and the email program, with one job: help each player find the right gear for their instrument and their problem and make email a real sales channel.',
+      },
+      {
+        heading: 'The Storefront',
+        body: 'Between 31 August and 9 October we shipped more than 120 theme changes. Shoppers can now browse by instrument (alto, tenor, soprano, bari and more) or by the problem they want solved, with filters that live in shareable URLs and a drawer on phones. Product cards and product pages were rebuilt around tabbed, metafield-driven content, with a sticky add-to-cart bar and add to cart that never leaves the page. A new homepage, a reviews and awards page, a field-test proof page, an artist directory, a teachers page and a dealer locator give hesitant buyers reasons to trust the brand.',
+      },
+      {
+        heading: 'A System the Client Can Run',
+        body: 'Everything sits on one shared stylesheet and type system, and the new sections are reusable blocks the Key Leaves team can edit in Shopify without touching code. B2B application, contact, 404 and blog templates came out of the same system, so new pages look like the rest of the store from day one.',
+      },
+      {
+        heading: 'Email That Earns',
+        body: 'We restyled the newsletter sign-up to match the site and fixed its mobile layout, then put ten Klaviyo flows live: welcome, abandoned cart and checkout, browse abandonment, product cross-sells and sunset flows that clean out subscribers who never engage, which protects deliverability. UTM tagging on every campaign now makes email revenue visible in Google Analytics. In the latest 30 days, email-attributed revenue rose 282% and welcome-series revenue 330%.',
+      },
+      {
+        heading: 'Results',
+        body: 'Over the first 92 days, total sales rose 21% and orders 24% against the 92 days before. More shoppers add to cart (+32%) and more of them carry on to checkout (+47%), lifting the cart-to-checkout rate from 65% to 73%. The trend is still climbing: in the 28 days after the redesigned pages went live, net sales rose 29% and average order value 49%. Reported sessions also jumped, but part of that is bot traffic and a change in how Shopify counts visits, so we judge success by orders, revenue and the cart funnel.',
       },
     ],
   },

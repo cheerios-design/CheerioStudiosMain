@@ -9,9 +9,26 @@ import CheerioLogo from './CheerioLogo';
 import Footer from './sections/Footer';
 import PixelBand from './sections/PixelBand';
 import TestimonialCard from './TestimonialCard';
+import BeforeAfter from './BeforeAfter';
 import { LIME, PROJECTS, SITE_URL, TESTIMONIALS } from '@/lib/site';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Browser chrome bar shown above screenshots */
+function Chrome({ host, path }: { host: string; path?: string }) {
+  return (
+    <div className="flex items-center gap-4 border-b border-ink-3 px-4 py-3">
+      <span className="flex gap-1.5" aria-hidden>
+        {[0, 1, 2].map((i) => (
+          <span key={i} className="h-2.5 w-2.5 rounded-full bg-ink-3" />
+        ))}
+      </span>
+      <span className="note min-w-0 flex-1 truncate text-mute">
+        {host}/{path && <span className="text-paper">{path}</span>}
+      </span>
+    </div>
+  );
+}
 
 export default function CaseStudy({ slug }: { slug: string }) {
   const index = PROJECTS.findIndex((p) => p.slug === slug);
@@ -115,6 +132,34 @@ export default function CaseStudy({ slug }: { slug: string }) {
           </dl>
         </div>
 
+        {project.stats && (
+          <section aria-labelledby="results-h" className="px-5 pt-24 sm:px-8">
+            <div className="mx-auto max-w-[1440px]">
+              <h2 id="results-h" className="label mb-10 text-mute">( Results at a glance )</h2>
+              <dl className="grid gap-px overflow-hidden rounded-tile border border-ink-3 bg-ink-3 sm:grid-cols-2 lg:grid-cols-4">
+                {project.stats.map((st, i) => (
+                  <motion.div
+                    key={st.label}
+                    className="flex flex-col gap-3 bg-ink p-8"
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: EASE, delay: i * 0.08 }}
+                  >
+                    <dt className="order-2 text-lg text-paper/80">{st.label}</dt>
+                    <dd className="order-1">
+                      <GlyphText text={st.value} size="clamp(2.6rem, 5vw, 4.4rem)" className="text-lime" hoverColor="var(--color-paper)" decorative interactive />
+                      <span className="sr-only">{st.value}</span>
+                    </dd>
+                    {st.note && <dd className="order-3 note text-mute">{st.note}</dd>}
+                  </motion.div>
+                ))}
+              </dl>
+              {project.footnote && <p className="mt-6 max-w-3xl text-sm leading-relaxed text-mute">{project.footnote}</p>}
+            </div>
+          </section>
+        )}
+
         {project.preview && (
           <div className="px-5 pt-24 sm:px-8">
             <motion.a
@@ -153,6 +198,49 @@ export default function CaseStudy({ slug }: { slug: string }) {
               />
             </motion.a>
           </div>
+        )}
+
+        {project.comparisons && (
+          <section aria-labelledby="compare-h" className="mx-auto max-w-5xl px-5 pt-20 sm:px-8 lg:px-0">
+            <h2 id="compare-h" className="label mb-3 text-lime">( Before / After )</h2>
+            <p className="mb-8 max-w-xl text-lg leading-relaxed text-paper/75">Drag across each page to compare the old store with the rebuild.</p>
+            <ul className="flex flex-col gap-12">
+              {project.comparisons.map((c) => (
+                <li key={c.after.src}>
+                  <figure>
+                    <div className="overflow-hidden rounded-tile border border-ink-3 bg-ink-2">
+                      <Chrome host={project.link.replace(/^https?:\/\//, '').replace(/\/$/, '')} path={c.path} />
+                      <BeforeAfter before={c.before} after={c.after} label={c.caption} />
+                    </div>
+                    <figcaption className="label mt-3 text-mute">{c.caption}</figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.screens && (
+          <ul className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-5 pt-4 sm:px-8 md:grid-cols-2 lg:px-0">
+            {project.screens.map((sc, i) => (
+              <motion.li
+                key={sc.src}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-10% 0px' }}
+                transition={{ duration: 0.8, ease: EASE, delay: i * 0.08 }}
+              >
+                <figure>
+                  <div className="overflow-hidden rounded-tile border border-ink-3 bg-ink-2">
+                    <Chrome host={project.link.replace(/^https?:\/\//, '').replace(/\/$/, '')} path={sc.path} />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={sc.src} alt={sc.alt} width={1388} height={868} loading="lazy" className="block h-auto w-full" />
+                  </div>
+                  <figcaption className="label mt-3 text-mute">{sc.caption}</figcaption>
+                </figure>
+              </motion.li>
+            ))}
+          </ul>
         )}
 
         {project.gallery && (
