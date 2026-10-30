@@ -115,7 +115,7 @@ export default function PanelWalkthrough() {
             </div>
             <div className="flex flex-wrap gap-3">
               <Magnetic strength={0.25}>
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="label inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 font-bold text-lime">
+                <a href={BOOKING_URL} data-umami-event="Book a call" data-umami-event-from="panel-walkthrough" target="_blank" rel="noopener noreferrer" className="label inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 font-bold text-lime">
                   Book a free strategy call
                   <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
                 </a>

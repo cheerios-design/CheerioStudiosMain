@@ -121,7 +121,7 @@ export default function CaseStudy({ slug }: { slug: string }) {
             <div>
               <dt className="label mb-2 text-mute">Live</dt>
               <dd>
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 font-display text-lg font-bold text-lime">
+                <a href={project.link} data-umami-event="Visit project" data-umami-event-project={project.slug} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 font-display text-lg font-bold text-lime">
                   Visit project
                   <span className="transition-transform duration-300 group-hover:-rotate-45">
                     <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
@@ -164,6 +164,8 @@ export default function CaseStudy({ slug }: { slug: string }) {
           <div className="px-5 pt-24 sm:px-8">
             <motion.a
               href={project.link}
+              data-umami-event="Visit project"
+              data-umami-event-project={project.slug}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Open the live ${project.title} site`}

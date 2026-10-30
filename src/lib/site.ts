@@ -21,6 +21,18 @@ export const OG_IMAGE = {
 export const EMAIL = 'sam.d@cheeriostudios.com';
 
 /** Calendly page for the free strategy session */
+/**
+ * Umami Cloud website ID (cookieless analytics, no consent banner needed).
+ * Leave empty to switch analytics off; the script only loads when this is set.
+ */
+export const UMAMI_WEBSITE_ID = '';
+
+/** Send a custom event to Umami. Never pass personal data (names, emails, messages). */
+export function track(event: string, data?: Record<string, string | number>) {
+  if (typeof window === 'undefined') return;
+  (window as unknown as { umami?: { track: (e: string, d?: object) => void } }).umami?.track(event, data);
+}
+
 export const BOOKING_URL = 'https://calendly.com/sam-d-cheeriostudios';
 
 export const CONTACT_LINKS = [

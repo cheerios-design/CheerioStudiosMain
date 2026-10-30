@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Inter, Space_Grotesk, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
 import GlyphCursor from '@/components/chrome/GlyphCursor';
 import Menu from '@/components/chrome/Menu';
-import { CONTACT_LINKS, EMAIL, SERVICES, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site';
+import { CONTACT_LINKS, EMAIL, SERVICES, OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, UMAMI_WEBSITE_ID } from '@/lib/site';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-grotesk' });
@@ -129,6 +130,9 @@ export default function RootLayout({
           <GlyphCursor />
         </SmoothScroll>
       </body>
+      {UMAMI_WEBSITE_ID && (
+        <Script src="https://cloud.umami.is/script.js" data-website-id={UMAMI_WEBSITE_ID} data-domains="www.cheeriostudios.com" strategy="afterInteractive" />
+      )}
     </html>
   );
 }

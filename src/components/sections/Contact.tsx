@@ -6,7 +6,7 @@ import GlyphText from '../glyph/GlyphText';
 import Glyph from '../glyph/Glyph';
 import Magnetic from '../chrome/Magnetic';
 import Link from 'next/link';
-import { BOOKING_URL, CONTACT_LINKS, EMAIL } from '@/lib/site';
+import { BOOKING_URL, CONTACT_LINKS, EMAIL, track } from '@/lib/site';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const PAIN_POINTS = ['Free Website Audit', 'Brand Strategy', 'Content Systems', 'Search Visibility', 'Other'];
@@ -50,12 +50,15 @@ export default function Contact() {
       const data = await response.json();
       if (data.success) {
         setStatus('success');
+        track('Brief submitted', { topic: String(formData.get('painPoint') || 'none') });
         form.reset();
       } else {
         setStatus('error');
+        track('Brief failed');
       }
     } catch {
       setStatus('error');
+      track('Brief failed');
     }
   };
 
@@ -94,6 +97,8 @@ export default function Contact() {
               </p>
               <a
                 href={BOOKING_URL}
+                data-umami-event="Book a call"
+                data-umami-event-from="contact"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="label w-fit rounded-full bg-ink px-6 py-3.5 font-bold text-lime transition-opacity hover:opacity-85"
@@ -108,7 +113,7 @@ export default function Contact() {
                 that would make the biggest difference.
               </p>
             </div>
-            <a href={`mailto:${EMAIL}`} className="group w-fit">
+            <a href={`mailto:${EMAIL}`} data-umami-event="Email click" className="group w-fit">
               <span className="label mb-2 block text-ink/60">Or email directly</span>
               <span className="relative font-display text-[clamp(1.3rem,2.6vw,2.2rem)] font-bold">
                 {EMAIL}
