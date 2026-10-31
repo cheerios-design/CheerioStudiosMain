@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/privacy/' },
 };
 
-const UPDATED = '30 October 2026';
+const UPDATED = '31 October 2026';
 
 const SECTIONS: { heading: string; body: string[] }[] = [
   {
@@ -36,7 +36,7 @@ const SECTIONS: { heading: string; body: string[] }[] = [
   {
     heading: 'Who processes it',
     body: [
-      'Form messages are delivered by Web3Forms and stored in our email inbox. Bookings are handled by Calendly. Visit statistics are processed by Umami. The site is hosted on GitHub Pages. These providers may process data outside your country under their own safeguards, such as standard contractual clauses.',
+      'Form messages are delivered by Web3Forms and stored in our email inbox. To keep bots out, the form uses hCaptcha, which checks that a person is sending it and may process technical data such as your IP address and browser details. Bookings are handled by Calendly. Visit statistics are processed by Umami. The site is hosted on GitHub Pages. These providers may process data outside your country under their own safeguards, such as standard contractual clauses.',
     ],
   },
   {

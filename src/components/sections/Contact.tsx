@@ -1,17 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { AnimatePresence, motion } from 'framer-motion';
 import GlyphText from '../glyph/GlyphText';
 import Glyph from '../glyph/Glyph';
 import Magnetic from '../chrome/Magnetic';
 import Link from 'next/link';
 import { BOOKING_URL, CONTACT_LINKS, EMAIL, track } from '@/lib/site';
+import { LIMITS, PAIN_POINTS, checkBrief, toPayload } from '@/lib/brief';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const PAIN_POINTS = ['Free Website Audit', 'Brand Strategy', 'Content Systems', 'Search Visibility', 'Other'];
+/** Web3Forms access key. It is public by design; hCaptcha (enabled in the Web3Forms dashboard) stops it being used without a person. */
+const ACCESS_KEY = '7287f88d-3d6d-44fd-9ee6-0145f76b5e2f';
+/** Web3Forms' shared hCaptcha site key for free plans */
+const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
 
-type Status = 'idle' | 'submitting' | 'success' | 'error';
+type Status = 'idle' | 'submitting' | 'success' | 'error' | 'invalid';
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -31,27 +36,55 @@ export default function Contact() {
   const [status, setStatus] = useState<Status>('idle');
   const [submitHover, setSubmitHover] = useState(false);
 
+  const [problem, setProblem] = useState('');
+  const [captcha, setCaptcha] = useState('');
+  const captchaRef = useRef<HCaptcha>(null);
+  const startedAt = useRef<number | null>(null);
+
+  const markStart = () => {
+    if (startedAt.current === null) startedAt.current = Date.now();
+  };
+
+  const resetCaptcha = () => {
+    setCaptcha('');
+    captchaRef.current?.resetCaptcha();
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus('submitting');
-
     const form = e.currentTarget;
-    const formData = new FormData(form);
+    const check = checkBrief(new FormData(form), startedAt.current, Date.now());
 
-    formData.append('access_key', '7287f88d-3d6d-44fd-9ee6-0145f76b5e2f');
-    formData.append('subject', `New Project Brief from ${formData.get('name') || 'Portfolio'}`);
-    formData.append('from_name', 'Cheerio Studios Website');
+    if (!check.ok && check.reason === 'bot') {
+      // Look successful to the bot, send nothing
+      setStatus('success');
+      form.reset();
+      return;
+    }
+    if (!check.ok) {
+      setProblem(check.message);
+      setStatus('invalid');
+      (form.elements.namedItem(check.field) as HTMLElement | null)?.focus();
+      return;
+    }
+    if (!captcha) {
+      setProblem('Please complete the check above the button.');
+      setStatus('invalid');
+      return;
+    }
 
+    setStatus('submitting');
     // Dynamically construct endpoint to avoid Windows Defender heuristic alerts
     const apiEndpoint = ['https://', 'api.', 'web3forms', '.com/submit'].join('');
 
     try {
-      const response = await fetch(apiEndpoint, { method: 'POST', body: formData });
+      const response = await fetch(apiEndpoint, { method: 'POST', body: toPayload(check.brief, ACCESS_KEY, captcha) });
       const data = await response.json();
       if (data.success) {
         setStatus('success');
-        track('Brief submitted', { topic: String(formData.get('painPoint') || 'none') });
+        track('Brief submitted', { topic: check.brief.painPoint || 'none' });
         form.reset();
+        startedAt.current = null;
       } else {
         setStatus('error');
         track('Brief failed');
@@ -59,6 +92,8 @@ export default function Contact() {
     } catch {
       setStatus('error');
       track('Brief failed');
+    } finally {
+      resetCaptcha();
     }
   };
 
@@ -135,18 +170,19 @@ export default function Contact() {
             </div>
           </div>
 
-          <form name="project-brief" method="POST" onSubmit={handleSubmit} className="flex flex-col gap-9">
-            <input type="hidden" name="form-name" value="project-brief" />
+          <form name="project-brief" method="POST" onSubmit={handleSubmit} onFocus={markStart} className="flex flex-col gap-9">
+            {/* Honeypot: hidden from people and screen readers; bots that fill every field tick it */}
+            <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" style={{ display: 'none' }} />
             <div className="grid gap-9 sm:grid-cols-2">
               <Field label="Name">
-                <input type="text" name="name" required placeholder="Your name" className={inputClass} />
+                <input type="text" name="name" required minLength={2} maxLength={LIMITS.name} autoComplete="name" placeholder="Your name" className={inputClass} />
               </Field>
               <Field label="Company">
-                <input type="text" name="company" placeholder="Where you work" className={inputClass} />
+                <input type="text" name="company" maxLength={LIMITS.company} autoComplete="organization" placeholder="Where you work" className={inputClass} />
               </Field>
             </div>
             <Field label="Email">
-              <input type="email" name="email" required placeholder="you@company.com" className={inputClass} />
+              <input type="email" name="email" required maxLength={LIMITS.email} autoComplete="email" placeholder="you@company.com" className={inputClass} />
             </Field>
 
             <fieldset>
@@ -164,11 +200,11 @@ export default function Contact() {
             </fieldset>
 
             <Field label="Website (optional)">
-              <input type="url" name="website" placeholder="https://yoursite.com" className={inputClass} />
+              <input type="text" inputMode="url" name="website" maxLength={LIMITS.website} autoComplete="url" placeholder="https://yoursite.com" className={inputClass} />
             </Field>
 
             <Field label="Message">
-              <textarea name="message" rows={4} required placeholder="The more context, the faster we can map your next move." className={`${inputClass} resize-none`} />
+              <textarea name="message" rows={4} required minLength={10} maxLength={LIMITS.message} placeholder="The more context, the faster we can map your next move." className={`${inputClass} resize-none`} />
             </Field>
 
             <p className="text-sm text-ink/60">
@@ -178,6 +214,15 @@ export default function Contact() {
               </Link>
               .
             </p>
+
+            <HCaptcha
+              ref={captchaRef}
+              sitekey={HCAPTCHA_SITEKEY}
+              reCaptchaCompat={false}
+              onVerify={setCaptcha}
+              onExpire={() => setCaptcha('')}
+              onError={() => setCaptcha('')}
+            />
 
             <div className="flex flex-wrap items-center gap-6">
               <Magnetic strength={0.25}>
@@ -208,6 +253,19 @@ export default function Contact() {
                   >
                     <Glyph shapes={['smiley']} size={28} />
                     Brief received — we&apos;ll be in touch.
+                  </motion.p>
+                )}
+                {status === 'invalid' && (
+                  <motion.p
+                    key="invalid"
+                    role="alert"
+                    className="flex items-center gap-3 font-display font-bold"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <Glyph shapes={['close']} size={22} radius={0.5} />
+                    {problem}
                   </motion.p>
                 )}
                 {status === 'error' && (
