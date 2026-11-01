@@ -138,6 +138,7 @@ export type Project = {
   /** Screens from the live site, each in a browser frame */
   screens?: { src: string; alt: string; caption: string; path: string }[];
   /** Same page before and after, compared with a drag slider */
+  comparisonNote?: string;
   comparisons?: { before: { src: string; alt: string }; after: { src: string; alt: string }; caption: string; path: string }[];
   /** Small print under the results (data sources, caveats) */
   footnote?: string;
@@ -382,20 +383,27 @@ export const PROJECTS: Project[] = [
       { value: '+47%', label: 'Shoppers reaching checkout', note: '92 days vs the 92 before' },
       { value: '+282%', label: 'Email-attributed revenue', note: 'Last 30 days vs the 30 before' },
     ],
-    screens: [
+    comparisons: [
       {
-        src: '/assets/projects/key-leaves/collection.webp',
-        alt: 'Key Leaves saxophone collection page with a filter sidebar for instrument type, alto, tenor, soprano and bari, and solution, beside product cards with add-to-cart buttons',
-        caption: 'Shop by instrument, down to alto, tenor, soprano or bari',
+        before: { src: '/assets/projects/key-leaves/home-before.webp', alt: 'The old Key Leaves homepage: a plain "Shop by instrument" row of icons above a grid of product photos' },
+        after: { src: '/assets/projects/key-leaves/home.webp', alt: 'The new Key Leaves homepage: green "Explore Solutions" and "All Instruments" cards beside illustrated tiles for Clean & Protect, Comfort & Fit and Learn & Play' },
+        caption: 'Homepage',
+        path: '',
+      },
+      {
+        before: { src: '/assets/projects/key-leaves/collection-before.webp', alt: 'The old saxophone collection page with a plain filter list and outlined add-to-cart buttons' },
+        after: { src: '/assets/projects/key-leaves/collection.webp', alt: 'The new saxophone collection page with grouped instrument and solution filters, an active-filter chip and solid green add-to-cart buttons' },
+        caption: 'Saxophone collection',
         path: 'collections/saxophone',
       },
       {
-        src: '/assets/projects/key-leaves/product.webp',
-        alt: 'RULON Saxophone Thumb Rest product page with a photo gallery, price, finish options as pill buttons and an add-to-cart button',
-        caption: 'Product pages built from reusable, metafield-driven sections',
+        before: { src: '/assets/projects/key-leaves/product-before.webp', alt: 'The old RULON thumb rest product page with finishes in a dropdown and a black add-to-cart button' },
+        after: { src: '/assets/projects/key-leaves/product.webp', alt: 'The new RULON thumb rest product page with finishes as pill buttons, a free-shipping note and a green add-to-cart button' },
+        caption: 'Product page',
         path: 'products/rulon-ergonomic-saxophone-thumb-hook-rest',
       },
     ],
+    comparisonNote: 'Before: the theme that was live until the redesign launched on 7 October 2026. After: the store today.',
     footnote:
       'Sources: Shopify Analytics and the Klaviyo dashboard, figures pulled 28 Oct 2026. Measured period 28 Jul – 27 Oct 2026, against 27 Apr – 27 Jul 2026. The measured period includes back-to-school, so part of the lift is seasonal.',
     deliverables: [

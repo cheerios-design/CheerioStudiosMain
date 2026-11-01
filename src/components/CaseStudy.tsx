@@ -205,7 +205,8 @@ export default function CaseStudy({ slug }: { slug: string }) {
         {project.comparisons && (
           <section aria-labelledby="compare-h" className="mx-auto max-w-5xl px-5 pt-20 sm:px-8 lg:px-0">
             <h2 id="compare-h" className="label mb-3 text-lime">( Before / After )</h2>
-            <p className="mb-8 max-w-xl text-lg leading-relaxed text-paper/75">Drag across each page to compare the old store with the rebuild.</p>
+            <p className="mb-2 max-w-xl text-lg leading-relaxed text-paper/75">Drag across each page to compare the old store with the rebuild.</p>
+            {project.comparisonNote && <p className="note mb-8 max-w-xl text-mute">{project.comparisonNote}</p>}
             <ul className="flex flex-col gap-12">
               {project.comparisons.map((c) => (
                 <li key={c.after.src}>
