@@ -10,13 +10,13 @@ import type { IconName } from '@/lib/glyph/icons';
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const MANIFESTO =
-  "We don't just design. We build *systems* that make your brand *inevitable.* Most businesses confuse having a website with having a *presence.* The gap between those two things is where we work.";
+  'We design the *brand,* build the *website* and set up the *tools* your team runs it with, so one studio answers for all of it.';
 
 const VALUES: { title: string; copy: string; icons: [IconName, IconName] }[] = [
   { title: 'Intentional', copy: 'Every decision has a reason you can point to. Nothing is there just to fill space.', icons: ['target', 'sparkle'] },
-  { title: 'Systems first', copy: 'We build repeatable systems, not one-off pieces — so the brand compounds over time.', icons: ['grid', 'plus'] },
-  { title: 'Bold, but flexible', copy: 'Strong ideas that still bend to fit the platform, the audience and the moment.', icons: ['bolt', 'x'] },
-  { title: 'In it for the long run', copy: 'Partnerships, not transactions. We stay on after launch day.', icons: ['heart', 'smiley'] },
+  { title: 'Systems first', copy: 'You get the guide, tokens and templates behind the work, so new pages match without us.', icons: ['grid', 'plus'] },
+  { title: 'Built to measure', copy: 'We agree what success looks like up front and report against it: orders, sign-ups, enquiries.', icons: ['bolt', 'x'] },
+  { title: 'After launch', copy: 'Maintenance and support stay with the team that built it, not a hand-off.', icons: ['heart', 'smiley'] },
 ];
 
 function Word({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
@@ -27,7 +27,7 @@ function Word({ word, progress, range }: { word: string; progress: MotionValue<n
 
   return (
     <motion.span style={{ opacity, y }} className={`mr-[0.25em] inline-block ${accent ? 'text-lime' : ''}`}>
-      {accent ? <span className="font-serif font-normal italic">{text}</span> : text}
+      {text}
     </motion.span>
   );
 }
@@ -82,7 +82,7 @@ export default function About() {
 
           <div className="relative mx-auto w-full max-w-[1440px]">
             {/* Same pattern as SectionHeader, compact so the manifesto fits the pinned screen */}
-            <span className="label mb-4 block text-lime">( 04 ) — Who we are</span>
+            <span className="label mb-4 block text-lime">( 04 )</span>
             <GlyphText as="h2" text="ABOUT" size="clamp(2rem, 4vw, 3.4rem)" interactive className="mb-10 text-paper" />
             <p className="max-w-[20ch] font-display text-[clamp(1.7rem,min(5.4vw,6.2svh),5.5rem)] font-bold uppercase leading-[1.02] tracking-tight sm:max-w-[26ch]">
               {words.map((w, i) => {
@@ -95,15 +95,6 @@ export default function About() {
       </div>
 
       <div className="mx-auto max-w-[1440px] px-5 pb-20 sm:px-8">
-        <div className="mb-12 grid gap-6 sm:grid-cols-2 sm:items-end">
-          <p className="note text-[clamp(1.4rem,2.4vw,2rem)] text-paper">
-            We work at the intersection of design and technology — one studio, one vision, every pixel intentional.
-          </p>
-          <p className="leading-relaxed text-mute sm:justify-self-end sm:max-w-sm">
-            If your digital presence doesn&apos;t have a documented architecture with defensible goals, you&apos;re
-            not executing a strategy — you&apos;re decorating. We build the systems. The brand compounds.
-          </p>
-        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {VALUES.map((v, i) => (
             <ValueTile key={v.title} value={v} index={i} />

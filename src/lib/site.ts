@@ -213,15 +213,15 @@ export const PROJECTS: Project[] = [
     ],
     sections: [
       {
-        heading: 'The Challenge',
+        heading: 'A Studio That Looked Like Every Other',
         body: 'Archovia was a young architecture, interior and product design studio with no consistent identity. Architecture studios sell with images, yet most of their websites look the same: a grid of photos and a contact page. Archovia needed a brand and a site that felt like the studio itself, precise, confident and crafted, without burying the work under effects or slowing it down.',
       },
       {
-        heading: 'The Strategy',
+        heading: 'Drawn on an Isometric Grid',
         body: 'I borrowed the language of the drawing board. The mark is built on an isometric 30° grid, stacked chevrons that read as both a roofline and an "A", with strict rules for clear space and minimum size. The palette is mostly ink and paper, with oxblood used sparingly as the accent, and four free typefaces cover display, body, a single italic accent word and measurements. On the website, each section is a poster-style "plate", and the details come straight from technical drawings: dimension strings, level markers, grid axes and a floor plan that draws itself as you scroll.',
       },
       {
-        heading: 'Execution & Results',
+        heading: 'What the Studio Took Home',
         body: 'The studio received a full brand kit: logo, lockup and wordmark variants in SVG and PNG, an app icon and social avatar, design tokens and a ten-sheet identity guide covering construction, colour, type, components and applications. The site is built on Astro with Tailwind CSS, GSAP and Lenis and ships as static pages. Curtain page transitions and magnetic buttons give it a tactile feel, while responsive WebP images, videos that only play when visible and self-hosted fonts keep it quick, and every animation switches off for visitors who prefer reduced motion.',
       },
     ],
@@ -235,29 +235,27 @@ export const PROJECTS: Project[] = [
     role: 'Community Coordinator & Cross-Cultural Writer',
     subtitle: 'Global Community Engagement & Cross-Cultural Storytelling',
     summary:
-      'Interviews and social campaigns that put members at the centre — unifying chapter communication across Europe and driving registration for global events.',
+      'Member interviews, social campaigns and newsletters built around the people in the network, plus templates so regional leaders across Europe could post in the same voice.',
     link: 'https://www.instagram.com/risinggeneurope/',
     icon: 'flower',
     deliverables: [
       'Student & Mentor Interviews',
-      'Multi-Cultural Content',
-      'Global Engagement',
-      'Newsletter Campaigns',
-      'Social Storytelling',
-      'Team Collaboration',
+      'Social Media Campaigns',
+      'Newsletter Updates',
+      'Regional Template Packages',
     ],
     sections: [
       {
-        heading: 'The Challenge',
-        body: 'Rising Gen Europe connects young adults from dozens of countries and languages. The organization struggled to build deep, personal connections and maintain a unified digital communication system. They needed an inspiring, cross-border storytelling approach to help members feel welcome and motivate them to participate in large-scale summits and events.',
+        heading: 'Dozens of Countries, One Feed',
+        body: "Rising Gen Europe connects young adults across dozens of countries and languages. Its channels were mostly announcements, so members rarely saw themselves in them, and each regional chapter shared updates its own way. The goal was to get more members to the summits and events.",
       },
       {
-        heading: 'The Strategy',
-        body: 'Instead of focusing on broadcast announcements, I centered our content on the community members themselves. I conducted interviews with students, mentors, and local leaders to bring authentic, personal stories to the forefront. I drafted engaging social media campaigns and structured newsletter updates that celebrated cultural diversity, and designed template packages so regional leaders could easily share updates in their own community spaces.',
+        heading: 'Members Tell the Story',
+        body: "I interviewed students, mentors and local leaders and built the social campaigns and newsletter updates around their own words instead of announcements. I also designed template packages so regional leaders could share updates in their own communities and still look like one organisation.",
       },
       {
-        heading: 'Execution & Results',
-        body: 'The story-driven approach created a supportive and cohesive online community. By highlighting student journeys and mentor perspectives, we saw significantly higher registrations and check-ins at global summits. Sharing authentic voices created a lasting sense of belonging and collaboration, strengthening community bonds across Europe.',
+        heading: 'What Changed',
+        body: "Content shifted from broadcasts to member stories, and regional chapters posted from shared templates. Registrations and check-ins at the global summits went up after the story-led campaigns ran.",
       },
     ],
   },

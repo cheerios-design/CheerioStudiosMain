@@ -101,7 +101,7 @@ export default function Contact() {
     <section id="contact" className="relative overflow-hidden bg-lime px-5 py-24 text-ink sm:px-8 sm:py-32">
       <div className="mx-auto max-w-[1440px]">
         <div className="mb-6 flex items-center justify-between">
-          <span className="label font-bold">( 05 ) — Get in touch</span>
+          <span className="label font-bold">( 05 )</span>
           <span className="note text-ink/60">( Currently booking new projects )</span>
         </div>
 

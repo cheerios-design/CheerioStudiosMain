@@ -16,7 +16,7 @@ export default function Work() {
   return (
     <section id="work" className="relative bg-ink px-5 py-28 sm:px-8 sm:py-36">
       <div className="mx-auto max-w-[1440px]">
-        <SectionHeader index="03" note="Selected projects" title="WORK" count="03" size="min(24vw, 15rem)" />
+        <SectionHeader index="03" title="WORK" count={String(PROJECTS.length).padStart(2, '0')} size="min(24vw, 15rem)" />
 
         <ul onPointerLeave={() => setActive(null)}>
           {PROJECTS.map((p, i) => {
@@ -52,7 +52,7 @@ export default function Work() {
                       {p.title}
                     </h3>
                   </motion.div>
-                  <div className="col-span-2 flex flex-col gap-5 md:col-span-1 md:max-w-xs md:items-end md:text-right">
+                  <div className="col-span-2 flex flex-col gap-5 md:col-span-1 md:max-w-xs md:items-end">
                     <p className="leading-relaxed text-mute">{p.summary}</p>
                     <span className="label flex items-center gap-3 text-paper">
                       Case study

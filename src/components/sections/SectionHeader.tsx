@@ -8,13 +8,14 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 interface SectionHeaderProps {
   index: string;
   title: string;
-  note: string;
+  /** Only when it adds something the title does not say */
+  note?: string;
   count?: string;
   size?: string;
   tone?: 'dark' | 'lime';
 }
 
-// "( 02 ) — What we do" + a big glyph-type title
+// "( 02 )" + a big glyph-type title
 export default function SectionHeader({ index, title, note, count, size = 'min(15vw, 10rem)', tone = 'dark' }: SectionHeaderProps) {
   const accent = tone === 'dark' ? 'text-lime' : 'text-ink';
   const muted = tone === 'dark' ? 'text-mute' : 'text-ink/60';
@@ -28,7 +29,7 @@ export default function SectionHeader({ index, title, note, count, size = 'min(1
         viewport={{ once: true, margin: '-10% 0px' }}
         transition={{ duration: 0.7, ease: EASE }}
       >
-        <span className={`label ${accent}`}>( {index} ) — {note}</span>
+        <span className={`label ${accent}`}>( {index} ){note && ` — ${note}`}</span>
         {count && <span className={`note ${muted}`}>( {count} )</span>}
       </motion.div>
       <GlyphText
