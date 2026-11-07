@@ -25,7 +25,7 @@ export type Beat = {
   body: string;
 };
 
-export type Chapter = { num: string; kicker: string; title: string; beats: Beat[] };
+export type Chapter = { num: string; title: string; beats: Beat[] };
 
 const S = '/assets/projects/sdmt-panel';
 
@@ -54,7 +54,6 @@ export const INTRO = {
 export const CHAPTERS: Chapter[] = [
   {
     num: '01',
-    kicker: 'Before',
     title: 'Life in the group chat',
     beats: [
       {
@@ -66,7 +65,6 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     num: '02',
-    kicker: 'Call time',
     title: 'The overview',
     beats: [
       {
@@ -85,7 +83,6 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     num: '03',
-    kicker: 'Opening night',
     title: 'Publishing an event',
     beats: [
       {
@@ -105,7 +102,6 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     num: '04',
-    kicker: 'Tickets, please',
     title: 'From sign-up to the door',
     beats: [
       {
@@ -145,7 +141,6 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     num: '05',
-    kicker: 'Follow the money',
     title: 'The cash ledger',
     beats: [
       {
@@ -172,7 +167,6 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     num: '06',
-    kicker: 'The crew',
     title: 'People and work',
     beats: [
       {
@@ -205,7 +199,6 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     num: '07',
-    kicker: 'Behind the scenes',
     title: 'Built to be trusted',
     beats: [
       {
@@ -232,7 +225,6 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     num: '08',
-    kicker: 'Encore',
     title: 'The films',
     beats: [
       {

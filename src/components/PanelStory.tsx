@@ -162,8 +162,7 @@ export default function PanelStory() {
             <div className="mb-10 flex items-center gap-5">
               <GlyphText text={c.num} size="clamp(2.4rem, 4vw, 3.4rem)" className="text-lime" hoverColor="var(--color-paper)" decorative interactive />
               <div>
-                <p className="label mb-1 text-mute">{c.kicker}</p>
-                <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.4rem)] font-bold uppercase leading-none tracking-tight">{c.title}</h2>
+                <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.4rem)] font-bold uppercase leading-none tracking-tight text-balance">{c.title}</h2>
               </div>
             </div>
             <ol className="flex flex-col">
@@ -184,7 +183,7 @@ export default function PanelStory() {
                     <div className="lg:hidden">
                       <Frame beat={flat} />
                     </div>
-                    <div className={`transition-opacity duration-500 lg:max-w-md ${on ? 'lg:opacity-100' : 'lg:opacity-35'}`}>
+                    <div className={`transition-opacity duration-500 lg:max-w-md ${on ? 'lg:opacity-100' : 'lg:opacity-60'}`}>
                       <p className="label mb-3 flex items-center gap-2 text-lime">
                         <StaticGlyph shape="sparkle" size={12} />
                         {b.label}
@@ -203,7 +202,7 @@ export default function PanelStory() {
       <div className="hidden lg:block">
         <div className="sticky top-[max(6rem,calc(50vh-24rem))] pb-24">
           <div className="mb-5 flex items-end justify-between gap-6">
-            <p className="label text-mute">
+            <p className="label tabular-nums text-mute">
               <span className="text-lime">{chapter.num}</span> / 0{CHAPTERS.length} · {chapter.title}
             </p>
             <div className="flex gap-1.5" aria-hidden>
@@ -218,7 +217,6 @@ export default function PanelStory() {
             </div>
           </div>
           <Frame beat={current} eager />
-          <p className="note mt-4 text-mute">The real panel, in Turkish, with fictional demo data.</p>
         </div>
       </div>
     </div>

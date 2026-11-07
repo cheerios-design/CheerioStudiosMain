@@ -270,7 +270,7 @@ export const PROJECTS: Project[] = [
     role: 'Brand Designer & Full-Stack Developer',
     subtitle: 'Brand Identity, Public Website & Club Management Panel',
     summary:
-      'A full identity, a cinematic public site and a role-based management panel that runs the club day to day — events and tickets, a cash ledger, applications, films and the team, all in one place.',
+      'An identity, a public site and the management panel the club runs on: events and door check-in, a cash ledger, applications, films and the team behind one sign-in.',
     link: 'https://baibusdmt.vercel.app/',
     icon: 'eye',
     preview: {
@@ -336,28 +336,24 @@ export const PROJECTS: Project[] = [
     ],
     sections: [
       {
-        heading: 'The Challenge',
-        body: 'The cinema and campus media club had a passionate core group of students, but no cohesive identity and no shared way of working. Events, payments, applications and team tasks lived in group chats and spreadsheets, so every screening night depended on a few people remembering everything — and the wider student body rarely heard about any of it.',
+        heading: 'Chats Were the Whole System',
+        body: 'The cinema and digital media club had a committed core team and no shared way of working. Events, bank-transfer payments, applications and team tasks were spread across group chats and spreadsheets, so every screening depended on a few people remembering everything. The club also had no identity of its own to put on a poster.',
       },
       {
-        heading: 'The Identity',
-        body: 'I designed the brand from the mark up: an aperture closing around an eye, a periwinkle-and-ink palette and a full guidelines booklet covering lockups, colour, type and applications — from social posts and reels covers to lanyard badges and event tickets. Print-ready ID badges came out of the same system, so the club looks like one team on screen and in person.',
+        heading: 'An Aperture That Becomes an Eye',
+        body: 'The mark reads from the outside in: a ring of type, a seven-blade iris and a pupil, so the camera and the person behind it are drawn as one object. Around it sits a nine-colour palette of ink, screen white, periwinkle and dusk indigo, and a ten-sheet guide covering lockups, type and applications, from reels covers to the lanyard badges the team wears at events.',
       },
       {
-        heading: 'The Website',
-        body: 'The public site carries the identity into motion: cinematic scroll effects, event pages with online registration, a page for the club\'s short films with full credits, the charter and a join form. Every public form is validated on the server, rate-limited and protected against bots, and the motion switches off for visitors who prefer reduced motion.',
+        heading: 'Registration on the Event Page',
+        body: 'The public site carries that identity into motion and does the club\'s front-of-house work: event pages where students reserve a seat, a page for the club\'s short films with full credits, the charter and a join form. Every public form is checked on the server, rate-limited and trapped for bots, and the motion switches off for visitors who ask for reduced motion.',
       },
       {
-        heading: 'The Management Panel',
-        body: 'Behind the site sits a private panel that runs the club. The team publishes announcements, assigns tasks and manages events and drafts; registrations get a personal ticket page with a QR code, and at the door a phone camera scans tickets for check-in. A cash ledger tracks every payment and exports to CSV, applications can be reviewed and replied to straight from the panel, and the films, credits and team roster all update the public site without touching code.',
+        heading: 'One Panel Behind It',
+        body: 'The club runs from a private panel with 11 sections behind one sign-in: events and tickets, a cash ledger, applications, tasks, announcements, films and members. Three roles see only what they need, and the database enforces that, not just the menu. The walkthrough above follows one film night through it.',
       },
       {
-        heading: 'Built to Be Trusted',
-        body: 'Three roles — member, management and the executive board — each see only what they need, and the rules are enforced in the database itself rather than just hidden in the interface. Accounts are invite-only with two-factor sign-in, the cash ledger can\'t be edited or deleted (mistakes are voided, not erased), every action is recorded in an audit log, and payment details only ever appear on a registrant\'s private ticket page. An automated test suite tries to break these rules every time the database changes.',
-      },
-      {
-        heading: 'Results',
-        body: 'The club now runs from one place instead of a dozen chats: new members apply and get answers online, event nights check in at the door in seconds, and the money is always accounted for. The identity turned a campus club into a recognisable media hub — and the panel means the next committee inherits a working system, not a pile of spreadsheets.',
+        heading: 'What the Club Has Now',
+        body: 'Members apply on the site and get a reply from the panel. Tickets are confirmed, emailed and scanned at the door from one screen, and every lira goes into a ledger that can\'t be edited after the fact. The next committee inherits the system and the brand together, with the guide to keep both consistent.',
       },
     ],
   },
