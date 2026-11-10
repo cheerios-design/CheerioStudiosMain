@@ -125,12 +125,14 @@ export type Project = {
   link: string;
   icon: IconName;
   deliverables: string[];
+  /** Client logo on its own brand background: homepage logo wall and case study overview. Without one, the client name is set in type. */
+  logo?: { src: string; alt: string; bg: string; width: number; height: number };
   /** Screenshot of the live site, shown in a browser frame on the case study */
   preview?: { src: string; alt: string };
   /** Brand assets shown as square tiles under the preview; bg fills around transparent images */
   gallery?: { src: string; alt: string; bg: string; caption: string; fill?: boolean }[];
   /** Full brand guide (a standalone page in public/) and a few of its sheets as screenshots */
-  guide?: { href: string; sheets: { src: string; alt: string; caption: string }[] };
+  guide?: { href: string; sheets: { src: string; alt: string; caption: string; width: number; height: number }[] };
   /** Interactive walkthrough subpage, featured as a card on the case study */
   walkthrough?: { href: string; title: string; blurb: string; image: { src: string; alt: string } };
   /** Headline results, shown in big glyph numbers under the meta strip */
@@ -158,6 +160,13 @@ export const PROJECTS: Project[] = [
       'A complete identity and a brutalist, editorial website for an architecture and interior design studio — an isometric mark, a drafting-inspired visual language and a fast, scroll-driven site.',
     link: 'https://cheerios-design.github.io/archovia-website/',
     icon: 'steps',
+    logo: {
+      src: '/assets/projects/archovia-lockup.webp',
+      alt: 'Archovia logo',
+      bg: '#0E0D0C',
+      width: 1200,
+      height: 1119,
+    },
     preview: {
       src: '/assets/projects/archovia-preview.webp',
       alt: 'Homepage of the Archovia website, with the studio name in giant black type above a lakeside house',
@@ -188,16 +197,22 @@ export const PROJECTS: Project[] = [
       sheets: [
         {
           src: '/assets/projects/archovia-sheet-construction.webp',
+          width: 1400,
+          height: 1000,
           alt: 'Brand guide sheet A-102: the Archovia mark drawn on an isometric 30° grid with its modules, bar and gap units, clear space and minimum sizes',
           caption: 'A-102 · Construction',
         },
         {
           src: '/assets/projects/archovia-sheet-colour.webp',
+          width: 1400,
+          height: 1100,
           alt: 'Brand guide sheet A-201: the nine-colour palette of ink, paper, concrete greys and oxblood, with area proportions and contrast ratings',
           caption: 'A-201 · Colour',
         },
         {
           src: '/assets/projects/archovia-sheet-applications.webp',
+          width: 1400,
+          height: 1100,
           alt: 'Brand guide sheet A-701: the identity applied to the website, a business card, letterhead, social post, story and an oxblood studio plaque',
           caption: 'A-701 · Applications',
         },
@@ -271,6 +286,13 @@ export const PROJECTS: Project[] = [
       'An identity, a public site and the management panel the club runs on: events and door check-in, a cash ledger, applications, films and the team behind one sign-in.',
     link: 'https://baibusdmt.vercel.app/',
     icon: 'eye',
+    logo: {
+      src: '/assets/projects/sdmt-lockup.webp',
+      alt: 'SDMT logo',
+      bg: '#FDFFFC',
+      width: 1400,
+      height: 452,
+    },
     preview: {
       src: '/assets/projects/sdmt-preview.webp',
       alt: 'Homepage of the SDMT website, with the headline "Film çekiyoruz" over a purple backdrop',
@@ -300,16 +322,22 @@ export const PROJECTS: Project[] = [
       sheets: [
         {
           src: '/assets/projects/sdmt-sheet-mark.webp',
+          width: 1400,
+          height: 1000,
           alt: 'Brand guide sheet S-101: the SDMT badge explained as a ring of type, a seven-blade iris and an eye, with lockup, wordmark and app icon variants',
           caption: 'S-101 · The mark & lockups',
         },
         {
           src: '/assets/projects/sdmt-sheet-colour.webp',
+          width: 1400,
+          height: 1100,
           alt: 'Brand guide sheet S-201: the nine-colour palette of ink, screen white, periwinkle and dusk indigo, with proportions, contrast ratings and band order',
           caption: 'S-201 · Colour',
         },
         {
           src: '/assets/projects/sdmt-sheet-applications.webp',
+          width: 1400,
+          height: 1100,
           alt: 'Brand guide sheet S-701: the identity applied to the website, a lanyard badge, social post, story, reels cover and event ticket',
           caption: 'S-701 · Applications',
         },
@@ -347,7 +375,7 @@ export const PROJECTS: Project[] = [
       },
       {
         heading: 'One Panel Behind It',
-        body: 'The club runs from a private panel with 11 sections behind one sign-in: events and tickets, a cash ledger, applications, tasks, announcements, films and members. Three roles see only what they need, and the database enforces that, not just the menu. The walkthrough above follows one film night through it.',
+        body: 'The club runs from a private panel with 11 sections behind one sign-in: events and tickets, a cash ledger, applications, tasks, announcements, films and members. Three roles see only what they need, and the database enforces that, not just the menu. The walkthrough follows one film night through it.',
       },
       {
         heading: 'What the Club Has Now',
@@ -367,6 +395,13 @@ export const PROJECTS: Project[] = [
       'A rebuilt Shopify storefront and email program for a saxophone and woodwind care brand: shop by instrument or by problem, clearer product pages and ten automated Klaviyo flows. In the first 92 days, sales rose 21% and orders 24%.',
     link: 'https://keyleaves.com/',
     icon: 'bolt',
+    logo: {
+      src: '/assets/projects/key-leaves/logo.webp',
+      alt: 'Key Leaves logo',
+      bg: '#FFFFFF',
+      width: 1200,
+      height: 285,
+    },
     preview: {
       src: '/assets/projects/key-leaves/home.webp',
       alt: 'Key Leaves homepage with green "Explore Solutions" and "All Instruments" cards beside illustrated saxophone tiles and a row of instrument icons',

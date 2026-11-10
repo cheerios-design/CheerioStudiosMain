@@ -1,32 +1,194 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import GlyphText from './glyph/GlyphText';
 import Glyph, { StaticGlyph } from './glyph/Glyph';
 import CheerioLogo from './CheerioLogo';
 import Footer from './sections/Footer';
 import PixelBand from './sections/PixelBand';
 import TestimonialCard from './TestimonialCard';
-import BeforeAfter from './BeforeAfter';
-import { LIME, PROJECTS, SITE_URL, TESTIMONIALS } from '@/lib/site';
+import ProjectLogo from './ProjectLogo';
+import Chapter, { EASE, type ChapterMeta } from './case-study/Chapter';
+import ChapterRail from './case-study/ChapterRail';
+import ScrollLede from './case-study/ScrollLede';
+import BrowserChrome, { hostOf } from './case-study/BrowserChrome';
+import Compare from './case-study/Compare';
+import GuideReel from './case-study/GuideReel';
+import Story from './case-study/Story';
+import { LIME, PROJECTS, SITE_URL, TESTIMONIALS, type Project } from '@/lib/site';
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const CHAPTERS_ID = 'chapters';
 
-/** Browser chrome bar shown above screenshots */
-function Chrome({ host, path }: { host: string; path?: string }) {
+/**
+ * Every case study is built from the same chapters, always in this order.
+ * A project only shows the ones it has material for, and they are numbered as they appear.
+ */
+function chaptersFor(project: Project, hasReviews: boolean): ChapterMeta[] {
+  const list = [
+    { id: 'overview', label: 'Overview', show: true },
+    { id: 'results', label: 'Results', show: !!project.stats },
+    { id: 'website', label: 'Website', show: !!project.preview || !!project.screens },
+    { id: 'identity', label: 'Identity', show: !!project.gallery },
+    { id: 'guide', label: 'Brand guide', show: !!project.guide },
+    { id: 'compare', label: 'Before / After', show: !!project.comparisons },
+    { id: 'panel', label: 'Panel', show: !!project.walkthrough },
+    { id: 'story', label: 'Story', show: true },
+    { id: 'review', label: 'Review', show: hasReviews },
+  ].filter((c) => c.show);
+  const total = String(list.length).padStart(2, '0');
+  return list.map((c, i) => ({ id: c.id, label: c.label, num: String(i + 1).padStart(2, '0'), total }));
+}
+
+/** The live site in a browser frame that grows into place as it is scrolled to */
+function Website({ project }: { project: Project }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'center center'] });
+  const scale = useTransform(scrollYProgress, [0, 1], [0.86, 1]);
+  const zoom = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
+  const host = hostOf(project.link);
+
   return (
-    <div className="flex items-center gap-4 border-b border-ink-3 px-4 py-3">
-      <span className="flex gap-1.5" aria-hidden>
-        {[0, 1, 2].map((i) => (
-          <span key={i} className="h-2.5 w-2.5 rounded-full bg-ink-3" />
-        ))}
-      </span>
-      <span className="note min-w-0 flex-1 truncate text-mute">
-        {host}/{path && <span className="text-paper">{path}</span>}
-      </span>
-    </div>
+    <>
+      {project.preview && (
+        <div ref={ref} className="mx-auto max-w-6xl">
+          <motion.a
+            href={project.link}
+            data-umami-event="Visit project"
+            data-umami-event-project={project.slug}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open the live ${project.title} site`}
+            className="group block origin-top overflow-hidden rounded-tile border border-ink-3 bg-ink-2 transition-colors duration-300 hover:border-lime"
+            style={reduce ? undefined : { scale }}
+          >
+            <BrowserChrome host={host}>
+              <span className="text-lime transition-transform duration-300 group-hover:-rotate-45" aria-hidden>
+                <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
+              </span>
+            </BrowserChrome>
+            <div className="overflow-hidden">
+              <motion.img
+                src={project.preview.src}
+                alt={project.preview.alt}
+                width={1440}
+                height={900}
+                loading="lazy"
+                className="block h-auto w-full"
+                style={reduce ? undefined : { scale: zoom }}
+              />
+            </div>
+          </motion.a>
+        </div>
+      )}
+
+      {project.screens && (
+        <ul className="mx-auto mt-6 grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
+          {project.screens.map((sc, i) => (
+            <motion.li
+              key={sc.src}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10% 0px' }}
+              transition={{ duration: 0.8, ease: EASE, delay: (i % 2) * 0.08 }}
+            >
+              <figure>
+                <div className="overflow-hidden rounded-tile border border-ink-3 bg-ink-2">
+                  <BrowserChrome host={host} path={sc.path} />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={sc.src} alt={sc.alt} width={1388} height={868} loading="lazy" className="block h-auto w-full" />
+                </div>
+                <figcaption className="label mt-3 text-mute">{sc.caption}</figcaption>
+              </figure>
+            </motion.li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+/** Logo tiles that drift at slightly different speeds as the page scrolls */
+function Identity({ gallery }: { gallery: NonNullable<Project['gallery']> }) {
+  const ref = useRef<HTMLUListElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const up = useTransform(scrollYProgress, [0, 1], [36, -36]);
+  const down = useTransform(scrollYProgress, [0, 1], [-28, 28]);
+
+  return (
+    <ul ref={ref} className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-6">
+      {gallery.map((g, i) => (
+        <motion.li key={g.src} className={i === 0 ? 'col-span-2 sm:col-span-1' : undefined} style={reduce ? undefined : { y: i % 2 ? down : up }}>
+          <motion.figure
+            initial={{ opacity: 0, scale: 0.92 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-10% 0px' }}
+            transition={{ duration: 0.9, ease: EASE, delay: i * 0.1 }}
+          >
+            <div
+              className={`group relative overflow-hidden rounded-tile border border-ink-3 ${i === 0 ? 'aspect-[2/1] sm:aspect-square' : 'aspect-square'}`}
+              style={{ background: g.bg }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={g.src}
+                alt={g.alt}
+                loading="lazy"
+                className={`absolute inset-0 h-full w-full transition-transform duration-700 ease-glyph group-hover:scale-[1.06] ${
+                  g.fill ? 'object-cover' : 'object-contain p-[18%]'
+                }`}
+              />
+            </div>
+            <figcaption className="label mt-3 text-mute">{g.caption}</figcaption>
+          </motion.figure>
+        </motion.li>
+      ))}
+    </ul>
+  );
+}
+
+/** Entry card for the interactive walkthrough subpage */
+function PanelCard({ walkthrough }: { walkthrough: NonNullable<Project['walkthrough']> }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '-12%']);
+
+  return (
+    <motion.div
+      ref={ref}
+      className="mx-auto max-w-6xl"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-10% 0px' }}
+      transition={{ duration: 0.8, ease: EASE }}
+    >
+      <Link
+        href={walkthrough.href}
+        aria-label={`${walkthrough.title}: take the tour`}
+        className="group relative block overflow-hidden rounded-tile border border-ink-3 bg-ink-2 transition-colors duration-300 hover:border-lime"
+      >
+        <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/9]">
+          <motion.img
+            src={walkthrough.image.src}
+            alt={walkthrough.image.alt}
+            loading="lazy"
+            className="absolute inset-x-0 top-0 h-[115%] w-full object-cover object-left-top"
+            style={reduce ? undefined : { y }}
+          />
+          <span className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent" aria-hidden />
+        </div>
+        <span className="label absolute bottom-5 left-5 inline-flex items-center gap-3 rounded-full bg-lime px-6 py-3.5 font-bold text-ink sm:bottom-8 sm:left-8">
+          Take the tour
+          <span className="transition-transform duration-300 group-hover:translate-x-1">
+            <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
+          </span>
+        </span>
+      </Link>
+    </motion.div>
   );
 }
 
@@ -36,9 +198,20 @@ export default function CaseStudy({ slug }: { slug: string }) {
   const next = PROJECTS[(index + 1) % PROJECTS.length];
   const [nextHover, setNextHover] = useState(false);
   const reviews = TESTIMONIALS.filter((t) => t.projectSlug === slug);
+  const reduce = useReducedMotion();
+
+  const chapters = useMemo(() => chaptersFor(project, reviews.length > 0), [project, reviews.length]);
+  const meta = (id: string) => chapters.find((c) => c.id === id)!;
+  const host = hostOf(project.link);
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
+
+  // The title drifts down and fades as the hero scrolls away
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroY = useTransform(heroProgress, [0, 1], [0, 140]);
+  const heroOpacity = useTransform(heroProgress, [0, 0.85], [1, 0]);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -67,11 +240,13 @@ export default function CaseStudy({ slug }: { slug: string }) {
       />
       {/* Reading progress */}
       <motion.div className="fixed left-0 top-0 z-[80] h-1 w-full origin-left bg-lime" style={{ scaleX: progress }} />
+      <ChapterRail chapters={chapters} wrapperId={CHAPTERS_ID} />
 
       <main className="bg-ink">
-        <header className="dot-grid relative px-5 pb-16 pt-6 sm:px-8">
-          <div className="mx-auto max-w-[1440px]">
-            <div className="mb-20 flex items-center justify-between pr-20">
+        {/* Hero: number, title and one line. Everything else waits for the chapters. */}
+        <header ref={heroRef} className="dot-grid relative flex min-h-[100svh] flex-col px-5 pb-10 pt-6 sm:px-8">
+          <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col">
+            <div className="flex items-center justify-between pr-20">
               <Link href="/" className="group flex items-center gap-3">
                 <CheerioLogo size={28} color={LIME} className="transition-transform duration-500 ease-glyph group-hover:rotate-180" />
                 <span className="label text-paper">Cheerio Studios</span>
@@ -81,66 +256,117 @@ export default function CaseStudy({ slug }: { slug: string }) {
               </Link>
             </div>
 
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-              <GlyphText text={project.num} size="clamp(4rem, 12vw, 10rem)" className="text-lime" hoverColor="var(--color-paper)" decorative interactive />
-              <motion.span
-                className="grid h-24 w-24 place-items-center rounded-tile bg-lime text-ink sm:h-32 sm:w-32"
-                initial={{ scale: 0, rotate: -30 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.3 }}
+            <motion.div className="mt-auto pt-20" style={reduce ? undefined : { y: heroY, opacity: heroOpacity }}>
+              <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+                <GlyphText text={project.num} size="clamp(4rem, 12vw, 10rem)" className="text-lime" hoverColor="var(--color-paper)" decorative interactive />
+                <motion.span
+                  className="grid h-24 w-24 place-items-center rounded-tile bg-lime text-ink sm:h-32 sm:w-32"
+                  initial={{ scale: 0, rotate: -30 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.3 }}
+                >
+                  <Glyph shapes={[project.icon, 'sparkle', 'smiley']} size="58%" interval={2200} />
+                </motion.span>
+              </div>
+
+              <GlyphText as="h1" text={project.glyphTitle} fit="width" leading={2} delay={0.2} className="text-paper" />
+
+              <motion.div
+                className="mt-10 flex items-end justify-between gap-6"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.8 }}
               >
-                <Glyph shapes={[project.icon, 'sparkle', 'smiley']} size="58%" interval={2200} />
-              </motion.span>
-            </div>
-
-            <GlyphText as="h1" text={project.glyphTitle} fit="width" leading={2} delay={0.2} className="text-paper" />
-
-            <motion.p
-              className="label mt-10 text-lime"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.8 }}
-            >
-              {project.subtitle}
-            </motion.p>
+                <p className="label text-lime">{project.subtitle}</p>
+                <span className="note hidden shrink-0 items-center gap-3 text-mute sm:flex" aria-hidden>
+                  ( Scroll )
+                  <motion.span
+                    className="text-lime"
+                    animate={reduce ? undefined : { y: [0, 6, 0] }}
+                    transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    <StaticGlyph shape="arrow" size={14} radius={0.5} />
+                  </motion.span>
+                </span>
+              </motion.div>
+            </motion.div>
           </div>
         </header>
 
-        {/* Meta strip */}
-        <div className="border-y border-ink-3 px-5 sm:px-8">
-          <dl className="mx-auto grid max-w-[1440px] gap-6 py-8 sm:grid-cols-3">
-            {[
-              ['Client', project.client],
-              ['Role', project.role],
-            ].map(([k, v]) => (
-              <div key={k}>
-                <dt className="label mb-2 text-mute">{k}</dt>
-                <dd className="font-display text-lg font-bold">{v}</dd>
-              </div>
-            ))}
-            <div>
-              <dt className="label mb-2 text-mute">Live</dt>
-              <dd>
-                <a href={project.link} data-umami-event="Visit project" data-umami-event-project={project.slug} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 font-display text-lg font-bold text-lime">
-                  Visit project
-                  <span className="transition-transform duration-300 group-hover:-rotate-45">
-                    <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
-                  </span>
-                </a>
-              </dd>
-            </div>
-          </dl>
-        </div>
+        <div id={CHAPTERS_ID}>
+          {/* Overview: what it was, who for, what was delivered */}
+          <Chapter meta={meta('overview')} title="In short">
+            <div className="grid gap-14 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] lg:gap-24">
+              <ScrollLede
+                text={project.summary}
+                className="font-display text-[clamp(1.6rem,3.1vw,2.9rem)] font-medium leading-[1.2] tracking-tight text-paper"
+              />
 
-        {project.stats && (
-          <section aria-labelledby="results-h" className="px-5 pt-24 sm:px-8">
-            <div className="mx-auto max-w-[1440px]">
-              <h2 id="results-h" className="label mb-10 text-mute">( Results at a glance )</h2>
+              <motion.aside
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-10% 0px' }}
+                transition={{ duration: 0.8, ease: EASE }}
+              >
+                <div className="mb-8 aspect-[2/1] overflow-hidden rounded-tile border border-ink-3">
+                  <ProjectLogo project={project} />
+                </div>
+                <dl>
+                  {[
+                    ['Client', project.client],
+                    ['Role', project.role],
+                  ].map(([k, v]) => (
+                    <div key={k} className="grid grid-cols-[6rem_1fr] gap-4 border-t border-ink-3 py-4">
+                      <dt className="label pt-1 text-mute">{k}</dt>
+                      <dd className="font-display font-bold">{v}</dd>
+                    </div>
+                  ))}
+                  <div className="grid grid-cols-[6rem_1fr] gap-4 border-y border-ink-3 py-4">
+                    <dt className="label pt-1 text-mute">Live</dt>
+                    <dd>
+                      <a
+                        href={project.link}
+                        data-umami-event="Visit project"
+                        data-umami-event-project={project.slug}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-2 font-display font-bold text-lime"
+                      >
+                        Visit project
+                        <span className="transition-transform duration-300 group-hover:-rotate-45">
+                          <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
+                        </span>
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+
+                <h3 className="label mb-4 mt-8 text-mute">Deliverables</h3>
+                <ul className="flex flex-wrap gap-2">
+                  {project.deliverables.map((d, i) => (
+                    <motion.li
+                      key={d}
+                      className="rounded-full border border-ink-3 px-4 py-2 text-sm text-paper/85"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, ease: EASE, delay: 0.2 + i * 0.06 }}
+                    >
+                      {d}
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.aside>
+            </div>
+          </Chapter>
+
+          {project.stats && (
+            <Chapter meta={meta('results')} title="Results at a glance">
               <dl className="grid gap-px overflow-hidden rounded-tile border border-ink-3 bg-ink-3 sm:grid-cols-2 lg:grid-cols-4">
                 {project.stats.map((st, i) => (
                   <motion.div
                     key={st.label}
-                    className="flex flex-col gap-3 bg-ink p-8"
+                    className="flex flex-col gap-3 bg-ink p-8 sm:p-10"
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -156,260 +382,63 @@ export default function CaseStudy({ slug }: { slug: string }) {
                 ))}
               </dl>
               {project.footnote && <p className="mt-6 max-w-3xl text-sm leading-relaxed text-mute">{project.footnote}</p>}
-            </div>
-          </section>
-        )}
+            </Chapter>
+          )}
 
-        {project.preview && (
-          <div className="px-5 pt-24 sm:px-8">
-            <motion.a
-              href={project.link}
-              data-umami-event="Visit project"
-              data-umami-event-project={project.slug}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open the live ${project.title} site`}
-              className="group mx-auto block max-w-5xl overflow-hidden rounded-tile border border-ink-3 bg-ink-2"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-10% 0px' }}
-              transition={{ duration: 0.8, ease: EASE }}
-            >
-              {/* Browser chrome */}
-              <div className="flex items-center gap-4 border-b border-ink-3 px-4 py-3">
-                <span className="flex gap-1.5" aria-hidden>
-                  {[0, 1, 2].map((i) => (
-                    <span key={i} className="h-2.5 w-2.5 rounded-full bg-ink-3" />
-                  ))}
-                </span>
-                <span className="note min-w-0 flex-1 truncate text-mute transition-colors group-hover:text-lime">
-                  {project.link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                </span>
-                <span className="text-lime transition-transform duration-300 group-hover:-rotate-45" aria-hidden>
-                  <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
-                </span>
-              </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={project.preview.src}
-                alt={project.preview.alt}
-                width={1440}
-                height={900}
-                loading="lazy"
-                className="block h-auto w-full transition-transform duration-700 ease-glyph group-hover:scale-[1.02]"
-              />
-            </motion.a>
-          </div>
-        )}
-
-        {project.comparisons && (
-          <section aria-labelledby="compare-h" className="mx-auto max-w-5xl px-5 pt-20 sm:px-8 lg:px-0">
-            <h2 id="compare-h" className="label mb-3 text-lime">( Before / After )</h2>
-            <p className="mb-2 max-w-xl text-lg leading-relaxed text-paper/75">Drag across each page to compare the old store with the rebuild.</p>
-            {project.comparisonNote && <p className="note mb-8 max-w-xl text-mute">{project.comparisonNote}</p>}
-            <ul className="flex flex-col gap-12">
-              {project.comparisons.map((c) => (
-                <li key={c.after.src}>
-                  <figure>
-                    <div className="overflow-hidden rounded-tile border border-ink-3 bg-ink-2">
-                      <Chrome host={project.link.replace(/^https?:\/\//, '').replace(/\/$/, '')} path={c.path} />
-                      <BeforeAfter before={c.before} after={c.after} label={c.caption} />
-                    </div>
-                    <figcaption className="label mt-3 text-mute">{c.caption}</figcaption>
-                  </figure>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {project.screens && (
-          <ul className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-5 pt-4 sm:px-8 md:grid-cols-2 lg:px-0">
-            {project.screens.map((sc, i) => (
-              <motion.li
-                key={sc.src}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10% 0px' }}
-                transition={{ duration: 0.8, ease: EASE, delay: i * 0.08 }}
-              >
-                <figure>
-                  <div className="overflow-hidden rounded-tile border border-ink-3 bg-ink-2">
-                    <Chrome host={project.link.replace(/^https?:\/\//, '').replace(/\/$/, '')} path={sc.path} />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={sc.src} alt={sc.alt} width={1388} height={868} loading="lazy" className="block h-auto w-full" />
-                  </div>
-                  <figcaption className="label mt-3 text-mute">{sc.caption}</figcaption>
-                </figure>
-              </motion.li>
-            ))}
-          </ul>
-        )}
-
-        {project.gallery && (
-          <ul className="mx-auto grid max-w-5xl gap-4 px-5 pt-4 sm:grid-cols-3 sm:px-8 lg:px-0">
-            {project.gallery.map((g, i) => (
-              <motion.li
-                key={g.src}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10% 0px' }}
-                transition={{ duration: 0.8, ease: EASE, delay: i * 0.08 }}
-              >
-                <figure>
-                  <div
-                    className="relative aspect-square overflow-hidden rounded-tile border border-ink-3"
-                    style={{ background: g.bg }}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={g.src} alt={g.alt} loading="lazy" className={`absolute h-full w-full ${g.fill ? 'inset-0 object-cover' : 'inset-0 object-contain p-[18%]'}`} />
-                  </div>
-                  <figcaption className="label mt-3 text-mute">{g.caption}</figcaption>
-                </figure>
-              </motion.li>
-            ))}
-          </ul>
-        )}
-
-        {project.guide && (
-          <section aria-labelledby="guide-h" className="mx-auto max-w-5xl px-5 pt-20 sm:px-8 lg:px-0">
-            <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
-              <div>
-                <h2 id="guide-h" className="label mb-3 text-lime">( Brand guide ) — {project.guide.sheets.length} of 10 sheets</h2>
-                <p className="max-w-xl text-lg leading-relaxed text-paper/75">
-                  The full identity, documented like a drawing set: construction, colour, type, components and applications.
-                </p>
-              </div>
-              <a
-                href={project.guide.href}
-                target="_blank"
-                rel="noopener"
-                className="label shrink-0 rounded-full bg-lime px-6 py-3.5 font-bold text-ink transition-opacity hover:opacity-85"
-              >
-                View the full brand guide ↗
-              </a>
-            </div>
-            <ul className="grid gap-4 sm:grid-cols-2">
-              {project.guide.sheets.map((sheet, i) => (
-                <motion.li
-                  key={sheet.src}
-                  className={i === 0 ? 'sm:col-span-2' : undefined}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-10% 0px' }}
-                  transition={{ duration: 0.8, ease: EASE, delay: (i % 2) * 0.08 }}
+          {(project.preview || project.screens) && (
+            <Chapter
+              meta={meta('website')}
+              title="The live site"
+              aside={
+                <a
+                  href={project.link}
+                  data-umami-event="Visit project"
+                  data-umami-event-project={project.slug}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="note text-mute transition-colors hover:text-lime"
                 >
-                  <figure>
-                    <a href={project.guide!.href} target="_blank" rel="noopener" className="group block overflow-hidden rounded-tile border border-ink-3">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={sheet.src}
-                        alt={sheet.alt}
-                        loading="lazy"
-                        className="block h-auto w-full transition-transform duration-700 ease-glyph group-hover:scale-[1.02]"
-                      />
-                    </a>
-                    <figcaption className="label mt-3 text-mute">{sheet.caption}</figcaption>
-                  </figure>
-                </motion.li>
-              ))}
-            </ul>
-            <p className="note mt-6 text-mute">The full guide is a large file and reads best on a desktop screen.</p>
-          </section>
-        )}
-
-        {project.walkthrough && (
-          <section aria-labelledby="walkthrough-h" className="mx-auto max-w-5xl px-5 pt-20 sm:px-8 lg:px-0">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-10% 0px' }}
-              transition={{ duration: 0.8, ease: EASE }}
+                  ( {host} ↗ )
+                </a>
+              }
             >
-              <Link
-                href={project.walkthrough.href}
-                className="group grid overflow-hidden rounded-tile border border-ink-3 bg-ink-2 transition-colors hover:border-lime md:grid-cols-[1fr_1.15fr]"
-              >
-                <div className="flex flex-col justify-between gap-8 p-8 sm:p-10">
-                  <div>
-                    <p className="label mb-4 text-lime">( Walkthrough ) — 8 chapters</p>
-                    <h2 id="walkthrough-h" className="font-display text-[clamp(1.8rem,3.2vw,2.8rem)] font-bold uppercase leading-none tracking-tight">
-                      {project.walkthrough.title}
-                    </h2>
-                    <p className="mt-5 max-w-md text-lg leading-relaxed text-paper/75">{project.walkthrough.blurb}</p>
-                  </div>
-                  <span className="label inline-flex w-fit items-center gap-3 rounded-full bg-lime px-6 py-3.5 font-bold text-ink">
-                    Take the tour
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">
-                      <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
-                    </span>
-                  </span>
-                </div>
-                <div className="relative min-h-56 overflow-hidden border-t border-ink-3 md:border-l md:border-t-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={project.walkthrough.image.src}
-                    alt={project.walkthrough.image.alt}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover object-left-top transition-transform duration-700 ease-glyph group-hover:scale-[1.03]"
-                  />
-                </div>
-              </Link>
-            </motion.div>
-          </section>
-        )}
+              <Website project={project} />
+            </Chapter>
+          )}
 
-        <div className="mx-auto grid max-w-[1440px] gap-16 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_2fr] lg:gap-24">
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <h2 className="label mb-6 text-mute">Deliverables</h2>
-            <ul className="flex flex-col">
-              {project.deliverables.map((d, i) => (
-                <motion.li
-                  key={d}
-                  className="flex items-center gap-4 border-t border-ink-3 py-4"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, ease: EASE, delay: i * 0.06 }}
-                >
-                  <StaticGlyph shape="sparkle" size={14} className="text-lime" />
-                  <span>{d}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </aside>
+          {project.gallery && (
+            <Chapter meta={meta('identity')} title="The identity">
+              <Identity gallery={project.gallery} />
+            </Chapter>
+          )}
 
-          <div className="flex flex-col gap-24">
-            {project.sections.map((s, i) => (
-              <motion.section
-                key={s.heading}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10% 0px' }}
-                transition={{ duration: 0.8, ease: EASE }}
-              >
-                <div className="mb-8 flex items-center gap-6">
-                  <GlyphText text={`0${i + 1}`} size="clamp(2.4rem, 4vw, 3.4rem)" className="text-lime" hoverColor="var(--color-paper)" decorative interactive />
-                  <h2 className="font-display text-[clamp(1.6rem,3vw,2.6rem)] font-bold uppercase tracking-tight">{s.heading}</h2>
-                </div>
-                <p className="max-w-3xl text-lg leading-[1.8] text-paper/75">{s.body}</p>
-              </motion.section>
-            ))}
-            {reviews.map((t) => (
-              <TestimonialCard key={t.author} testimonial={t} />
-            ))}
-          </div>
-        </div>
+          {project.guide && <GuideReel guide={project.guide} meta={meta('guide')} />}
 
-        <div className="px-5 pb-24 sm:px-8">
-          <div className="mx-auto max-w-[1440px] border-t border-ink-3 pt-10 text-center">
-            <Link href="/" className="group inline-flex items-center gap-3 font-display text-lg font-bold text-lime">
-              <span className="rotate-180 transition-transform duration-300 group-hover:-translate-x-1">
-                <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
-              </span>
-              Back to the main page
-            </Link>
-          </div>
+          {project.comparisons && (
+            <Chapter meta={meta('compare')} title="Before and after" aside={<p>Drag across each page to compare the old store with the rebuild.</p>}>
+              <Compare items={project.comparisons} host={host} note={project.comparisonNote} />
+            </Chapter>
+          )}
+
+          {project.walkthrough && (
+            <Chapter meta={meta('panel')} title={project.walkthrough.title} aside={<p>{project.walkthrough.blurb}</p>}>
+              <PanelCard walkthrough={project.walkthrough} />
+            </Chapter>
+          )}
+
+          <Chapter meta={meta('story')} title="The story">
+            <Story sections={project.sections} />
+          </Chapter>
+
+          {reviews.length > 0 && (
+            <Chapter meta={meta('review')} title="Kind words">
+              <div className="mx-auto flex max-w-6xl flex-col gap-6">
+                {reviews.map((t) => (
+                  <TestimonialCard key={t.author} testimonial={t} />
+                ))}
+              </div>
+            </Chapter>
+          )}
         </div>
 
         <PixelBand />

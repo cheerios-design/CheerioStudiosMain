@@ -1,6 +1,7 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { animate, useInView, useReducedMotion } from 'framer-motion';
 
 type Shot = { src: string; alt: string };
 
@@ -8,11 +9,32 @@ type Shot = { src: string; alt: string };
 export default function BeforeAfter({ before, after, label }: { before: Shot; after: Shot; label: string }) {
   const [pos, setPos] = useState(50);
   const id = useId();
+  const ref = useRef<HTMLDivElement>(null);
+  const touched = useRef(false);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const reduce = useReducedMotion();
+
+  // The divider sways once when it first comes into view, to show that it can be dragged
+  useEffect(() => {
+    if (!inView || reduce) return;
+    const controls = animate(50, [50, 30, 66, 50], {
+      duration: 1.8,
+      ease: 'easeInOut',
+      delay: 0.35,
+      onUpdate: (v) => {
+        if (!touched.current) setPos(v);
+      },
+    });
+    return () => controls.stop();
+  }, [inView, reduce]);
 
   return (
-    <div className="relative select-none overflow-hidden bg-ink-2 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-4 has-[input:focus-visible]:outline-lime">
+    <div
+      ref={ref}
+      className="relative select-none overflow-hidden bg-ink-2 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-4 has-[input:focus-visible]:outline-lime"
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={after.src} alt={after.alt} loading="lazy" draggable={false} className="block h-auto w-full" />
+      <img src={after.src} alt={after.alt} width={1388} height={868} loading="lazy" draggable={false} className="block h-auto w-full" />
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={before.src} alt={before.alt} loading="lazy" draggable={false} className="block h-full w-full object-cover object-top" />
@@ -36,8 +58,14 @@ export default function BeforeAfter({ before, after, label }: { before: Shot; af
         type="range"
         min={0}
         max={100}
-        value={pos}
-        onChange={(e) => setPos(Number(e.target.value))}
+        value={Math.round(pos)}
+        onPointerDown={() => {
+          touched.current = true;
+        }}
+        onChange={(e) => {
+          touched.current = true;
+          setPos(Number(e.target.value));
+        }}
         className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
       />
     </div>
