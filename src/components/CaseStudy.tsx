@@ -386,22 +386,7 @@ export default function CaseStudy({ slug }: { slug: string }) {
           )}
 
           {(project.preview || project.screens) && (
-            <Chapter
-              meta={meta('website')}
-              title="The live site"
-              aside={
-                <a
-                  href={project.link}
-                  data-umami-event="Visit project"
-                  data-umami-event-project={project.slug}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="note text-mute transition-colors hover:text-lime"
-                >
-                  ( {host} ↗ )
-                </a>
-              }
-            >
+            <Chapter meta={meta('website')} title="The live site">
               <Website project={project} />
             </Chapter>
           )}

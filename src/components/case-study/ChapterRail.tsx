@@ -68,7 +68,7 @@ export default function ChapterRail({ chapters, wrapperId }: { chapters: Chapter
                     className="flex items-center justify-end gap-3 py-[7px]"
                   >
                     <span
-                      className={`label whitespace-nowrap opacity-0 transition-opacity duration-300 group-focus-within/rail:opacity-100 group-hover/rail:opacity-100 ${
+                      className={`label max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-[max-width,opacity] duration-300 group-focus-within/rail:max-w-48 group-focus-within/rail:opacity-100 group-hover/rail:max-w-48 group-hover/rail:opacity-100 ${
                         on ? 'text-lime' : 'text-mute hover:text-paper'
                       }`}
                     >

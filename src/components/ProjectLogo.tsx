@@ -17,20 +17,19 @@ export default function ProjectLogo({ project, className = '' }: { project: Proj
     );
   }
 
-  // Tall marks need more air than wide wordmarks to look the same size
+  // Wide wordmarks are limited by the tile's width, tall marks by its height
   const wide = logo.width / logo.height > 1.6;
 
   return (
-    <span className={`grid h-full w-full place-items-center ${wide ? 'p-[13%]' : 'p-[17%]'} ${className}`} style={{ background: logo.bg }}>
+    <span className={`relative block h-full w-full ${className}`} style={{ background: logo.bg }}>
+      {/* Absolutely placed so the logo is always contained by the tile, whatever its proportions */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={logo.src}
         alt={logo.alt}
-        width={logo.width}
-        height={logo.height}
         loading="lazy"
         draggable={false}
-        className="h-full w-full object-contain"
+        className={`absolute inset-0 h-full w-full object-contain ${wide ? 'px-[13%] py-[10%]' : 'px-[10%] py-[13%]'}`}
       />
     </span>
   );
