@@ -224,12 +224,8 @@ export default function CaseStudy({ slug }: { slug: string }) {
     keywords: project.deliverables.join(', '),
     creator: { '@id': `${SITE_URL}/#organization` },
     sourceOrganization: { '@type': 'Organization', name: project.client },
-    review: reviews.map((t) => ({
-      '@type': 'Review',
-      reviewBody: t.quote,
-      author: { '@type': 'Organization', name: t.author },
-      reviewRating: { '@type': 'Rating', ratingValue: t.rating, bestRating: 5 },
-    })),
+    // No `review` here: Google rejects reviews nested in CreativeWork, and reviews of
+    // our own studio aren't eligible for review snippets. The quotes stay on the page.
   };
 
   return (
