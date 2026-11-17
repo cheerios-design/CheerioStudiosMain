@@ -24,6 +24,21 @@ export type Brief = {
   message: string;
 };
 
+/** Launch Sprint brief (/sprint): the same form with two extra answers */
+export const SPRINT_SUBJECT = 'New Launch Sprint brief from cheeriostudios.com';
+export const SPRINT_COPY_STATES = ['I have a draft', 'I have notes', 'I need it written'];
+export type SprintExtras = { launchDate: string; copyStatus: string };
+
+/** Only a plain calendar date and one of our own options get through; anything else is dropped */
+export function checkSprintExtras(data: FormData): SprintExtras {
+  const date = str(data.get('launchDate'));
+  const copy = str(data.get('copyStatus'));
+  return {
+    launchDate: /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : '',
+    copyStatus: SPRINT_COPY_STATES.includes(copy) ? copy : '',
+  };
+}
+
 export type Check =
   | { ok: true; brief: Brief }
   | { ok: false; reason: 'bot' }
@@ -109,18 +124,22 @@ export function checkBrief(data: FormData, startedAt: number | null, now: number
 }
 
 /** The exact fields sent to Web3Forms. Nothing the visitor typed reaches the subject or sender name. */
-export function toPayload(brief: Brief, accessKey: string, captchaToken: string): FormData {
+export function toPayload(brief: Brief, accessKey: string, captchaToken: string, sprint?: SprintExtras): FormData {
   const out = new FormData();
   out.append('access_key', accessKey);
-  out.append('subject', BRIEF_SUBJECT);
+  out.append('subject', sprint ? SPRINT_SUBJECT : BRIEF_SUBJECT);
   out.append('from_name', 'Cheerio Studios Website');
   out.append('botcheck', '');
   out.append('h-captcha-response', captchaToken);
   out.append('name', brief.name);
   out.append('company', brief.company);
   out.append('email', brief.email);
-  out.append('painPoint', brief.painPoint);
+  out.append('painPoint', sprint ? 'Launch Sprint' : brief.painPoint);
   out.append('website', brief.website);
   out.append('message', brief.message);
+  if (sprint) {
+    out.append('launchDate', sprint.launchDate);
+    out.append('copyStatus', sprint.copyStatus);
+  }
   return out;
 }

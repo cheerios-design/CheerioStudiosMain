@@ -32,7 +32,8 @@ function Word({ word, progress, range }: { word: string; progress: MotionValue<n
   );
 }
 
-function ValueTile({ value, index }: { value: (typeof VALUES)[number]; index: number }) {
+/** Tile with a morphing glyph, a title and a line of copy. Also used on /sprint. */
+export function ValueTile({ value, index }: { value: { title: string; copy: string; icons: [IconName, IconName] }; index: number }) {
   const [hovered, setHovered] = useState(false);
   return (
     <motion.div
