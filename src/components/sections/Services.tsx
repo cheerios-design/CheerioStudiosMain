@@ -3,13 +3,17 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import GlyphText from '../glyph/GlyphText';
-import Glyph from '../glyph/Glyph';
+import Link from 'next/link';
+import Glyph, { StaticGlyph } from '../glyph/Glyph';
 import SectionHeader from './SectionHeader';
 import { SERVICES } from '@/lib/site';
+import { SPRINT } from '@/lib/sprint';
+import type { IconName } from '@/lib/glyph/icons';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-function ServiceRow({ service, index }: { service: (typeof SERVICES)[number]; index: number }) {
+/** Numbered row with a lime sweep on hover. Also used on /sprint. */
+export function ServiceRow({ service, index }: { service: { title: string; copy: string; icons: [IconName, IconName] }; index: number }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -79,6 +83,35 @@ export default function Services() {
             <ServiceRow key={s.title} service={s} index={i} />
           ))}
         </ul>
+
+        {/* Productized offer: its own page at /sprint */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-8% 0px' }}
+          transition={{ duration: 0.8, ease: EASE }}
+        >
+          <Link
+            href="/sprint"
+            data-umami-event="Sprint click"
+            data-umami-event-from="services"
+            className="group mt-10 flex flex-col gap-8 rounded-tile border border-ink-3 bg-ink-2 p-7 transition-colors duration-300 hover:border-lime/60 sm:p-10 md:flex-row md:items-end md:justify-between"
+          >
+            <div>
+              <span className="label mb-4 block text-lime">( New ) — {SPRINT.name}</span>
+              <h3 className="font-display text-[clamp(1.4rem,3vw,2.6rem)] font-bold uppercase leading-none tracking-tight">
+                A landing page and brand kit in {SPRINT.days} days
+              </h3>
+              <p className="mt-4 max-w-xl leading-relaxed text-mute">For SaaS founders. Fixed scope, fixed price, live in a week.</p>
+            </div>
+            <span className="label flex shrink-0 items-center gap-3 text-paper">
+              See the sprint
+              <span className="grid h-9 w-9 place-items-center rounded-full border border-lime/40 text-lime transition-all duration-300 group-hover:-rotate-45 group-hover:bg-lime group-hover:text-ink">
+                <StaticGlyph shape="arrowRight" size={14} radius={0.5} />
+              </span>
+            </span>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
